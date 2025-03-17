@@ -1,0 +1,5 @@
+----Funcionalidades nuevas
+Añadir a lista(Pensar BD)
+Me gusta(Pensar BD)
+Review(Pesar BD)
+Botón para compartir(Solo rol de recomendador)
