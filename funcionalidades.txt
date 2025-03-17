@@ -1,5 +1,5 @@
 ----Funcionalidades nuevas
-Añadir a lista(Pensar BD)
-Me gusta(Pensar BD)
+Añadir a lista: Hecho
+Me gusta(Misma tabla que lista, cuando se meta añadir directamente a la lista de megusta)
 Review(Pesar BD)
 Botón para compartir(Solo rol de recomendador)
