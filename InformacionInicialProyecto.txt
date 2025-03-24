@@ -1,0 +1,18 @@
+Roles usuario:
+	-Administrador
+	-Editor
+	-Usuario común
+	-Recomendador de peliculas 
+	-Analista (solo lo hacen los que tengan 5 personas): 
+		Consulta y obtención de datos (estádisticos).
+
+
++Tener division de roles para cada integrante del grupo.
++Mockups o bocetos a mano, no se entregan pero el profe los va a revisar el proximo día.
++Roles lo más independiente posible el uno del otro.
++Integración de las funcionalidades en el proyecto (responsabilidad del grupo entero).
+
+
+FUNCIONALIDADES:
+-Recomendaciones de peliculas dependiendoo de las preferencias del usuario (en función del perfil del mismo).
+-Edición de los datos de las peliculas. 
