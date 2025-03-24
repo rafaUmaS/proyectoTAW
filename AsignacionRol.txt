@@ -1,5 +1,19 @@
-analista-Ivan
-usuario-Gregorio
-admin-Rafa
-recomendaciones-Adri
-editor-Alvaro
+---- analista-Ivan
+hacer estudios, fuera de la app
+
+---- usuario-Gregorio
+arquitectura básica
+(Guardar peli, darle like, review, buscar, compartir película)
+
+---- admin-Rafa
+editor+ Asignar roles, puede crear usuarios, borrar comentarios 
+
+---- recomendaciones-Adri
+Botón para compartir(Solo rol de recomendador)
+
+---- editor-Alvaro
+(CRUD pelicula)usuario normal con botón para editar cada película, y añadir formulario para crear película(AÑADIR
+
+
+
+

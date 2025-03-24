@@ -6,4 +6,13 @@ Botón para compartir(Solo rol de recomendador)
 
 
 
-usuario normal -> arquitectura básica
+-usuario normal -> arquitectura básica
+(Guardar peli, darle like, review, buscar, compartir película)
+
+-editor -> (CRUD pelicula)usuario normal con botón para editar cada película, y añadir formulario para crear película(AÑADIR)
+
+-Admin->editor+ Asignar roles, puede crear usuarios, borrar comentarios 
+
+-recomendador ->
+
+-Analista -> hacer estudios, fuera de la app
