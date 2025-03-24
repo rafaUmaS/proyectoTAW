@@ -26,17 +26,24 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Movie` (
   `revenue` INT NULL,
   `runtime` INT NULL,
   `status` ENUM('RELEASED', 'RUMORED', 'POST_PRODUCTION') NULL,
-  `tagline` VARCHAR(45) NULL,
   `title` VARCHAR(45) NULL,
   `vote_average` DOUBLE NULL,
   `vote_count` INT NULL,
   `Production_companies_id` INT NULL,
   `budget` INT NULL,
-  `homepage` VARCHAR(45) NULL,
   `original_language` VARCHAR(2) NULL,
   `original_title` VARCHAR(45) NULL,
-  `movie_url` VARCHAR(45) NULL,
   PRIMARY KEY (`movie_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`PERSONA`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`PERSONA` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -44,16 +51,19 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Crew`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Crew` (
-  `id` INT NOT NULL,
-  `credit_id` INT NULL,
-  `department` VARCHAR(45) NULL,
-  `job` VARCHAR(45) NULL,
-  `gender` INT NULL,
-  `name` VARCHAR(45) NULL,
+  `PERSONA_id` INT NOT NULL,
   `Movie_movie_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Movie_movie_id`),
-  INDEX `fk_Crew_Movie1_idx` (`Movie_movie_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Crew_Movie1`
+  `crew_role` VARCHAR(45) NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  INDEX `fk_PERSONA_has_Movie_Movie1_idx` (`Movie_movie_id` ASC) VISIBLE,
+  INDEX `fk_PERSONA_has_Movie_PERSONA1_idx` (`PERSONA_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_PERSONA_has_Movie_PERSONA1`
+    FOREIGN KEY (`PERSONA_id`)
+    REFERENCES `mydb`.`PERSONA` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PERSONA_has_Movie_Movie1`
     FOREIGN KEY (`Movie_movie_id`)
     REFERENCES `mydb`.`Movie` (`movie_id`)
     ON DELETE NO ACTION
@@ -66,19 +76,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Cast` (
   `character` VARCHAR(45) NULL,
-  `credit_id` VARCHAR(250) NULL,
   `gender` INT NULL,
   `id` INT NOT NULL,
   `name` VARCHAR(45) NULL,
-  `order` INT NULL,
-  `Movie_movie_id` INT NOT NULL,
-  `cast_id` INT NULL,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`, `Movie_movie_id`),
-  INDEX `fk_Cast_Movie1_idx` (`Movie_movie_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Cast_Movie1`
-    FOREIGN KEY (`Movie_movie_id`)
-    REFERENCES `mydb`.`Movie` (`movie_id`)
+  `Crew_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Crew_id`),
+  INDEX `fk_Cast_Crew1_idx` (`Crew_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Cast_Crew1`
+    FOREIGN KEY (`Crew_id`)
+    REFERENCES `mydb`.`Crew` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -230,9 +236,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`Production_companies_has_Movie` (
   `Production_companies_id` INT NOT NULL,
   `Movie_movie_id` INT NOT NULL,
-  PRIMARY KEY (`Movie_movie_id`, `Production_companies_id`),
   INDEX `fk_Production_companies_has_Movie_Movie1_idx` (`Movie_movie_id` ASC) VISIBLE,
   INDEX `fk_Production_companies_has_Movie_Production_companies1_idx` (`Production_companies_id` ASC) VISIBLE,
+  PRIMARY KEY (`Production_companies_id`, `Movie_movie_id`),
   CONSTRAINT `fk_Production_companies_has_Movie_Production_companies1`
     FOREIGN KEY (`Production_companies_id`)
     REFERENCES `mydb`.`Production_companies` (`id`)
