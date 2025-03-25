@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Movie` (
   `title` VARCHAR(45) NULL,
   `vote_average` DOUBLE NULL,
   `vote_count` INT NULL,
-  `Production_companies_id` INT NULL,
   `budget` INT NULL,
   `original_language` VARCHAR(2) NULL,
   `original_title` VARCHAR(45) NULL,
