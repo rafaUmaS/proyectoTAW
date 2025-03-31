@@ -1,0 +1,4 @@
+Nombre de usuario: myLetterBox
+Contraseña: myLetterBox
+
+(En resumen, todo es "myLetterBox", pegalo en todos los campos que te pidan rellenar)
