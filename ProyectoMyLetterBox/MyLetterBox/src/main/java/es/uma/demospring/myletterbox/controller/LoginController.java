@@ -39,6 +39,8 @@ public class LoginController {
 
         EntityUsuario user = this.usuarioRepository.autenticaUsuario(usuario.getUsername(),
                                                                         usuario.getPassword());
+        // normal user: gregorio password: prueba
+        // editor user: alvaro password: prueba
 
         if(user==null){
             return "login";

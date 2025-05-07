@@ -40,4 +40,9 @@ public class UserController extends BaseController {
             return "usuarioMovies";
         }
     }
+
+    @GetMapping("/salir")
+    public String doSalir(Model model){
+        return "redirect:";
+    }
 }
