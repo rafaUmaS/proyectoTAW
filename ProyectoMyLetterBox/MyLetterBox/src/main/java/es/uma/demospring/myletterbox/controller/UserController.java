@@ -1,7 +1,9 @@
 package es.uma.demospring.myletterbox.controller;
 
+import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
+import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import es.uma.demospring.myletterbox.ui.Usuario;
@@ -23,10 +25,11 @@ public class UserController extends BaseController {
 
     @Autowired protected UsuarioRepository usuarioRepository;
     @Autowired protected UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+    @Autowired protected MovieRepository movieRepository;
 
 
-    @GetMapping("/movies")
-    public String doListarMovieUsuario(HttpSession session, Model model){
+    @GetMapping("/saved-movies")
+    public String doListarSavedMovieUsuario(HttpSession session, Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else {
@@ -38,6 +41,21 @@ public class UserController extends BaseController {
             model.addAttribute("savedMovies", savedMovies);
 
             return "usuarioMovies";
+        }
+    }
+
+    @GetMapping("/movies")
+    public String doListarMovies(HttpSession session, Model model){
+
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else {
+
+            List<EntityMovie> listaPeliculas = this.movieRepository.findAll();
+
+            model.addAttribute("listaPeliculas", listaPeliculas);
+
+            return "allMovies";
         }
     }
 

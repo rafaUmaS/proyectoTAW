@@ -17,9 +17,9 @@
 <body>
 <table width="100%">
     <tr>
-        <td><a href="">Películas</a></td>
+        <td><a href="http://localhost:8080/users/movies">Películas</a></td>
         <td><a href="">Géneros</a></td>
-        <td><a href="">Películas guardadas</a></td>
+        <td><a href="http://localhost:8080/users/saved-movies">Películas guardadas</a></td>
         <td><a href="">Tus comentarios</a></td>
         <td>Bienvenido, <b><%= user.getUsername()%></b>, al sistema <br/>
             sessionid: <%= session.getId() %> <br/>

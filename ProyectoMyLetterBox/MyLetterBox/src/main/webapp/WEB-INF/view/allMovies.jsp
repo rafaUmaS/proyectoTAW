@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 07/05/2025
@@ -8,22 +11,72 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>All movies</title>
 </head>
+<%
+    List<EntityMovie> listaPeliculas = (List<EntityMovie>)request.getAttribute("listaPeliculas");
+    EntityUsuario user = (EntityUsuario) session.getAttribute("user");
+%>
 <body>
 
 <jsp:include page="cabecera.jsp"/>
 
 <table border="">
-    <% for (EntityUsuarioSaveMovie savedMovie : savedMovies){
+    <tr>
+        <td>
+            NOMBRE
+        </td>
+        <td>
+            GENERO
+        </td>
+        <td>
+            DURACIÓN
+        </td>
+        <td>
+            POPULARIDAD
+        </td>
+        <%
+            if(user.getRol().equals("editor")){
+        %>
+        <td>
+            EDITAR
+        </td>
+        <%
+            }
+        %>
+    </tr>
+    <% for (EntityMovie pelicula : listaPeliculas){
     %>
     <tr>
         <td>
-            <%=savedMovie.getMovieMovie().getName()%>
+            <%=pelicula.getName()%>
         </td>
-
+        <td>
+            <%
+                for(EntityGenre genre : pelicula.getGenreList()){
+            %>
+            - <%=genre.getName()%> -
+            <%
+                }
+            %>
+        </td>
+        <td>
+            <%=pelicula.getRuntime()%>
+        </td>
+        <td>
+            <%=pelicula.getPopularity()%>
+        </td>
+        <%
+            if (user.getRol().equals("editor")){
+        %>
+        <form method="post" action="">+
+            <input type="hidden" value="<%=pelicula.getMovieId()%>">
+            <input type="submit" value="Editar"/>
+        </form>
+        <%
+            }
+        %>
     </tr>
     <%}%>
-</table>
-</body>
+</table></body>
 </html>
