@@ -50,11 +50,11 @@
         %>
         <tr>
             <td>
-                <%=savedMovie.getMovieMovie().getName()%>
+                <%=savedMovie.getMovieMovieId().getName()%>
             </td>
             <td>
                 <%
-                    for(EntityGenre genre : savedMovie.getMovieMovie().getGenres()){
+                    for(EntityGenre genre : savedMovie.getMovieMovieId().getGenreList()){
                 %>
                    - <%=genre.getName()%> -
                 <%
@@ -62,16 +62,16 @@
                 %>
             </td>
             <td>
-                <%=savedMovie.getMovieMovie().getRuntime()%>
+                <%=savedMovie.getMovieMovieId().getRuntime()%>
             </td>
             <td>
-                <%=savedMovie.getMovieMovie().getPopularity()%>
+                <%=savedMovie.getMovieMovieId().getPopularity()%>
             </td>
             <%
                 if (user.getRol().equals("editor")){
             %>
                 <form method="post" action="">+
-                    <input type="hidden" value="<%=savedMovie.getMovieMovie().getId()%>">
+                    <input type="hidden" value="<%=savedMovie.getMovieMovieId().getMovieId()%>">
                     <input type="submit" value="Editar"/>
                 </form>
             <%

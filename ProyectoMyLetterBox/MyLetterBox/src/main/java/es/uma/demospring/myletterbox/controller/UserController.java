@@ -31,7 +31,7 @@ public class UserController extends BaseController {
             return "redirect:/";
         }else {
 
-            int usuarioID = ((EntityUsuario)session.getAttribute("user")).getId();
+            int usuarioID = ((EntityUsuario)session.getAttribute("user")).getUserId();
             List<EntityUsuarioSaveMovie> savedMovies = this.usuarioSaveMovieRepository.listaUsuarioSaveMovie(
                     usuarioID);
 
