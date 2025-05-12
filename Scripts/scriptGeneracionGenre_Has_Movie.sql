@@ -4,18 +4,18 @@ CONVERT TO CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO `myletterbox`.`genre_has_movie` (`Genre_id`, `Movie_id`) VALUES
-(1, 1), -- Ciencia Ficción
-(2, 1), -- Aventura
-(3, 1); -- Acción
+(22, 4), -- Ciencia Ficción
+(20, 4), -- Aventura
+(19, 4); -- Acción
 
 -- Interstellar (ID película 2) => Ciencia Ficción, Aventura, Drama
 INSERT INTO `myletterbox`.`genre_has_movie` (`Genre_id`, `Movie_id`) VALUES
-(1, 2), -- Ciencia Ficción
-(2, 2), -- Aventura
-(4, 2); -- Drama
+(22, 5), -- Ciencia Ficción
+(20, 5), -- Aventura
+(26, 5); -- Drama
 
 -- The Batman (ID película 3) => Crimen, Drama, Acción
 INSERT INTO `myletterbox`.`genre_has_movie` (`Genre_id`, `Movie_id`) VALUES
-(5, 3), -- Crimen
-(4, 3), -- Drama
-(3, 3); -- Acción
+(24, 6), -- Crimen
+(26, 6), -- Drama
+(19, 6); -- Acción

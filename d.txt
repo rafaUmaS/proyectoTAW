@@ -1,0 +1,6 @@
+
+poner id aparte autoincremental
+
+cast
+review
+usuariosavemovie

@@ -1,34 +1,119 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package es.uma.demospring.myletterbox.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.util.List;
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-@Getter
-@Setter
+/**
+ *
+ * @author guzman
+ */
 @Entity
 @Table(name = "crew")
-public class EntityCrew {
+public class EntityCrew implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Column(name = "crew_role")
+    private String crewRole;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Basic(optional = false)
+    @Column(name = "id")
     private Integer id;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crewid")
+    private List<EntityCast> castList;
+    @JoinColumn(name = "Movie_movie_id", referencedColumnName = "movie_id")
+    @ManyToOne(optional = false)
+    private EntityMovie moviemovieid;
+    @JoinColumn(name = "PERSONA_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EntityPersona pERSONAid;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PERSONA_id", nullable = false)
-    private es.uma.demospring.myletterbox.entity.EntityPersona persona;
+    public EntityCrew() {
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Movie_movie_id", nullable = false)
-    private es.uma.demospring.myletterbox.entity.EntityMovie movieMovie;
+    public EntityCrew(Integer id) {
+        this.id = id;
+    }
 
-    @Column(name = "crew_role", length = 45)
-    private String crewRole;
+    public String getCrewRole() {
+        return crewRole;
+    }
 
-    @OneToMany(mappedBy = "crew")
-    private Set<EntityCast> casts = new LinkedHashSet<>();
+    public void setCrewRole(String crewRole) {
+        this.crewRole = crewRole;
+    }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<EntityCast> getCastList() {
+        return castList;
+    }
+
+    public void setCastList(List<EntityCast> castList) {
+        this.castList = castList;
+    }
+
+    public EntityMovie getMoviemovieid() {
+        return moviemovieid;
+    }
+
+    public void setMoviemovieid(EntityMovie moviemovieid) {
+        this.moviemovieid = moviemovieid;
+    }
+
+    public EntityPersona getPERSONAid() {
+        return pERSONAid;
+    }
+
+    public void setPERSONAid(EntityPersona pERSONAid) {
+        this.pERSONAid = pERSONAid;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof EntityCrew)) {
+            return false;
+        }
+        EntityCrew other = (EntityCrew) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "es.uma.demospring.myletterbox.entity.Crew[ id=" + id + " ]";
+    }
+    
 }

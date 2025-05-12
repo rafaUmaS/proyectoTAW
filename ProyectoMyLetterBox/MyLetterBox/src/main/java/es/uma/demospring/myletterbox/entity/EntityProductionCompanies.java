@@ -10,6 +10,8 @@ import java.util.List;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -19,32 +21,31 @@ import jakarta.persistence.Table;
  * @author guzman
  */
 @Entity
-@Table(name = "spoken_language")
-public class EntitySpokenLanguage implements Serializable {
+@Table(name = "production_companies")
+public class EntityProductionCompanies implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
     @Basic(optional = false)
-    @Column(name = "ISO_639_1", nullable = true)
-    private String iso6391;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @ManyToMany(mappedBy = "spokenLanguageList")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @ManyToMany(mappedBy = "productionCompaniesList")
     private List<EntityMovie> movieList;
 
-    public EntitySpokenLanguage() {
+    public EntityProductionCompanies() {
     }
 
-    public EntitySpokenLanguage(String iso6391) {
-        this.iso6391 = iso6391;
+    public EntityProductionCompanies(Integer id) {
+        this.id = id;
     }
 
-    public String getIso6391() {
-        return iso6391;
-    }
-
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
+    public EntityProductionCompanies(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getName() {
@@ -53,6 +54,14 @@ public class EntitySpokenLanguage implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<EntityMovie> getMovieList() {
@@ -66,18 +75,18 @@ public class EntitySpokenLanguage implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iso6391 != null ? iso6391.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EntitySpokenLanguage)) {
+        if (!(object instanceof EntityProductionCompanies)) {
             return false;
         }
-        EntitySpokenLanguage other = (EntitySpokenLanguage) object;
-        if ((this.iso6391 == null && other.iso6391 != null) || (this.iso6391 != null && !this.iso6391.equals(other.iso6391))) {
+        EntityProductionCompanies other = (EntityProductionCompanies) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -85,7 +94,7 @@ public class EntitySpokenLanguage implements Serializable {
 
     @Override
     public String toString() {
-        return "es.uma.demospring.myletterbox.entity.SpokenLanguage[ iso6391=" + iso6391 + " ]";
+        return "es.uma.demospring.myletterbox.entity.ProductionCompanies[ id=" + id + " ]";
     }
     
 }
