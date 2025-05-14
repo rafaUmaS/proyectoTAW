@@ -16,19 +16,35 @@
     List<EntityUsuario> usuarios = (List<EntityUsuario>)request.getAttribute("usuarios");
 %>
 <body>
-<%
-    for (EntityUsuario usuario: usuarios) {
-%>
-<tr>
-    <td><%= usuario.getId() %></td>
-    <td><%= usuario.getEmail() %></td>
-    <td><%= usuario.getRol() %></td>
-    <td><%= usuario.getPassword() %></td>
-    <td><%= usuario.getUsername() %></td>
-</tr>
+<table border="">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>EMAIL</td>
+            <td>ROL</td>
+            <td>PASSWORD</td>
+            <td>USERNAME</td>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            for (EntityUsuario usuario: usuarios) {
+        %>
+        <tr>
+            <td><%= usuario.getUserId() %></td>
+            <td><%= usuario.getEmail() %></td>
+            <td><%= usuario.getRol() %></td>
+            <td><%= usuario.getPassword() %></td>
+            <td><%= usuario.getUsername() %></td>
+            <td><a href="/users/edit?id=<%=usuario.getUserId()%>">editar</a></td>
+            <td><a href="/users/delete?id=<%=usuario.getUserId()%>">eliminar</a></td>
+        </tr>
+        <%
+            }
+        %>
+    </tbody>
+</table>
 <br/>
-<%
-    }
-%>
+
 </body>
 </html>

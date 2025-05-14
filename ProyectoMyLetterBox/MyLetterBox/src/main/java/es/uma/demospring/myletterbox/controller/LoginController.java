@@ -46,7 +46,7 @@ public class LoginController {
             return "login";
         }else {
             session.setAttribute("user", user);
-            return "redirect:/users/movies";
+            return "redirect:/movies/";
         }
     }
 
