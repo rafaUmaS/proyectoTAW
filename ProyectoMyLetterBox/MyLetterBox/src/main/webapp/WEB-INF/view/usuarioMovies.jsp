@@ -37,7 +37,7 @@
                 POPULARIDAD
             </td>
             <%
-                if(user.getRol().equals("editor")){
+                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
             %>
                 <td>
                     EDITAR

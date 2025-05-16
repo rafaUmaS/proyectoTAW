@@ -18,65 +18,65 @@
     EntityUsuario user = (EntityUsuario) session.getAttribute("user");
 %>
 <body>
-
 <jsp:include page="cabecera.jsp"/>
 
-<table border="">
-    <tr>
-        <td>
-            NOMBRE
-        </td>
-        <td>
-            GENERO
-        </td>
-        <td>
-            DURACIÓN
-        </td>
-        <td>
-            POPULARIDAD
-        </td>
-        <%
-            if(user.getRol().equals("editor")){
-        %>
-        <td>
-            EDITAR
-        </td>
-        <%
-            }
-        %>
-    </tr>
-    <% for (EntityMovie pelicula : listaPeliculas){
-    %>
-    <tr>
-        <td>
-            <%=pelicula.getName()%>
-        </td>
-        <td>
+    <form method="get" action="/movies/crear">
+        <button>+</button> Añadir nueva Película
+    </form>
+
+    <table border="">
+        <tr>
+            <td>NOMBRE</td>
+            <td>GENERO</td>
+            <td>DURACIÓN</td>
+            <td>POPULARIDAD</td>
             <%
-                for(EntityGenre genre : pelicula.getGenreList()){
+                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
             %>
-            - <%=genre.getName()%> -
+            <td>EDITAR</td>
+            <td>BORRAR</td>
             <%
                 }
             %>
-        </td>
-        <td>
-            <%=pelicula.getRuntime()%>
-        </td>
-        <td>
-            <%=pelicula.getPopularity()%>
-        </td>
-        <%
-            if (user.getRol().equals("editor")){
-        %>
-        <form method="post" action="">+
-            <input type="hidden" value="<%=pelicula.getMovieId()%>">
-            <input type="submit" value="Editar"/>
-        </form>
+        </tr>
+            <%
+                for (EntityMovie pelicula : listaPeliculas){
+            %>
+        <tr>
+            <td><%=pelicula.getName()%></td>
+            <td>
+                <%
+                    for(EntityGenre genre : pelicula.getGenreList()){
+                %>
+                - <%=genre.getName()%> -
+                <%
+                    }
+                %>
+            </td>
+            <td><%=pelicula.getRuntime()%></td>
+            <td><%=pelicula.getPopularity()%></td>
+            <%
+                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
+            %>
+            <td>
+                <form method="get" action="/movies/editar">
+                    <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
+                    <input type="submit" value="Editar"/>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/movies/borrar">
+                    <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
+                    <input type="submit" value="Borrar"/>
+                </form>
+            </td>
+            <%
+                }
+            %>
+        </tr>
         <%
             }
         %>
-    </tr>
-    <%}%>
-</table></body>
+    </table>
+</body>
 </html>
