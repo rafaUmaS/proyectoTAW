@@ -11,10 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class UserController extends BaseController {
 
     @Autowired protected UsuarioRepository usuarioRepository;
     @Autowired protected UsuarioSaveMovieRepository usuarioSaveMovieRepository;
-    @Autowired protected MovieRepository movieRepository;
+
 
 
     @GetMapping("/saved-movies")
@@ -43,21 +40,22 @@ public class UserController extends BaseController {
             return "usuarioMovies";
         }
     }
-
-    @GetMapping("/movies")
-    public String doListarMovies(HttpSession session, Model model){
+    @GetMapping("/listar")
+    public String doListarUsuario(HttpSession session, Model model){
 
         if(!estaAutenticado(session)){
             return "redirect:/";
-        }else {
-
-            List<EntityMovie> listaPeliculas = this.movieRepository.findAll();
-
-            model.addAttribute("listaPeliculas", listaPeliculas);
-
-            return "allMovies";
+        }else{
+            EntityUsuario usuario = (EntityUsuario)session.getAttribute("user");
+            if(!usuario.getRol().equals("administrador")) {
+                return "redirect:/movies/";
+            }
         }
+        List<EntityUsuario> usuarios = usuarioRepository.findAll();
+        model.addAttribute("usuarios", usuarios);
+        return "listar";
     }
+
 
     @GetMapping("/movie")
     public String doMostrarMovie(HttpSession session,Integer id, Model model){
@@ -70,10 +68,57 @@ public class UserController extends BaseController {
         }
     }
 
+
     @GetMapping("/salir")
     public String doSalir(Model model){
         return "redirect:";
     }
 
+
+
+
+    @GetMapping("/edit")
+    public String doEdit(HttpSession session, Model model, @RequestParam int id){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else{
+            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
+            if(!usuarioActual.getRol().equals("administrador")) {
+                return "redirect:/movies";
+            }
+            EntityUsuario usuario = (EntityUsuario)usuarioRepository.findById(id).orElse(null);
+            model.addAttribute("usuario", usuario);
+            return "editUsuario";
+        }
+
+
+    }
+    @PostMapping("/edit")
+    public String doEditUsuario(HttpSession session, @ModelAttribute EntityUsuario usuario){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else{
+            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
+            if(!usuarioActual.getRol().equals("administrador")) {
+                return "redirect:/movies/";
+            }
+            usuarioRepository.save(usuario);
+            return "redirect:/users/listar";
+        }
+    }
+    @GetMapping("/delete")
+    public String doEliminarUsuario(HttpSession session,  @RequestParam int id){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else{
+            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
+            if(!usuarioActual.getRol().equals("administrador")) {
+                return "redirect:/movies/";
+            }
+            EntityUsuario  usuario = usuarioRepository.findById(id).orElse(null);
+            usuarioRepository.delete(usuario);
+            return "redirect:/users/listar";
+        }
+    }
 
 }

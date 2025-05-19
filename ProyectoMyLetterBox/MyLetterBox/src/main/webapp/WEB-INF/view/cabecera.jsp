@@ -17,7 +17,7 @@
 <body>
 <table width="100%">
     <tr>
-        <td><a href="http://localhost:8080/users/movies">Películas</a></td>
+        <td><a href="http://localhost:8080/movies/">Películas</a></td>
         <td><a href="">Géneros</a></td>
         <td><a href="http://localhost:8080/users/saved-movies">Películas guardadas</a></td>
         <td><a href="">Tus comentarios</a></td>
