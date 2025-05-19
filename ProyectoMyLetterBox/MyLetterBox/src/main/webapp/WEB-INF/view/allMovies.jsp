@@ -20,99 +20,69 @@
 <body>
 <jsp:include page="cabecera.jsp"/>
 
+<%
+    if(user.getRol().equals("editor")) {%>
+        <form method="get" action="/movies/crear">
+            <button>+</button> Añadir nueva Película
+        </form>
+    <%}
+%>
+
 
 <table border="">
     <tr>
-        <td>
-            NOMBRE
-        </td>
-        <td>
-            GENERO
-        </td>
-        <td>
-            DURACIÓN
-        </td>
-        <td>
-            POPULARIDAD
-        </td>
+        <td>NOMBRE</td>
+        <td>GENERO</td>
+        <td>DURACIÓN</td>
+        <td>POPULARIDAD</td>
+
         <%
-            if(user.getRol().equals("editor")){
+            if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
+        %>
+        <td>EDITAR</td>
+        <td>BORRAR</td>
+        <%
+            }
+        %>
+    </tr>
+        <%
+            for (EntityMovie pelicula : listaPeliculas){
+        %>
+    <tr>
+        <td><a href="/users/movie?id=<%=pelicula.getMovieId()%>"><%=pelicula.getName()%></a></td>
+        <td>
+            <%
+                for(EntityGenre genre : pelicula.getGenreList()){
+            %>
+            - <%=genre.getName()%> -
+            <%
+                }
+            %>
+        </td>
+        <td><%=pelicula.getRuntime()%></td>
+        <td><%=pelicula.getPopularity()%></td>
+        <%
+            if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
         %>
         <td>
-            EDITAR
+            <form method="get" action="/movies/editar">
+                <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
+                <input type="submit" value="Editar"/>
+            </form>
+        </td>
+        <td>
+            <form method="post" action="/movies/borrar">
+                <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
+                <input type="submit" value="Borrar"/>
+            </form>
         </td>
         <%
             }
         %>
     </tr>
-    <% for (EntityMovie pelicula : listaPeliculas){
+    <%
+        }
     %>
-    <tr>
-        <td>
-            <a href="/users/movie?id=<%= pelicula.getMovieId() %>">
-                <%=pelicula.getName()%>
-            </a>
-        </td>
-        <td>
-
-    <form method="get" action="/movies/crear">
-        <button>+</button> Añadir nueva Película
-    </form>
-
-    <table border="">
-        <tr>
-            <td>NOMBRE</td>
-            <td>GENERO</td>
-            <td>DURACIÓN</td>
-            <td>POPULARIDAD</td>
-
-            <%
-                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
-            %>
-            <td>EDITAR</td>
-            <td>BORRAR</td>
-            <%
-                }
-            %>
-        </tr>
-            <%
-                for (EntityMovie pelicula : listaPeliculas){
-            %>
-        <tr>
-            <td><%=pelicula.getName()%></td>
-            <td>
-                <%
-                    for(EntityGenre genre : pelicula.getGenreList()){
-                %>
-                - <%=genre.getName()%> -
-                <%
-                    }
-                %>
-            </td>
-            <td><%=pelicula.getRuntime()%></td>
-            <td><%=pelicula.getPopularity()%></td>
-            <%
-                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
-            %>
-            <td>
-                <form method="get" action="/movies/editar">
-                    <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
-                    <input type="submit" value="Editar"/>
-                </form>
-            </td>
-            <td>
-                <form method="post" action="/movies/borrar">
-                    <input type="hidden" name="id" value="<%=pelicula.getMovieId()%>">
-                    <input type="submit" value="Borrar"/>
-                </form>
-            </td>
-            <%
-                }
-            %>
-        </tr>
-        <%
-            }
-        %>
-    </table>
+</table>
 </body>
 </html>

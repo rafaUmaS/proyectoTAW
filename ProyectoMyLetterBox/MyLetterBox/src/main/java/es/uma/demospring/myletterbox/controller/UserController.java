@@ -22,7 +22,7 @@ public class UserController extends BaseController {
 
     @Autowired protected UsuarioRepository usuarioRepository;
     @Autowired protected UsuarioSaveMovieRepository usuarioSaveMovieRepository;
-
+    @Autowired protected MovieRepository movieRepository;
 
 
     @GetMapping("/saved-movies")
