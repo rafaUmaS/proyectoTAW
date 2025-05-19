@@ -59,8 +59,21 @@ public class UserController extends BaseController {
         }
     }
 
+    @GetMapping("/movie")
+    public String doMostrarMovie(HttpSession session,Integer id, Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else {
+            EntityMovie movie =  this.movieRepository.findById(id).orElse(null);
+            model.addAttribute("movie", movie);
+            return "movie";
+        }
+    }
+
     @GetMapping("/salir")
     public String doSalir(Model model){
         return "redirect:";
     }
+
+
 }

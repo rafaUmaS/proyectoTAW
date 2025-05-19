@@ -49,7 +49,9 @@
     %>
     <tr>
         <td>
-            <%=pelicula.getName()%>
+            <a href="/users/movie?id=<%= pelicula.getMovieId() %>">
+                <%=pelicula.getName()%>
+            </a>
         </td>
         <td>
             <%
