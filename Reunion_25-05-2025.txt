@@ -1,0 +1,2 @@
+"nombreLista",TIPO = Nombre relacion USUARIO_SAVE_MOVIE		TIPO = |"Recomendado"
+								       |"Guardado"
