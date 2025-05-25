@@ -17,6 +17,13 @@
 %>
 <body>
 <table border="">
+    <form method="get" action="/movies/">
+        <button>Acceder a la app</button>
+    </form>
+    <br>
+    <form method="get" action="/createUser">
+        <button>Nuevo usuario</button>
+    </form>
     <thead>
         <tr>
             <td>ID</td>

@@ -25,6 +25,7 @@ public class UserController extends BaseController {
     @Autowired protected MovieRepository movieRepository;
 
 
+
     @GetMapping("/saved-movies")
     public String doListarSavedMovieUsuario(HttpSession session, Model model){
         if(!estaAutenticado(session)){
@@ -40,21 +41,7 @@ public class UserController extends BaseController {
             return "usuarioMovies";
         }
     }
-    @GetMapping("/listar")
-    public String doListarUsuario(HttpSession session, Model model){
 
-        if(!estaAutenticado(session)){
-            return "redirect:/";
-        }else{
-            EntityUsuario usuario = (EntityUsuario)session.getAttribute("user");
-            if(!usuario.getRol().equals("administrador")) {
-                return "redirect:/movies/";
-            }
-        }
-        List<EntityUsuario> usuarios = usuarioRepository.findAll();
-        model.addAttribute("usuarios", usuarios);
-        return "listar";
-    }
 
 
     @GetMapping("/movie")
@@ -76,49 +63,5 @@ public class UserController extends BaseController {
 
 
 
-
-    @GetMapping("/edit")
-    public String doEdit(HttpSession session, Model model, @RequestParam int id){
-        if(!estaAutenticado(session)){
-            return "redirect:/";
-        }else{
-            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
-            if(!usuarioActual.getRol().equals("administrador")) {
-                return "redirect:/movies";
-            }
-            EntityUsuario usuario = (EntityUsuario)usuarioRepository.findById(id).orElse(null);
-            model.addAttribute("usuario", usuario);
-            return "editUsuario";
-        }
-
-
-    }
-    @PostMapping("/edit")
-    public String doEditUsuario(HttpSession session, @ModelAttribute EntityUsuario usuario){
-        if(!estaAutenticado(session)){
-            return "redirect:/";
-        }else{
-            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
-            if(!usuarioActual.getRol().equals("administrador")) {
-                return "redirect:/movies/";
-            }
-            usuarioRepository.save(usuario);
-            return "redirect:/users/listar";
-        }
-    }
-    @GetMapping("/delete")
-    public String doEliminarUsuario(HttpSession session,  @RequestParam int id){
-        if(!estaAutenticado(session)){
-            return "redirect:/";
-        }else{
-            EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
-            if(!usuarioActual.getRol().equals("administrador")) {
-                return "redirect:/movies/";
-            }
-            EntityUsuario  usuario = usuarioRepository.findById(id).orElse(null);
-            usuarioRepository.delete(usuario);
-            return "redirect:/users/listar";
-        }
-    }
 
 }

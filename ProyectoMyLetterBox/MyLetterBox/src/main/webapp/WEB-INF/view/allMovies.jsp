@@ -21,13 +21,20 @@
 <jsp:include page="cabecera.jsp"/>
 
 <%
-    if(user.getRol().equals("editor")) {%>
+    if(user.getRol().equals("editor") || user.getRol().equals("administrador")) {%>
         <form method="get" action="/movies/crear">
             <button>+</button> Añadir nueva Película
         </form>
     <%}
 %>
+<%
+    if(user.getRol().equals("administrador")) {%>
 
+        <form method="get" action="/admin">
+            <button>Modo administrador</button>
+        </form>
+    <%}
+%>
 
 <table border="">
     <tr>

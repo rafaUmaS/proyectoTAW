@@ -9,15 +9,30 @@
 %>
 <body>
 <h1>Editar usuario <%=usuario.getUserId()%>:</h1>
-<form method="post" modelAttribute="usuario" action="/users/edit">
+<form method="post" action="/users/edit">
     <input type="hidden" value="<%=usuario.getUserId()%>"  name="userId">
-    Username: <input type="text" name="username" value="<%=usuario.getUsername()%>">
+
+    <label for="username">Nombre de usuario:</label>
+    <input id="username" type="text" name="username" value="<%=usuario.getUsername()%>">
     </br>
-    Contraseña: <input type="password" name="password" value="<%=usuario.getPassword()%>">
+
+    <label for="email">Email:</label>
+    <input id="email" type="email" name="email" value="<%=usuario.getEmail()%>">
     </br>
-    Rol <input type="text" name="rol" value="<%=usuario.getRol()%>">
+
+    <label for="password">Contraseña:</label>
+    <input id="password" type="password" name="password" value="<%=usuario.getPassword()%>">
     </br>
-    Email <input type="email" name="email" value="<%=usuario.getEmail()%>">
+
+    <label for="role">Rol:</label>
+    <select id="role" name="rol" value="<%=usuario.getRol()%>">
+        <option value="administrador">Administrador</option>
+        <option value="editor">Editor</option>
+        <option value="recomendador">Recomendador</option>
+        <option value="usuario">Usuario</option>
+        <option value="analista">Analista</option>
+    </select>
+
     </br>
     <input type="submit" value="Actualizar">
 </form>

@@ -19,16 +19,6 @@ public class LoginController {
     @Autowired
     protected UsuarioRepository usuarioRepository;
 
-    @GetMapping("/listar")
-    public String doListar (Model model) {
-
-        List<EntityUsuario> usuarios = usuarioRepository.findAll();
-
-        model.addAttribute("usuarios", usuarios);
-
-        return "listar";
-    }
-
     @GetMapping("/")
     public String doLogin(Model model) {
         return "login";
