@@ -40,4 +40,10 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/salir")
+    public String doSalir(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
 }

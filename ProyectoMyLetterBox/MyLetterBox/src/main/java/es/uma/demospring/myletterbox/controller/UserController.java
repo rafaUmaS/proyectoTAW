@@ -6,8 +6,9 @@ import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
-import es.uma.demospring.myletterbox.ui.Usuario;
+
 import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,11 +56,6 @@ public class UserController extends BaseController {
         }
     }
 
-
-    @GetMapping("/salir")
-    public String doSalir(Model model){
-        return "redirect:";
-    }
 
 
 

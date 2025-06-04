@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Cabecera</title>
 </head>
 <%
     EntityUsuario user = (EntityUsuario)session.getAttribute("user");
@@ -17,10 +17,17 @@
 <body>
 <table width="100%">
     <tr>
-        <td><a href="http://localhost:8080/movies/">Películas</a></td>
+        <td><a href="/movies/">Películas</a></td>
         <td><a href="">Géneros</a></td>
-        <td><a href="http://localhost:8080/users/saved-movies">Películas guardadas</a></td>
+        <td><a href="/users/saved-movies">Películas guardadas</a></td>
         <td><a href="">Tus comentarios</a></td>
+        <%
+            if(user.getRol().equals("analista")){
+        %>
+        <td><a href="/analist/movies">Datos analista</a> </td>
+        <%
+            }
+        %>
         <td>Bienvenido, <b><%= user.getUsername()%></b>, al sistema <br/>
             sessionid: <%= session.getId() %> <br/>
             fecha de entrada al sistema: <%= new Date(session.getCreationTime()) %> <br/>
