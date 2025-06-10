@@ -22,7 +22,7 @@
         <td><a href="/users/saved-movies">Películas guardadas</a></td>
         <td><a href="">Tus comentarios</a></td>
         <%
-            if(user.getRol().equals("analista")){
+            if(user.getRol().equals("analista") || user.getRol().equals("administrador")){
         %>
         <td><a href="/analist/movies">Datos analista</a> </td>
         <%
