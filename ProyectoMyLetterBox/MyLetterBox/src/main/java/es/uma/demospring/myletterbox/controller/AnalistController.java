@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Controller
@@ -27,17 +27,38 @@ public class AnalistController extends BaseController{
             List<EntityMovie> listaMovies = this.movieRepository.findAll();
 
             model.addAttribute("listaPeliculas", listaMovies);
+            session.setAttribute("currentFiltro", "");
 
             return "analistaMovies";
         }
     }
 
+
+    public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente) {
+        Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
+        return movieRepository.findAll(sort);
+    }
+
     @GetMapping("/movies/ordenar")
-    public String doOrdenarMovies(@RequestParam("filtro") String filtro, Model model){
+    public String doOrdenarMovies(HttpSession session, @RequestParam("filtro") String filtro, @RequestParam("asc") Integer asc, Model model){
 
-        List<EntityMovie> listaMovies = this.movieRepository.ordenarMoviesPorFiltro(filtro);
+        if (filtro.equals(session.getAttribute("currentFiltro"))) {
+            if (asc == 0) {
+                asc = 1;
+            } else {
+                asc = 0;
+            }
+        }else {
+            asc = 0;
+        }
 
+        List<EntityMovie> listaMovies = getMoviesOrdenadas(filtro, asc==0);
+
+
+
+        model.addAttribute("asc", asc);
         model.addAttribute("listaPeliculas", listaMovies);
+        session.setAttribute("currentFiltro", filtro);
 
         return "analistaMovies";
     }

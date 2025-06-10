@@ -17,21 +17,22 @@
 <%
     List<EntityMovie> listaPeliculas = (List<EntityMovie>)request.getAttribute("listaPeliculas");
     EntityUsuario user = (EntityUsuario) session.getAttribute("user");
+    Integer asc = (Integer) request.getAttribute("asc");
 %>
 <body>
 <jsp:include page="cabeceraAnalist.jsp"/>
 
 <table border="">
     <tr>
-        <th><a href="/analist/movies/ordenar?filtro=name">NOMBRE</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=name&asc=<%=(asc!=null? asc : 0)%>">NOMBRE</a></th>
         <th>GENEROS</th>
-        <th><a href="/analist/movies/ordenar?filtro=runtime">DURACIÓN</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=popularity">POPULARIDAD</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=vote_average">VALORACIÓN MEDIA</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=vote_count">NÚMERO DE VALORACIONES</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=budget">PRESUPUESTO</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=revenue">BENEFICIO</a></th>
-        <th><a href="/analist/movies/ordenar?filtro=original_language">IDIOMA ORIGINAL</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=runtime&asc=<%=(asc!=null? asc : 0)%>">DURACIÓN</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=popularity&asc=<%=(asc!=null? asc : 0)%>">POPULARIDAD</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=voteAverage&asc=<%=(asc!=null? asc : 0)%>">VALORACIÓN MEDIA</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=voteCount&asc=<%=(asc!=null? asc : 0)%>">NÚMERO DE VALORACIONES</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=budget&asc=<%=(asc!=null? asc : 0)%>">PRESUPUESTO</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=revenue&asc=<%=(asc!=null? asc : 0)%>">BENEFICIO</a></th>
+        <th><a href="/analist/movies/ordenar?filtro=originalLanguage&asc=<%=(asc!=null? asc : 0)%>">IDIOMA ORIGINAL</a></th>
     </tr>
     <%
         for (EntityMovie pelicula : listaPeliculas){

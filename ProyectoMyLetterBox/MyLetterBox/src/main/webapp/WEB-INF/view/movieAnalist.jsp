@@ -1,4 +1,4 @@
-<%--
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -8,8 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Datos pelicula</title>
 </head>
+<%
+    EntityMovie movie = (EntityMovie) request.getAttribute("");
+%>
 <body>
 
 </body>
