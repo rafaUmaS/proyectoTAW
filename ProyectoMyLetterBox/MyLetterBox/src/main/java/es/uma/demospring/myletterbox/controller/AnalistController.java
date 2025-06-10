@@ -5,6 +5,7 @@ import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,30 +42,46 @@ public class AnalistController extends BaseController{
 
     @GetMapping("/movies/ordenar")
     public String doOrdenarMovies(HttpSession session, @RequestParam("filtro") String filtro, @RequestParam("asc") Integer asc, Model model){
-
-        if (filtro.equals(session.getAttribute("currentFiltro"))) {
-            if (asc == 0) {
-                asc = 1;
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        } else {
+            if (filtro.equals(session.getAttribute("currentFiltro"))) {
+                if (asc == 0) {
+                    asc = 1;
+                } else {
+                    asc = 0;
+                }
             } else {
                 asc = 0;
             }
-        }else {
-            asc = 0;
+
+            List<EntityMovie> listaMovies = getMoviesOrdenadas(filtro, asc == 0);
+
+
+            model.addAttribute("asc", asc);
+            model.addAttribute("listaPeliculas", listaMovies);
+            session.setAttribute("currentFiltro", filtro);
+
+            return "analistaMovies";
         }
-
-        List<EntityMovie> listaMovies = getMoviesOrdenadas(filtro, asc==0);
-
-
-
-        model.addAttribute("asc", asc);
-        model.addAttribute("listaPeliculas", listaMovies);
-        session.setAttribute("currentFiltro", filtro);
-
-        return "analistaMovies";
     }
 
     @GetMapping("/volver")
     public String doVolverAnalista(Model model){
         return "redirect:/movies/";
+    }
+
+    @GetMapping("/movie")
+    public String doPelicula(HttpSession session, @RequestParam("id") Integer id, Model model){
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        } else {
+
+            EntityMovie movie = this.movieRepository.findById(id).orElse(null);
+
+            model.addAttribute("movie", movie);
+
+            return "movieAnalist";
+        }
     }
 }
