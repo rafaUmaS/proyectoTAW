@@ -3,6 +3,7 @@ package es.uma.demospring.myletterbox.controller;
 
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.service.MovieService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Controller
@@ -19,6 +19,8 @@ import java.util.List;
 public class AnalistController extends BaseController{
 
     @Autowired protected MovieRepository movieRepository;
+
+    @Autowired protected MovieService movieService;
 
     @GetMapping("/movies")
     public String doListarMoviesAnalista(HttpSession session, Model model){
@@ -35,10 +37,6 @@ public class AnalistController extends BaseController{
     }
 
 
-    public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente) {
-        Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
-        return movieRepository.findAll(sort);
-    }
 
     @GetMapping("/movies/ordenar")
     public String doOrdenarMovies(HttpSession session, @RequestParam("filtro") String filtro, @RequestParam("asc") Integer asc, Model model){
@@ -55,7 +53,7 @@ public class AnalistController extends BaseController{
                 asc = 0;
             }
 
-            List<EntityMovie> listaMovies = getMoviesOrdenadas(filtro, asc == 0);
+            List<EntityMovie> listaMovies = this.movieService.getMoviesOrdenadas(filtro, asc == 0);
 
 
             model.addAttribute("asc", asc);

@@ -38,7 +38,7 @@
     </tr>
     <tr>
         <td>Duración:</td>
-        <td><%=movie.getRuntime()%></td>
+        <td><%=movie.getRuntime()%> min.</td>
     </tr>
     <tr>
         <td>Estado:</td>
