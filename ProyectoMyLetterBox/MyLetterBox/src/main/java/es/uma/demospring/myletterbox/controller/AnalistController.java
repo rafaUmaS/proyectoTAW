@@ -4,14 +4,14 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.service.MovieService;
+import es.uma.demospring.myletterbox.ui.Filtro;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -27,46 +27,72 @@ public class AnalistController extends BaseController{
         if(!estaAutenticado(session)) {
             return "redirect:/";
         } else {
-            List<EntityMovie> listaMovies = this.movieRepository.findAll();
-
-            model.addAttribute("listaPeliculas", listaMovies);
-            session.setAttribute("currentFiltro", "");
-
-            return "analistaMovies";
+            return this.listarMoviesConFiltro(session, null, model);
         }
     }
 
+    public String listarMoviesConFiltro(HttpSession session, Filtro filtro, Model model){
+
+        List<EntityMovie> movies;
+
+        if(filtro==null){
+            filtro = new Filtro();
+            movies = this.movieService.listarMovies();
+        }else {
+            movies = this.movieService.listarMovies(filtro.getNombre());
+        }
+
+        session.setAttribute("filtro", filtro);
+        model.addAttribute("listaPeliculas", movies);
+        model.addAttribute("filtro", filtro);
+        session.setAttribute("currentCampo", "");
+        return "analistaMovies";
+    }
+
+    @PostMapping("/movies/filtrar")
+    public String doFiltrar(HttpSession session, @ModelAttribute("filtro") Filtro filtro, Model model) {
+        session.setAttribute("filtroAplicado", filtro);
+        return this.listarMoviesConFiltro(session, filtro, model);
+    }
 
 
     @GetMapping("/movies/ordenar")
-    public String doOrdenarMovies(HttpSession session, @RequestParam("filtro") String filtro, @RequestParam("asc") Integer asc, Model model){
+    public String doOrdenarMovies(HttpSession session, @RequestParam("filtro") String campo, @RequestParam("asc") Integer asc, Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         } else {
-            if (filtro.equals(session.getAttribute("currentFiltro"))) {
-                if (asc == 0) {
-                    asc = 1;
-                } else {
-                    asc = 0;
-                }
+
+            Filtro filtroActual = (Filtro) session.getAttribute("filtroAplicado");
+            String nombreFiltro = (filtroActual!=null) ? filtroActual.getNombre() : null;
+
+
+            String campoActual = (String) session.getAttribute("currentCampo");
+
+            if (campo.equals(campoActual)) {
+                asc = (asc == 0) ? 1 : 0;
             } else {
                 asc = 0;
             }
 
-            List<EntityMovie> listaMovies = this.movieService.getMoviesOrdenadas(filtro, asc == 0);
+            List<EntityMovie> listaMovies = this.movieService.getMoviesOrdenadas(campo, asc == 0, nombreFiltro);
 
 
             model.addAttribute("asc", asc);
             model.addAttribute("listaPeliculas", listaMovies);
-            session.setAttribute("currentFiltro", filtro);
+            model.addAttribute("filtro", filtroActual != null ? filtroActual : new Filtro());
+            session.setAttribute("currentCampo", campo);
 
             return "analistaMovies";
         }
     }
 
     @GetMapping("/volver")
-    public String doVolverAnalista(Model model){
-        return "redirect:/movies/";
+    public String doVolverAnalista(HttpSession session){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        } else {
+            return "redirect:/movies/";
+        }
     }
 
     @GetMapping("/movie")

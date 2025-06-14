@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
@@ -21,6 +22,11 @@
 %>
 <body>
 <jsp:include page="cabeceraAnalist.jsp"/>
+
+<form:form method="post" action="/analist/movies/filtrar" modelAttribute="filtro">
+Filtrar por nombre: <form:input path="nombre"></form:input>
+    <form:button>Filtrar</form:button>
+</form:form>
 
 <table border="">
     <tr>

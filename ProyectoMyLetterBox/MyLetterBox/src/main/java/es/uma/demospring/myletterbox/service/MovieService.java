@@ -12,8 +12,30 @@ public class MovieService {
 
 @Autowired private MovieRepository movieRepository;
 
-    public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente) {
+    public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente, String nombre) {
         Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
-        return movieRepository.findAll(sort);
+        List<EntityMovie> movies;
+        if(nombre==null || nombre.isEmpty()){
+            movies = movieRepository.findAll(sort);
+        } else {
+            movies = this.movieRepository.findByNameContainingIgnoreCase(nombre, sort);
+        }
+        return movies;
+    }
+
+    public List<EntityMovie> listarMovies() {
+        return this.listarMovies(null);
+    }
+
+    public List<EntityMovie> listarMovies(String nombre) {
+
+        List<EntityMovie> movies;
+
+        if (nombre==null || nombre.isEmpty()){
+            movies = this.movieRepository.findAll();
+        } else {
+            movies = this.movieRepository.buscarMoviePorFiltro(nombre);
+        }
+        return movies;
     }
 }
