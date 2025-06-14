@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 @Controller
 @RequestMapping("/analist")
 public class AnalistController extends BaseController{

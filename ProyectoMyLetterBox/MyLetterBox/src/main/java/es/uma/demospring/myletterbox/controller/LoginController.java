@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 @Controller
 public class LoginController {
 

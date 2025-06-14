@@ -9,6 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 public interface UsuarioSaveMovieRepository extends JpaRepository<EntityUsuarioSaveMovie, Integer> {
     @Query("select um from EntityUsuarioSaveMovie um where um.usuarioUserId.userId=:usuarioId")
     public List<EntityUsuarioSaveMovie> listaUsuarioSaveMovie(@Param("usuarioId") Integer userId);

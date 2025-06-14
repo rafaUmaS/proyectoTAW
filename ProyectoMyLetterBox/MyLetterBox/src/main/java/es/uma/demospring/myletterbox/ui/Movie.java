@@ -8,6 +8,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 import java.util.List;
 
+/*
+ * Autor(es):
+ */
+
 @Data
 public class Movie {
     public enum Estado

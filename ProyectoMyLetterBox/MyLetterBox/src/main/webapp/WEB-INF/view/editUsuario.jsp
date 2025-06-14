@@ -1,3 +1,6 @@
+<%--
+  Autor(es):
+--%>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>

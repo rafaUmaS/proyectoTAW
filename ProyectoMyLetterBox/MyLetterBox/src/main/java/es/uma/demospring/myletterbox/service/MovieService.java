@@ -7,6 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+/*
+* Autor(es): Ivan Pedraza Díez (100%)
+*/
+
 @Service
 public class MovieService {
 

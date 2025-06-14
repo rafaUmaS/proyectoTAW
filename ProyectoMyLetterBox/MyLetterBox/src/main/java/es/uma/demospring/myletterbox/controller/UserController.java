@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (70%), resto (30%)
+ */
+
 @Controller
 @RequestMapping("/users")
 public class UserController extends BaseController {
