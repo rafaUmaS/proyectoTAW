@@ -27,24 +27,24 @@
 
     <table border="">
         <tr>
-            <td>
+            <th>
                 NOMBRE
-            </td>
-            <td>
+            </th>
+            <th>
                 GENERO
-            </td>
-            <td>
+            </th>
+            <th>
                 DURACIÓN
-            </td>
-            <td>
+            </th>
+            <th>
                 POPULARIDAD
-            </td>
+            </th>
             <%
                 if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
             %>
-                <td>
+                <th>
                     EDITAR
-                </td>
+                </th>
             <%
                 }
             %>
@@ -73,7 +73,7 @@
             <%
                 if (user.getRol().equals("editor") || user.getRol().equals("administrador")){
             %>
-                <form method="post" action="">+
+                <form method="post" action="">
                     <input type="hidden" value="<%=savedMovie.getMovieMovieId().getMovieId()%>">
                     <input type="submit" value="Editar"/>
                 </form>

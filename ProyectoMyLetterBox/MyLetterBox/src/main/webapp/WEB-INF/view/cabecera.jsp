@@ -7,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%--
-  Autor(es): Iván Pedraza Díez (100%)
+  Autor(es): Iván Pedraza Díez (85%), Adrián Huete Peña (15%)
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -23,6 +23,7 @@
         <td><a href="/movies/">Películas</a></td>
         <td><a href="">Géneros</a></td>
         <td><a href="/users/saved-movies">Películas guardadas</a></td>
+        <td><a href="/users/recommended-movies">Películas Recomendadas</a></td>
         <td><a href="">Tus comentarios</a></td>
         <%
             if(user.getRol().equals("analista") || user.getRol().equals("administrador")){

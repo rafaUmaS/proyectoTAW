@@ -41,16 +41,16 @@
 
 <table border="">
     <tr>
-        <td>NOMBRE</td>
-        <td>GENERO</td>
-        <td>DURACIÓN</td>
-        <td>POPULARIDAD</td>
+        <th>NOMBRE</th>
+        <th>GENERO</th>
+        <th>DURACIÓN</th>
+        <th>POPULARIDAD</td>
 
         <%
             if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
         %>
-        <td>EDITAR</td>
-        <td>BORRAR</td>
+        <th>EDITAR</th>
+        <th>BORRAR</th>
         <%
             }
         %>

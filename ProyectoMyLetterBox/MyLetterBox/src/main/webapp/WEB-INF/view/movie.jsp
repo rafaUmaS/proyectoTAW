@@ -2,7 +2,12 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityProductionCompanies" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--
+  Autor(es): Gregorio Merchán Merchán (75%), Adrián Huete Peña (25%)
+--%>
 <html>
 <head>
     <title>Detalles de Película</title>
@@ -13,6 +18,7 @@
 
 <%
     EntityMovie movie = (EntityMovie) request.getAttribute("movie");
+    EntityUsuario user = (EntityUsuario) session.getAttribute("user");
 %>
 
 <h1><%= movie.getName() %></h1>
@@ -35,6 +41,57 @@
 <button onclick="history.back()">Añadir a lista</button>
 <button onclick="history.back()">Me gusta</button>
 <button onclick="history.back()">Review</button>
+
+<% if(user.getRol().equals("recomendador") || user.getRol().equals("administrador")) { %>
+
+<button onclick="toggleRecommender()" type="button">Recomendar</button>
+<% String error = request.getParameter("error"); %>
+<% if ("yaExiste".equals(error)) { %>
+<p>Esta película ya está en esa lista.</p>
+<% } %>
+
+<% if ("nombreDuplicado".equals(error)) { %>
+<p>Ya existe una lista con un nombre similar.</p>
+<% } %>
+<div id="recommenderPanel" style="display:none; margin-top:10px;">
+
+    <!-- Formulario para crear nueva lista y añadir -->
+    <form method="post" action="/users/recomendar" style="margin-bottom: 10px;">
+        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>" />
+        <input type="text" name="nombreListaBase" id="nuevaListaNombre" placeholder="Nombre de la nueva lista" />
+        <input type="hidden" name="crearNueva" value="true" />
+        <input type="submit" value="Crear nueva lista y añadir" />
+    </form>
+
+    <p>O selecciona una lista existente:</p>
+
+    <%
+        List<String> listas = (List<String>) request.getAttribute("listasRecomendadas");
+        if (listas != null) {
+            for(String lista : listas) {
+                String nombreVisible = lista.replace(" Recomendado", "");
+    %>
+    <form method="post" action="/users/recomendar" style="display:inline-block; margin-right:5px;">
+        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>" />
+        <input type="hidden" name="nombreLista" value="<%= lista %>" />
+        <input type="hidden" name="crearNueva" value="false" />
+
+        <input type="submit" value="<%= nombreVisible %>" />
+    </form>
+    <%      }
+    }
+    %>
+</div>
+
+<script>
+    function toggleRecommender() {
+        var panel = document.getElementById("recommenderPanel");
+        panel.style.display = (panel.style.display === "none") ? "block" : "none";
+    }
+</script>
+<% } %>
+
+
 
 <br><br><br>
 
