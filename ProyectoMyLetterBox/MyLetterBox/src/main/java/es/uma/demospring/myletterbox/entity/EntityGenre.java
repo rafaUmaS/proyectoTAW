@@ -34,10 +34,11 @@ public class EntityGenre implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @JoinTable(name = "genre_has_movie", joinColumns = {
-        @JoinColumn(name = "Genre_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Movie_id", referencedColumnName = "movie_id")})
-    @ManyToMany
+//    @JoinTable(name = "genre_has_movie", joinColumns = {
+//        @JoinColumn(name = "Genre_id", referencedColumnName = "id")}, inverseJoinColumns = {
+//        @JoinColumn(name = "Movie_id", referencedColumnName = "movie_id")})
+//    @ManyToMany
+    @ManyToMany(mappedBy = "genreList")
     private List<EntityMovie> movieList;
 
     public EntityGenre() {
