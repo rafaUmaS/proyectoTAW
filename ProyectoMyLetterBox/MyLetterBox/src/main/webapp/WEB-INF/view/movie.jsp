@@ -1,6 +1,7 @@
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityProductionCompanies" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.*" %>
+<%@ page import="es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository" %>
+<%@ page import="es.uma.demospring.myletterbox.dao.ReviewRepository" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -18,7 +19,8 @@
 
 <%
     EntityMovie movie = (EntityMovie) request.getAttribute("movie");
-    EntityUsuario user = (EntityUsuario) session.getAttribute("user");
+    EntityUsuario user = (EntityUsuario)session.getAttribute("user");
+
 %>
 
 <h1><%= movie.getName() %></h1>
@@ -38,9 +40,7 @@
 <h3>Sinopsis</h3>
 <p><%= movie.getOverview() %></p>
 
-<button onclick="history.back()">Añadir a lista</button>
-<button onclick="history.back()">Me gusta</button>
-<button onclick="history.back()">Review</button>
+
 
 <% if(user.getRol().equals("recomendador") || user.getRol().equals("administrador")) { %>
 
@@ -95,20 +95,56 @@
 
 <br><br><br>
 
-<!-- Botones de navegación -->
+<form action="/movies/like" method="post">
+    <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+    <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+    <button type="submit">Me gusta</button>
+</form>
+<button onclick="crearReview()">Review</button>
+
+
+<div id="mostrarCrearReview" style="display: none;" >
+    <br>
+    <form action="/reviews/crear" method="post">
+        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+        <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+        <p>Escribe tu review</p>
+        <input type="text" id="comment" name="comment" required>
+        <p>Dale una puntuación (0-100)</p>
+        <input type="text" id="rate" name="rate" required>
+        <!-- <input type="range" id="rate" name="rate" min="0" max="100"> -->
+        <br> <br>
+         <button type="submit">Enviar</button>
+     </form>
+ </div>
+
+ <script>
+     function crearReview(){
+         var review = document.getElementById("mostrarCrearReview");
+         if (review.style.display === "none" || review.style.display === "") {
+             review.style.display = "block";
+         } else {
+             review.style.display = "none";
+         }
+     }
+ </script>
+
+ <br><br>
+
+ <!-- Botones de navegación -->
 <table border="">
     <tr>
         <td>
-            <button onclick="showTab('cast')">Cast</button>
+            <button onclick="Tabla('cast')">Cast</button>
         </td>
         <td>
-            <button onclick="showTab('crew')">Crew</button>
+            <button onclick="Tabla('crew')">Crew</button>
         </td>
         <td>
-            <button onclick="showTab('details')">Details</button>
+            <button onclick="Tabla('details')">Details</button>
         </td>
         <td>
-            <button onclick="showTab('reviews')">Reviews</button>
+            <button onclick="Tabla('reviews')">Reviews</button>
         </td>
 
     </tr>
@@ -141,11 +177,33 @@
 
 <div id="reviews" style="display:none;">
     <p>Opiniones y puntuaciones de usuarios</p>
+    <br>
+    <p>
+        <%
+            List<EntityReview> reviews = movie.getReviewList();
+            if (reviews != null) {
+            for (EntityReview r : reviews) {
+        %>      
+               <p>Comentario: <%= r.getComment() %></p>
+               <p>Puntuación: <%= r.getRate() %>/100</p>
+               <p>Fecha: <%= r.getCreateTime() %></p>
+                <br>
+    <%
+        }
+    } else {
+    %>
+    <p>No hay reviews para esta película.</p>
+    <%
+        }
+    %>
+    </p>
+
 </div>
+
 
 <!-- Script para mostrar/ocultar secciones -->
 <script>
-    function showTab(tabId) {
+    function Tabla(tabId) {
         var tabs = ['cast', 'crew', 'details', 'reviews'];
         for (var i = 0; i < tabs.length; i++) {
             var tab = document.getElementById(tabs[i]);

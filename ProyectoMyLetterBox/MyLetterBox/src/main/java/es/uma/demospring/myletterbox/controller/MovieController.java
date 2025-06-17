@@ -2,8 +2,13 @@ package es.uma.demospring.myletterbox.controller;
 
 import es.uma.demospring.myletterbox.dao.GenreRepository;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
+import es.uma.demospring.myletterbox.dao.ReviewRepository;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.entity.EntityUsuario;
+import es.uma.demospring.myletterbox.entity.EntityReview;
+import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import es.uma.demospring.myletterbox.ui.Movie;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,12 @@ public class MovieController extends BaseController {
 
     @Autowired
     protected GenreRepository genreRepository;
+
+    @Autowired
+    private UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @GetMapping("/")
     public String doListarMovies(HttpSession session, Model model){
@@ -122,5 +133,13 @@ public class MovieController extends BaseController {
         this.movieRepository.save(movie);
         return "redirect:/movies/";
     }
+
+    @PostMapping("/like")
+    public String doLikeMovie(@RequestParam("movieId") Integer movieId, @RequestParam("userId") Integer userId) {
+        usuarioSaveMovieRepository.insertRelation(movieId, userId, "Favorite Movie");
+        return "redirect:/movies/";
+    }
+
+
 
 }

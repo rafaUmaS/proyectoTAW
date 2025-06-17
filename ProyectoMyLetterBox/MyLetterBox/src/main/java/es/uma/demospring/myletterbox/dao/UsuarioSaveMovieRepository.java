@@ -7,6 +7,8 @@ import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,4 +41,9 @@ public interface UsuarioSaveMovieRepository extends JpaRepository<EntityUsuarioS
     boolean existsByUsuarioAndMovieAndName(@Param("usuario") EntityUsuario usuario,
                                            @Param("movie") EntityMovie movie,
                                            @Param("name") String name);
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO usuario_save_movie (movie_movie_id, usuario_user_id, name) VALUES (:movieId, :userId, :name)", nativeQuery = true)
+    void insertRelation(@Param("movieId") Integer movieId, @Param("userId") Integer userId, @Param("name") String name);
+
 }
