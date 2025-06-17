@@ -65,6 +65,15 @@
     </tr>
     <tr>
         <td>
+            <table border="1">
+                <tr>
+                    <td>d</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <form method="get" action="/analist/movies">
                 <input type="submit" value="Volver">
             </form>
