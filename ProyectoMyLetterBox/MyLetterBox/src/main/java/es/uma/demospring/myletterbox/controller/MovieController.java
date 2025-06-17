@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Autor(es):
+ * Autor(es): Álvaro Sierra García (80%)
  */
 
 @Controller
@@ -44,7 +44,11 @@ public class MovieController extends BaseController {
     }
 
     @GetMapping("/crear")
-    public String crearMovie(Model model){
+    public String crearMovie(HttpSession session, Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         List<EntityGenre> generos = this.genreRepository.findAll();
         Movie pelicula = new Movie();
         model.addAttribute("generos", generos);
@@ -56,12 +60,22 @@ public class MovieController extends BaseController {
 
     @PostMapping("/borrar")
     public String borrarMovie(HttpSession session, @RequestParam("id") int id){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         this.movieRepository.deleteById(id);
         return "redirect:/movies/";
     }
 
     @GetMapping("/editar")
-    public String doEditar(@RequestParam("id") Integer id, Model model){
+    public String doEditar(@RequestParam("id") Integer id,
+                           HttpSession session,
+                           Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         EntityMovie movie = this.movieRepository.findById(id).orElse(null);
         List<EntityGenre> generos = this.genreRepository.findAll();
 
