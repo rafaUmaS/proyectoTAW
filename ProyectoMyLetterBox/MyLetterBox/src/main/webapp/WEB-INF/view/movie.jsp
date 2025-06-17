@@ -156,7 +156,22 @@
 </div>
 
 <div id="crew" style="display:none;">
-    <p>Aquí va el CREW (aún no implementado)</p>
+    <p><%
+            List<EntityCrew> crews = movie.getCrewList();
+            if (crews != null) {
+            for (EntityCrew c : crews) {
+                EntityPersona persona = c.getPERSONAid();
+        %>
+    <p><strong><%= c.getCrewRole() %>:</strong> <%= persona.getName() %></p>
+    <%
+        }
+    } else {
+    %>
+    <p>No hay crews para esta película.</p>
+        <%
+        }
+    %></p>
+    <br>
 </div>
 
 <div id="details" style="display:none;">
@@ -177,17 +192,22 @@
 
 <div id="reviews" style="display:none;">
     <p>Opiniones y puntuaciones de usuarios</p>
-    <br>
+
+
     <p>
         <%
             List<EntityReview> reviews = movie.getReviewList();
             if (reviews != null) {
             for (EntityReview r : reviews) {
-        %>      
-               <p>Comentario: <%= r.getComment() %></p>
-               <p>Puntuación: <%= r.getRate() %>/100</p>
-               <p>Fecha: <%= r.getCreateTime() %></p>
-                <br>
+                EntityUsuario usuario = r.getUsuarioUserId();
+        %>
+            <p>
+                <strong> <%= usuario.getUsername() %> </strong>   (<%= r.getCreateTime() %>)
+            </p>
+            <p><%= r.getComment() %>
+            <p><%= r.getRate() %>/100</p>
+
+
     <%
         }
     } else {
@@ -211,8 +231,8 @@
         }
     }
 </script>
-<br>
-<button onclick="window.location.href='http://localhost:8080/users/movies'">Volver</button>
+
+<button onclick="window.location.href='/movies/'">Volver</button>
 
 </body>
 </html>
