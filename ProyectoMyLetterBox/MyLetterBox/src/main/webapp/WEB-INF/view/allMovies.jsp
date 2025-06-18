@@ -44,7 +44,7 @@
         <th>NOMBRE</th>
         <th>GENERO</th>
         <th>DURACIÓN</th>
-        <th>POPULARIDAD</td>
+        <th>POPULARIDAD</th>
 
         <%
             if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
