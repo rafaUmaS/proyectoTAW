@@ -42,4 +42,8 @@ public class MovieService {
         }
         return movies;
     }
+
+    public EntityMovie buscarMovieById(Integer id){
+        return this.movieRepository.findById(id).orElse(null);
+    }
 }
