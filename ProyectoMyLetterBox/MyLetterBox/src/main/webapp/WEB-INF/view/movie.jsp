@@ -94,13 +94,20 @@
 
 
 <br><br><br>
-
-<form action="/movies/like" method="post">
-    <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
-    <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-    <button type="submit">Me gusta</button>
-</form>
-<button onclick="crearReview()">Review</button>
+<table border="">
+    <tr>
+        <td>
+            <form action="/movies/like" method="post">
+                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+                <button type="submit">Me gusta</button>
+            </form>
+        </td>
+        <td>
+            <button onclick="crearReview()">Review</button>
+        </td>
+    </tr>
+</table>
 
 
 <div id="mostrarCrearReview" style="display: none;" >
@@ -151,9 +158,6 @@
 </table>
 
 <!-- Secciones -->
-<div id="cast" style="display:block;">
-    <p>Aquí va el CAST (aún no implementado)</p>
-</div>
 
 <div id="crew" style="display:none;">
     <p><%
@@ -173,6 +177,22 @@
     %></p>
     <br>
 </div>
+
+<div id="cast" style="display:block;">
+    <p><%
+    for(EntityCrew crew : crews){
+        List<EntityCast> castList = crew.getCastList();
+        if (castList!=null && !castList.isEmpty()){
+            for (EntityCast castCharacter : castList){
+                if (castCharacter.getCharacter()!=null){
+
+    %>
+    <p><strong><%= castCharacter.getName()%></strong> interpreta a  <strong><%= castCharacter.getCharacter()%></strong> </p>
+   <%}}}} %>
+    </p>
+    <br>
+</div>
+
 
 <div id="details" style="display:none;">
     <p><strong>Fecha de estreno:</strong> <%= movie.getReleaseDate() %></p>
