@@ -7,8 +7,8 @@
 --%>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,10 +21,10 @@
 <h1>Películas Recomendadas</h1>
 
 <%
-    Map<String, List<EntityUsuarioSaveMovie>> groupedByList = (Map<String, List<EntityUsuarioSaveMovie>>) request.getAttribute("groupedByList");
-
+    Map<String, List<UsuarioSaveMovieDTO>> groupedByList = (Map<String, List<UsuarioSaveMovieDTO>>) request.getAttribute("groupedByList");
+    Map<Integer,MovieDTO> movies = (Map<Integer,MovieDTO>) request.getAttribute("movies");
     for (String listName : groupedByList.keySet()) {
-        List<EntityUsuarioSaveMovie> moviesInList = groupedByList.get(listName);
+        List<UsuarioSaveMovieDTO> moviesInList = groupedByList.get(listName);
 %>
 <div class="lista-container">
     <h2><%= listName.replace(" Recomendado", "") %></h2>
@@ -32,14 +32,14 @@
         <table border="1" cellpadding="10" cellspacing="5">
             <tr>
                 <%
-                    for (EntityUsuarioSaveMovie saveMovie : moviesInList) {
-                        EntityMovie movie = saveMovie.getMovieMovieId();
+                    for (UsuarioSaveMovieDTO saveMovie : moviesInList) {
+                        MovieDTO movie = movies.get(saveMovie.getMovieId());
                 %>
                 <td>
 
                     <h4><%= movie.getName() %></h4>
                     <p>⭐ <%= movie.getVoteAverage() %></p>
-                    <form method="post" action="/users/remove-recommendation" style="display:inline;">
+                    <form method="post" action="/users/remove-recommendation">
                         <input type="hidden" name="saveMovieId" value="<%= saveMovie.getId() %>" />
                         <input type="submit" value="Eliminar" onclick="return confirm('¿Eliminar esta película de la lista?');" />
                     </form>

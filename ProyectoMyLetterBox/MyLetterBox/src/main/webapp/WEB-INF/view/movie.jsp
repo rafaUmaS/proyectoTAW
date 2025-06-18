@@ -46,13 +46,20 @@
 
 <button onclick="toggleRecommender()" type="button">Recomendar</button>
 <% String error = request.getParameter("error"); %>
-<% if ("yaExiste".equals(error)) { %>
-<p>Esta película ya está en esa lista.</p>
-<% } %>
 
-<% if ("nombreDuplicado".equals(error)) { %>
-<p>Ya existe una lista con un nombre similar.</p>
-<% } %>
+<% if(error != null){
+    if (error.equals("LaRecomendacionYaExiste")) { %>
+        <p>Esta película ya está en esa lista.</p>
+    <% } %>
+
+    <% if (error.equals("NombreDuplicado")) { %>
+        <p>Ya existe una lista con un nombre similar.</p>
+    <% } %>
+
+    <% if (error.equals("NombreDeListaBaseVacio")) { %>
+        <p>No se puede crear una lista con el nombre vacio.</p>
+    <% }
+    } %>
 <div id="recommenderPanel" style="display:none; margin-top:10px;">
 
     <!-- Formulario para crear nueva lista y añadir -->
