@@ -50,7 +50,7 @@ public class MovieService {
         return movies;
     }
 
-    public Map<Integer,MovieDTO> listarMoviesDTO(){
+    public Map<Integer,MovieDTO> listarMoviesDTO() {
         List<EntityMovie> entidades = movieRepository.findAll();
         Map<Integer, MovieDTO> agrupado = new HashMap<>();
 
@@ -64,5 +64,9 @@ public class MovieService {
         }
 
         return agrupado;
+    }
+
+    public EntityMovie buscarMovieById(Integer id){
+        return this.movieRepository.findById(id).orElse(null);
     }
 }

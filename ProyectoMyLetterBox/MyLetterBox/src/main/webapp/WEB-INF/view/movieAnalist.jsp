@@ -1,4 +1,7 @@
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %><%--
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityCrew" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -15,6 +18,7 @@
 </head>
 <%
     EntityMovie movie = (EntityMovie) request.getAttribute("movie");
+    List<EntityCrew> crewList = movie.getCrewList();
 %>
 <body>
 <h1>Datos de la pelicula: <%=movie.getName()%></h1>
@@ -62,6 +66,91 @@
     <tr>
         <td>Título original:</td>
         <td><%=movie.getOriginalTitle()%></td>
+    </tr>
+    <tr>
+        <td>
+            <br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            CREW:
+        </td>
+        <td>
+            <%
+                if(crewList != null && !crewList.isEmpty()){
+            %>
+            <table border="1">
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>ROL</th>
+                </tr>
+                <%
+                    for (EntityCrew crewPersona : crewList){
+                %>
+                <tr>
+                    <td><%=crewPersona.getPERSONAid().getName()%></td>
+                    <td><%=crewPersona.getCrewRole()%></td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
+            <%
+            }else {
+            %>
+            <p>(Crew no encontrada)</p>
+            <%
+                }
+            %>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            CAST:
+        </td>
+        <td>
+            <%
+                if(crewList != null && !crewList.isEmpty()){
+            %>
+            <table border="1">
+                <tr>
+                    <th>ACTOR</th>
+                    <th>PERSONAJE</th>
+                    <th>GÉNERO</th>
+                </tr>
+                <%
+                    for (EntityCrew crewPersona : crewList){
+                        List<EntityCast> castList = crewPersona.getCastList();
+                        if (castList!=null && !castList.isEmpty()){
+                            for (EntityCast castCharacter : castList){
+                                if (castCharacter.getCharacter()!=null){
+                %>
+                <tr>
+                    <td><%=castCharacter.getName()%></td>
+                    <td><%=castCharacter.getCharacter()%></td>
+                    <td><%=(castCharacter.getGender() == 2? "Male" : "Female")%></td>
+                </tr>
+                <%
+                                }
+                            }
+                        }
+                    }
+                %>
+            </table>
+            <%
+                }else {
+            %>
+            <p>(Cast no encontrado)</p>
+            <%
+                }
+            %>
+        </td>
     </tr>
     <tr>
         <td>

@@ -2,7 +2,9 @@ package es.uma.demospring.myletterbox.controller;
 
 
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.service.CrewService;
 import es.uma.demospring.myletterbox.service.MovieService;
 import es.uma.demospring.myletterbox.ui.Filtro;
 import jakarta.servlet.http.HttpSession;
@@ -22,9 +24,9 @@ import java.util.List;
 @RequestMapping("/analist")
 public class AnalistController extends BaseController{
 
-    @Autowired protected MovieRepository movieRepository;
-
     @Autowired protected MovieService movieService;
+
+    @Autowired protected CrewService crewService;
 
     @GetMapping("/movies")
     public String doListarMoviesAnalista(HttpSession session, Model model){
@@ -105,7 +107,7 @@ public class AnalistController extends BaseController{
             return "redirect:/";
         } else {
 
-            EntityMovie movie = this.movieRepository.findById(id).orElse(null);
+            EntityMovie movie = this.movieService.buscarMovieById(id);
 
             model.addAttribute("movie", movie);
 

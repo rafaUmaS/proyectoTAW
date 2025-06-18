@@ -2,8 +2,13 @@ package es.uma.demospring.myletterbox.controller;
 
 import es.uma.demospring.myletterbox.dao.GenreRepository;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
+import es.uma.demospring.myletterbox.dao.ReviewRepository;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.entity.EntityUsuario;
+import es.uma.demospring.myletterbox.entity.EntityReview;
+import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import es.uma.demospring.myletterbox.ui.Movie;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Autor(es):
+ * Autor(es): Álvaro Sierra García (80%)
  */
 
 @Controller
@@ -27,6 +32,12 @@ public class MovieController extends BaseController {
 
     @Autowired
     protected GenreRepository genreRepository;
+
+    @Autowired
+    private UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @GetMapping("/")
     public String doListarMovies(HttpSession session, Model model){
@@ -44,7 +55,11 @@ public class MovieController extends BaseController {
     }
 
     @GetMapping("/crear")
-    public String crearMovie(Model model){
+    public String crearMovie(HttpSession session, Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         List<EntityGenre> generos = this.genreRepository.findAll();
         Movie pelicula = new Movie();
         model.addAttribute("generos", generos);
@@ -56,12 +71,22 @@ public class MovieController extends BaseController {
 
     @PostMapping("/borrar")
     public String borrarMovie(HttpSession session, @RequestParam("id") int id){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         this.movieRepository.deleteById(id);
         return "redirect:/movies/";
     }
 
     @GetMapping("/editar")
-    public String doEditar(@RequestParam("id") Integer id, Model model){
+    public String doEditar(@RequestParam("id") Integer id,
+                           HttpSession session,
+                           Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }
+
         EntityMovie movie = this.movieRepository.findById(id).orElse(null);
         List<EntityGenre> generos = this.genreRepository.findAll();
 
@@ -122,5 +147,13 @@ public class MovieController extends BaseController {
         this.movieRepository.save(movie);
         return "redirect:/movies/";
     }
+
+    @PostMapping("/like")
+    public String doLikeMovie(@RequestParam("movieId") Integer movieId, @RequestParam("userId") Integer userId) {
+        usuarioSaveMovieRepository.insertRelation(movieId, userId, "Favorite Movie");
+        return "redirect:/movies/";
+    }
+
+
 
 }

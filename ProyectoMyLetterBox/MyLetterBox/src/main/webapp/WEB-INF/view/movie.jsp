@@ -1,6 +1,7 @@
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityProductionCompanies" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.*" %>
+<%@ page import="es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository" %>
+<%@ page import="es.uma.demospring.myletterbox.dao.ReviewRepository" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -18,7 +19,8 @@
 
 <%
     EntityMovie movie = (EntityMovie) request.getAttribute("movie");
-    EntityUsuario user = (EntityUsuario) session.getAttribute("user");
+    EntityUsuario user = (EntityUsuario)session.getAttribute("user");
+
 %>
 
 <h1><%= movie.getName() %></h1>
@@ -38,9 +40,7 @@
 <h3>Sinopsis</h3>
 <p><%= movie.getOverview() %></p>
 
-<button onclick="history.back()">Añadir a lista</button>
-<button onclick="history.back()">Me gusta</button>
-<button onclick="history.back()">Review</button>
+
 
 <% if(user.getRol().equals("recomendador") || user.getRol().equals("administrador")) { %>
 
@@ -101,34 +101,105 @@
 
 
 <br><br><br>
-
-<!-- Botones de navegación -->
 <table border="">
     <tr>
         <td>
-            <button onclick="showTab('cast')">Cast</button>
+            <form action="/movies/like" method="post">
+                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+                <button type="submit">Me gusta</button>
+            </form>
         </td>
         <td>
-            <button onclick="showTab('crew')">Crew</button>
+            <button onclick="crearReview()">Review</button>
+        </td>
+    </tr>
+</table>
+
+
+<div id="mostrarCrearReview" style="display: none;" >
+    <br>
+    <form action="/reviews/crear" method="post">
+        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+        <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+        <p>Escribe tu review</p>
+        <input type="text" id="comment" name="comment" required>
+        <p>Dale una puntuación (0-100)</p>
+        <input type="text" id="rate" name="rate" required>
+        <!-- <input type="range" id="rate" name="rate" min="0" max="100"> -->
+        <br> <br>
+         <button type="submit">Enviar</button>
+     </form>
+ </div>
+
+ <script>
+     function crearReview(){
+         var review = document.getElementById("mostrarCrearReview");
+         if (review.style.display === "none" || review.style.display === "") {
+             review.style.display = "block";
+         } else {
+             review.style.display = "none";
+         }
+     }
+ </script>
+
+ <br><br>
+
+ <!-- Botones de navegación -->
+<table border="">
+    <tr>
+        <td>
+            <button onclick="Tabla('cast')">Cast</button>
         </td>
         <td>
-            <button onclick="showTab('details')">Details</button>
+            <button onclick="Tabla('crew')">Crew</button>
         </td>
         <td>
-            <button onclick="showTab('reviews')">Reviews</button>
+            <button onclick="Tabla('details')">Details</button>
+        </td>
+        <td>
+            <button onclick="Tabla('reviews')">Reviews</button>
         </td>
 
     </tr>
 </table>
 
 <!-- Secciones -->
-<div id="cast" style="display:block;">
-    <p>Aquí va el CAST (aún no implementado)</p>
-</div>
 
 <div id="crew" style="display:none;">
-    <p>Aquí va el CREW (aún no implementado)</p>
+    <p><%
+            List<EntityCrew> crews = movie.getCrewList();
+            if (crews != null) {
+            for (EntityCrew c : crews) {
+                EntityPersona persona = c.getPERSONAid();
+        %>
+    <p><strong><%= c.getCrewRole() %>:</strong> <%= persona.getName() %></p>
+    <%
+        }
+    } else {
+    %>
+    <p>No hay crews para esta película.</p>
+        <%
+        }
+    %></p>
+    <br>
 </div>
+
+<div id="cast" style="display:block;">
+    <p><%
+    for(EntityCrew crew : crews){
+        List<EntityCast> castList = crew.getCastList();
+        if (castList!=null && !castList.isEmpty()){
+            for (EntityCast castCharacter : castList){
+                if (castCharacter.getCharacter()!=null){
+
+    %>
+    <p><strong><%= castCharacter.getName()%></strong> interpreta a  <strong><%= castCharacter.getCharacter()%></strong> </p>
+   <%}}}} %>
+    </p>
+    <br>
+</div>
+
 
 <div id="details" style="display:none;">
     <p><strong>Fecha de estreno:</strong> <%= movie.getReleaseDate() %></p>
@@ -148,11 +219,38 @@
 
 <div id="reviews" style="display:none;">
     <p>Opiniones y puntuaciones de usuarios</p>
+
+
+    <p>
+        <%
+            List<EntityReview> reviews = movie.getReviewList();
+            if (reviews != null) {
+            for (EntityReview r : reviews) {
+                EntityUsuario usuario = r.getUsuarioUserId();
+        %>
+            <p>
+                <strong> <%= usuario.getUsername() %> </strong>   (<%= r.getCreateTime() %>)
+            </p>
+            <p><%= r.getComment() %>
+            <p><%= r.getRate() %>/100</p>
+
+
+    <%
+        }
+    } else {
+    %>
+    <p>No hay reviews para esta película.</p>
+    <%
+        }
+    %>
+    </p>
+
 </div>
+
 
 <!-- Script para mostrar/ocultar secciones -->
 <script>
-    function showTab(tabId) {
+    function Tabla(tabId) {
         var tabs = ['cast', 'crew', 'details', 'reviews'];
         for (var i = 0; i < tabs.length; i++) {
             var tab = document.getElementById(tabs[i]);
@@ -160,8 +258,8 @@
         }
     }
 </script>
-<br>
-<button onclick="window.location.href='http://localhost:8080/users/movies'">Volver</button>
+
+<button onclick="window.location.href='/movies/'">Volver</button>
 
 </body>
 </html>

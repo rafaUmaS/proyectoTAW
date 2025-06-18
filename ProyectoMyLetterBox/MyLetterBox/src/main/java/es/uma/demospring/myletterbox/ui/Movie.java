@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /*
- * Autor(es):
+ * Autor(es): Álvaro Sierra García (100%)
  */
 
 @Data

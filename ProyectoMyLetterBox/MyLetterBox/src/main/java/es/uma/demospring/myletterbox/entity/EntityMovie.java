@@ -71,7 +71,11 @@ public class EntityMovie implements Serializable {
         @JoinColumn(name = "Production_companies_id", referencedColumnName = "id")})
     @ManyToMany
     private List<EntityProductionCompanies> productionCompaniesList;
-    @ManyToMany(mappedBy = "movieList")
+    // @ManyToMany(mappedBy = "movieList")
+    @ManyToMany
+    @JoinTable(name = "genre_has_movie", joinColumns =
+        @JoinColumn(name = "Movie_id", referencedColumnName = "movie_id"), inverseJoinColumns = {
+        @JoinColumn(name = "Genre_id", referencedColumnName = "id")})
     private List<EntityGenre> genreList;
     @JoinTable(name = "movie_has_spoken_language", joinColumns = {
         @JoinColumn(name = "Movie_id", referencedColumnName = "movie_id")}, inverseJoinColumns = {
