@@ -42,26 +42,80 @@
 
 
 
-<% if(user.getRol().equals("recomendador") || user.getRol().equals("administrador")) { %>
+<br>
+<table border="" >
+    <tr>
+        <td>
+            <button onclick="darMeGusta()">Me gusta</button>
+        </td>
+        <td>
+            <button onclick="crearReview()">Review</button>
+        </td>
+        <% if(user.getRol().equals("recomendador") || user.getRol().equals("administrador")) { %>
+        <td>
+        <button onclick="toggleRecommender()" type="button">Recomendar</button>
+        </td>
+        <% } %>
+    </tr>
+</table>
 
-<button onclick="toggleRecommender()" type="button">Recomendar</button>
+
+<div id="mostrarCrearReview" style="display: none;" >
+    <br>
+    <form action="/reviews/crear" method="post">
+        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+        <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+        <p>Escribe tu review</p>
+        <input type="text" id="comment" name="comment" required>
+        <p>Dale una puntuación (0-100)</p>
+        <input type="text" id="rate" name="rate" required>
+        <!-- <input type="range" id="rate" name="rate" min="0" max="100"> -->
+        <br> <br>
+         <button type="submit">Enviar</button>
+     </form>
+ </div>
+
+ <script>
+     function crearReview(){
+         var review = document.getElementById("mostrarCrearReview");
+         if (review.style.display === "none" || review.style.display === "") {
+             review.style.display = "block";
+         } else {
+             review.style.display = "none";
+         }
+     }
+ </script>
+
+<form id="darMeGusta" action="/movies/like" method="post" style="display: none;">
+    <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+    <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+</form>
+
+<script>
+    function darMeGusta(){
+        document.getElementById("darMeGusta").submit();
+    }
+</script>
+
+
 <% String error = request.getParameter("error"); %>
 
 <% if(error != null){
     if (error.equals("LaRecomendacionYaExiste")) { %>
-        <p>Esta película ya está en esa lista.</p>
-    <% } %>
+<p>Esta película ya está en esa lista.</p>
+<% } %>
 
-    <% if (error.equals("NombreDuplicado")) { %>
-        <p>Ya existe una lista con un nombre similar.</p>
-    <% } %>
+<% if (error.equals("NombreDuplicado")) { %>
+<p>Ya existe una lista con un nombre similar.</p>
+<% } %>
 
-    <% if (error.equals("NombreDeListaBaseVacio")) { %>
-        <p>No se puede crear una lista con el nombre vacio.</p>
-    <% }
-    } %>
+<% if (error.equals("NombreDeListaBaseVacio")) { %>
+<p>No se puede crear una lista con el nombre vacio.</p>
+<% }
+} %>
 <div id="recommenderPanel" style="display:none; margin-top:10px;">
 
+    <br>
     <!-- Formulario para crear nueva lista y añadir -->
     <form method="post" action="/users/recomendar" style="margin-bottom: 10px;">
         <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>" />
@@ -96,52 +150,6 @@
         panel.style.display = (panel.style.display === "none") ? "block" : "none";
     }
 </script>
-<% } %>
-
-
-
-<br><br><br>
-<table border="">
-    <tr>
-        <td>
-            <form action="/movies/like" method="post">
-                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
-                <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-                <button type="submit">Me gusta</button>
-            </form>
-        </td>
-        <td>
-            <button onclick="crearReview()">Review</button>
-        </td>
-    </tr>
-</table>
-
-
-<div id="mostrarCrearReview" style="display: none;" >
-    <br>
-    <form action="/reviews/crear" method="post">
-        <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
-        <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-        <p>Escribe tu review</p>
-        <input type="text" id="comment" name="comment" required>
-        <p>Dale una puntuación (0-100)</p>
-        <input type="text" id="rate" name="rate" required>
-        <!-- <input type="range" id="rate" name="rate" min="0" max="100"> -->
-        <br> <br>
-         <button type="submit">Enviar</button>
-     </form>
- </div>
-
- <script>
-     function crearReview(){
-         var review = document.getElementById("mostrarCrearReview");
-         if (review.style.display === "none" || review.style.display === "") {
-             review.style.display = "block";
-         } else {
-             review.style.display = "none";
-         }
-     }
- </script>
 
  <br><br>
 
@@ -215,12 +223,10 @@
         <li><%= pc.getName() %></li>
         <% } %>
     </ul>
+    <br>
 </div>
 
 <div id="reviews" style="display:none;">
-    <p>Opiniones y puntuaciones de usuarios</p>
-
-
     <p>
         <%
             List<EntityReview> reviews = movie.getReviewList();
@@ -228,13 +234,16 @@
             for (EntityReview r : reviews) {
                 EntityUsuario usuario = r.getUsuarioUserId();
         %>
+        <table border="">
+            <td>
             <p>
                 <strong> <%= usuario.getUsername() %> </strong>   (<%= r.getCreateTime() %>)
             </p>
             <p><%= r.getComment() %>
             <p><%= r.getRate() %>/100</p>
-
-
+            </td>
+        </table>
+        <br>
     <%
         }
     } else {

@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<EntityReview, Integer> {
 
-    @Query("select r from EntityReview r where r.usuarioUserId = :usuario")
-    public List<EntityReview> findReviewsByUsuario(@Param("usuario") EntityUsuario usuario);
+    @Query("SELECT r FROM EntityReview r WHERE r.usuarioUserId = :usuario")
+    List<EntityReview> findReviewsByUsuario(@Param("usuario") EntityUsuario usuario);
 }

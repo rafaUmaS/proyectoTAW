@@ -3,9 +3,11 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
+import es.uma.demospring.myletterbox.dao.ReviewRepository;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.entity.EntityReview;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 
@@ -33,6 +35,7 @@ public class UserController extends BaseController {
 
     @Autowired protected UsuarioRepository usuarioRepository;
     @Autowired protected UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+    @Autowired protected ReviewRepository reviewRepository;
     @Autowired protected MovieRepository movieRepository;
     @Autowired private UserMovieService userMovieService;
     @Autowired private MovieService movieService;
@@ -114,5 +117,21 @@ public class UserController extends BaseController {
 
         userMovieService.eliminarRecomendacion(saveMovieId);
         return "redirect:/users/recommended-movies";
+    }
+
+    @GetMapping("/user-reviews")
+    public String doListarReviewsUsuario(HttpSession session, Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        }else {
+
+            EntityUsuario usuario = (EntityUsuario) session.getAttribute("user");
+            List<EntityReview> userReviews = this.reviewRepository.findReviewsByUsuario(usuario);
+
+
+            model.addAttribute("userReviews", userReviews);
+
+            return "reviewUsuario";
+        }
     }
 }

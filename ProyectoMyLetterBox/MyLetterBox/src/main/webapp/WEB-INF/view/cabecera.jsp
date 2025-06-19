@@ -24,7 +24,7 @@
         <td><a href="">Géneros</a></td>
         <td><a href="/users/saved-movies">Películas guardadas</a></td>
         <td><a href="/users/recommended-movies">Películas Recomendadas</a></td>
-        <td><a href="">Tus comentarios</a></td>
+        <td><a href="/users/user-reviews">Tus comentarios</a></td>
         <%
             if(user.getRol().equals("analista") || user.getRol().equals("administrador")){
         %>
