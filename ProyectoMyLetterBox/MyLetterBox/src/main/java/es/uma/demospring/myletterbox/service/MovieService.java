@@ -1,8 +1,11 @@
 package es.uma.demospring.myletterbox.service;
 
+import es.uma.demospring.myletterbox.dao.GenreRepository;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.dao.UsuarioRepository;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO;
+import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,11 @@ import java.util.Map;
 */
 
 @Service
-public class MovieService {
+public class MovieService extends DTOService<MovieDTO, EntityMovie> {
 
-@Autowired private MovieRepository movieRepository;
+    @Autowired private MovieRepository movieRepository;
+
+    @Autowired private GenreRepository genreRepository;
 
     public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente, String nombre) {
         Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
@@ -68,5 +73,72 @@ public class MovieService {
 
     public EntityMovie buscarMovieById(Integer id){
         return this.movieRepository.findById(id).orElse(null);
+    }
+
+    public MovieDTO getMovieDTOById(Integer id){
+        EntityMovie movie = this.movieRepository.findById(id).orElse(null);
+
+        if(movie == null){
+            return null;
+        } else {
+            MovieDTO dto = new MovieDTO();
+
+            dto.setMovieId(movie.getMovieId());
+            dto.setName(movie.getTitle());
+            dto.setOriginalTittle(movie.getOriginalTitle());
+            dto.setLanguage(movie.getOriginalLanguage());
+            dto.setDescription(movie.getOverview());
+            dto.setPopularity(movie.getPopularity());
+            dto.setRevenue(movie.getRevenue());
+            dto.setBudget(movie.getBudget());
+            dto.setDuration(movie.getRuntime());
+            dto.setVoteNumber(movie.getVoteCount());
+            dto.setVoteAverage(movie.getVoteAverage());
+            dto.setDate(movie.getReleaseDate());
+            dto.setEstado(movie.getStatus());
+            dto.setGeneros(new ArrayList<>());
+
+            if(movie.getGenreList() != null){
+                for(EntityGenre g : movie.getGenreList()){
+                    dto.getGeneros().add(g.getId());
+                }
+            }
+
+            return dto;
+        }
+    }
+
+    public void guardarMovie(MovieDTO dto) {
+        EntityMovie movie;
+        if(dto.getMovieId() == null){
+            movie = new EntityMovie();
+        } else {
+            movie = movieRepository.findById(dto.getMovieId()).orElse(new EntityMovie());
+        }
+
+        movie.setName(dto.getName());
+        movie.setTitle(dto.getName());
+        movie.setOriginalTitle(dto.getOriginalTittle());
+        movie.setOriginalLanguage(dto.getLanguage());
+        movie.setOverview(dto.getDescription());
+        movie.setPopularity(dto.getPopularity());
+        movie.setRevenue(dto.getRevenue());
+        movie.setBudget(dto.getBudget());
+        movie.setRuntime(dto.getDuration());
+        movie.setVoteCount(dto.getVoteNumber());
+        movie.setVoteAverage(dto.getVoteAverage());
+        movie.setReleaseDate(dto.getDate());
+        movie.setStatus(dto.getEstado());
+
+        if (dto.getGeneros() != null) {
+            List<EntityGenre> generos = genreRepository.findAllById(dto.getGeneros());
+            movie.setGenreList(generos);
+        }
+
+        movieRepository.save(movie);
+    }
+
+    public void borrarMovieById(Integer id) {
+        this.movieRepository.deleteById(id);
     }
 }

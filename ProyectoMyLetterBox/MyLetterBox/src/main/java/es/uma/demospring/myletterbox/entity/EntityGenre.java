@@ -7,14 +7,15 @@ package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
+import es.uma.demospring.myletterbox.dto.DTO;
+import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -24,7 +25,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "genre")
-public class EntityGenre implements Serializable {
+public class EntityGenre implements Serializable, DTO<GeneroDTO> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -96,5 +97,11 @@ public class EntityGenre implements Serializable {
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.Genre[ id=" + id + " ]";
     }
-    
+
+    public GeneroDTO toDTO () {
+        GeneroDTO genero = new GeneroDTO();
+        genero.setId(this.id);
+        genero.setNombre(this.name);
+        return genero;
+    }
 }

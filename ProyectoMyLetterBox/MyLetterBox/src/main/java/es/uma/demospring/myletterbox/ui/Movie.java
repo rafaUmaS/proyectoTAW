@@ -14,10 +14,10 @@ import java.util.List;
 
 @Data
 public class Movie {
-    public enum Estado
-    {
-        RELEASED, RUMORED, POST_PRODUCTION
-    }
+//    public enum Estado
+//    {
+//        RELEASED, RUMORED, POST_PRODUCTION
+//    }
 
     private int id;
     private String titulo;
