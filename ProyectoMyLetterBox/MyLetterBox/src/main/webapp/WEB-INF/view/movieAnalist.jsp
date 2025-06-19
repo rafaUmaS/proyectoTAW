@@ -1,7 +1,8 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCrew" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %><%--
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -66,6 +67,33 @@
     <tr>
         <td>Título original:</td>
         <td><%=movie.getOriginalTitle()%></td>
+    </tr>
+    <tr>
+        <td>Géneros:</td>
+        <td>
+        <%
+            List<EntityGenre> generos = movie.getGenreList();
+            if(generos!=null && !generos.isEmpty()){
+        %>
+            <table border="1">
+                <tr>
+            <%
+                for (EntityGenre genero : generos){
+            %>
+                    <td><%=genero.getName()%></td>
+            <%
+                }
+            %>
+                </tr>
+            </table>
+        <%
+            }else {
+        %>
+        <p>No se ha encontrado ningún género asociado.</p>
+        <%
+            }
+        %>
+        </td>
     </tr>
     <tr>
         <td>
