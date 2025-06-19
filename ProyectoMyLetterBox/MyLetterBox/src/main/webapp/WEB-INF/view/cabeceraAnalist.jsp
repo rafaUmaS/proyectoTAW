@@ -21,7 +21,7 @@
 <table width="100%">
   <tr>
     <td><a href="/analist/movies">Películas</a></td>
-    <td><a href="">Personas</a></td>
+    <td><a href="/analist/personas">Personas</a></td>
     <td>Bienvenido, analista <b><%= user.getUsername()%></b>, al sistema <br/>
       sessionid: <%= session.getId() %> <br/>
       fecha de entrada al sistema: <%= new Date(session.getCreationTime()) %> <br/>

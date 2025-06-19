@@ -4,8 +4,10 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.entity.EntityPersona;
 import es.uma.demospring.myletterbox.service.CrewService;
 import es.uma.demospring.myletterbox.service.MovieService;
+import es.uma.demospring.myletterbox.service.PersonaService;
 import es.uma.demospring.myletterbox.ui.Filtro;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ public class AnalistController extends BaseController{
 
     @Autowired protected MovieService movieService;
 
-    @Autowired protected CrewService crewService;
+    @Autowired protected PersonaService personaService;
+
+//////// MOVIES //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/movies")
     public String doListarMoviesAnalista(HttpSession session, Model model){
@@ -56,9 +60,13 @@ public class AnalistController extends BaseController{
     }
 
     @PostMapping("/movies/filtrar")
-    public String doFiltrar(HttpSession session, @ModelAttribute("filtro") Filtro filtro, Model model) {
-        session.setAttribute("filtroAplicado", filtro);
-        return this.listarMoviesConFiltro(session, filtro, model);
+    public String doFiltrarMovies(HttpSession session, @ModelAttribute("filtro") Filtro filtro, Model model) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        } else {
+            session.setAttribute("filtroAplicado", filtro);
+            return this.listarMoviesConFiltro(session, filtro, model);
+        }
     }
 
 
@@ -112,6 +120,76 @@ public class AnalistController extends BaseController{
             model.addAttribute("movie", movie);
 
             return "movieAnalist";
+        }
+    }
+
+
+//////// PERSONAS ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/personas")
+    public String doListarPersonasAnalista(HttpSession session, Model model){
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        } else {
+            return this.listarPersonasConFiltro(session, null, model);
+        }
+    }
+
+    public String listarPersonasConFiltro(HttpSession session, Filtro filtro, Model model){
+
+        List<EntityPersona> personas;
+
+        if(filtro==null){
+            filtro = new Filtro();
+            personas = this.personaService.listarPersonas();
+        }else {
+            personas = this.personaService.listarPersonas(filtro.getNombre());
+        }
+
+        session.setAttribute("filtro", filtro);
+        model.addAttribute("personas", personas);
+        model.addAttribute("filtro", filtro);
+        session.setAttribute("currentCampo", "");
+        return "analistaPersonas";
+    }
+
+    @PostMapping("/personas/filtrar")
+    public String doFiltrarPersonas(HttpSession session, @ModelAttribute("filtro") Filtro filtro, Model model) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        } else {
+            session.setAttribute("filtroAplicado", filtro);
+            return this.listarPersonasConFiltro(session, filtro, model);
+        }
+    }
+
+    @GetMapping("/personas/ordenar")
+    public String doOrdenarPersonas(HttpSession session, @RequestParam("filtro") String campo, @RequestParam("asc") Integer asc, Model model){
+        if(!estaAutenticado(session)){
+            return "redirect:/";
+        } else {
+
+            Filtro filtroActual = (Filtro) session.getAttribute("filtroAplicado");
+            String nombreFiltro = (filtroActual!=null) ? filtroActual.getNombre() : null;
+
+
+            String campoActual = (String) session.getAttribute("currentCampo");
+
+            if (campo.equals(campoActual)) {
+                asc = (asc == 0) ? 1 : 0;
+            } else {
+                asc = 0;
+            }
+
+            List<EntityPersona> personas = this.personaService.getPersonasOrdenadas(campo, asc == 0, nombreFiltro);
+
+
+            model.addAttribute("asc", asc);
+            model.addAttribute("personas", personas);
+            model.addAttribute("filtro", filtroActual != null ? filtroActual : new Filtro());
+            session.setAttribute("currentCampo", campo);
+
+            return "analistaPersonas";
         }
     }
 }
