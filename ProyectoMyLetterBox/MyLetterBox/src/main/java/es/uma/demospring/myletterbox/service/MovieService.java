@@ -5,6 +5,7 @@ import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioRepository;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO;
+import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import es.uma.demospring.myletterbox.service.GeneroService;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.Map;
 public class MovieService extends DTOService<MovieDTO, EntityMovie> {
 
     @Autowired private GeneroService generoService;
+
+    @Autowired private CrewService crewService;
 
     @Autowired private MovieRepository movieRepository;
 
@@ -58,6 +62,12 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         return this.movieDTOList(movies);
     }
 
+    public  MovieDTO movieDTOList (EntityMovie movie){
+        List<EntityMovie> movieList = new ArrayList<>();
+        movieList.add(movie);
+        return this.movieDTOList(movieList).get(0);
+    }
+
     public List<MovieDTO> movieDTOList(List<EntityMovie> movies) {
         List<MovieDTO> moviesDTO = new ArrayList<>();
 
@@ -81,6 +91,13 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
                 dto.setGenerosDTO(this.generoService.entityGenreList2DTO(movie.getGenreList()));
             }
 
+            if(movie.getCrewList() != null){
+                List<Integer> crewIdList = new ArrayList<>();
+                for(EntityCrew crew : movie.getCrewList()){
+                    crewIdList.add(crew.getId());
+                }
+                dto.setCrewList(crewIdList);
+            }
             moviesDTO.add(dto);
 
         }
@@ -103,8 +120,8 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         return agrupado;
     }
 
-    public EntityMovie buscarMovieById(Integer id){
-        return this.movieRepository.findById(id).orElse(null);
+    public MovieDTO buscarMovieById(Integer id){
+        return this.movieDTOList(this.movieRepository.findById(id).orElse(null));
     }
 
     public MovieDTO getMovieDTOById(Integer id){

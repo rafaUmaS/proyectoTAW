@@ -4,7 +4,9 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %><%--
+<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.CrewDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.CastDTO" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -21,7 +23,7 @@
 </head>
 <%
     MovieDTO movie = (MovieDTO) request.getAttribute("movie");
-    List<EntityCrew> crewList = movie.getCrewList();
+    List<CrewDTO> crewList = (List<CrewDTO>) request.getAttribute("crewList");
 %>
 <body>
 <h1>Datos de la pelicula: <%=movie.getName()%></h1>
@@ -116,7 +118,7 @@
                     <th>ROL</th>
                 </tr>
                 <%
-                    for (EntityCrew crewPersona : crewList){
+                    for (CrewDTO crewPersona : crewList){
                 %>
                 <tr>
                     <td><%=crewPersona.getPERSONAid().getName()%></td>
@@ -155,10 +157,10 @@
                     <th>GÉNERO</th>
                 </tr>
                 <%
-                    for (EntityCrew crewPersona : crewList){
-                        List<EntityCast> castList = crewPersona.getCastList();
+                    for (CrewDTO crewPersona : crewList){
+                        List<CastDTO> castList = crewPersona.getCastList();
                         if (castList!=null && !castList.isEmpty()){
-                            for (EntityCast castCharacter : castList){
+                            for (CastDTO castCharacter : castList){
                                 if (castCharacter.getCharacter()!=null){
                 %>
                 <tr>

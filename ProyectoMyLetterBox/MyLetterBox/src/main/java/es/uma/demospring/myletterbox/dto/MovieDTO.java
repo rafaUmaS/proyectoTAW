@@ -56,5 +56,6 @@ public class MovieDTO {
     private Date date;
     private String estado;
 
+    private List<Integer> crewList;
     private List<GeneroDTO> generosDTO;
 }

@@ -2,6 +2,7 @@ package es.uma.demospring.myletterbox.controller;
 
 
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.dto.CrewDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.dto.PersonaDTO;
 import es.uma.demospring.myletterbox.entity.EntityCrew;
@@ -31,6 +32,8 @@ public class AnalistController extends BaseController{
     @Autowired protected MovieService movieService;
 
     @Autowired protected PersonaService personaService;
+
+    @Autowired protected CrewService crewService;
 
 //////// MOVIES //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -117,9 +120,12 @@ public class AnalistController extends BaseController{
             return "redirect:/";
         } else {
 
-            EntityMovie movie = this.movieService.buscarMovieById(id);
+            MovieDTO movie = this.movieService.buscarMovieById(id);
+
+            List<CrewDTO> crewDTOList = this.crewService.listarCrewById(movie.getCrewList());
 
             model.addAttribute("movie", movie);
+            model.addAttribute("crewList", crewDTOList);
 
             return "movieAnalist";
         }

@@ -30,7 +30,11 @@ public class PersonaService {
             }
             return this.listarPersonaDTO(personas);
         }else {
-            return this.getPersonasConNumeroPeliculas(ascendente, nombre);
+            if (nombre==null){
+                return this.getPersonasConNumeroPeliculas(ascendente, "");
+            }else {
+                return this.getPersonasConNumeroPeliculas(ascendente, nombre);
+            }
         }
 
     }
@@ -54,6 +58,12 @@ public class PersonaService {
         return ascendente ?
                 personaRepository.findPersonasConNumeroPeliculasAsc(nombre) :
                 personaRepository.findPersonasConNumeroPeliculasDesc(nombre);
+    }
+
+    public PersonaDTO listarPersonaDTO(EntityPersona persona){
+        List<EntityPersona> personaList = new ArrayList<>();
+        personaList.add(persona);
+        return this.listarPersonaDTO(personaList).get(0);
     }
 
     public List<PersonaDTO> listarPersonaDTO(List<EntityPersona> personas){

@@ -1,6 +1,7 @@
 package es.uma.demospring.myletterbox.dto;
 
 import es.uma.demospring.myletterbox.entity.EntityCrew;
+import es.uma.demospring.myletterbox.entity.EntityPersona;
 import lombok.Data;
 
 import java.util.List;

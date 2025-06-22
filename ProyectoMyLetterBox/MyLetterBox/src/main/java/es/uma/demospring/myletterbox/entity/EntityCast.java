@@ -6,6 +6,9 @@
 package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
+
+import es.uma.demospring.myletterbox.dto.DTO;
+import es.uma.demospring.myletterbox.dto.CastDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.apache.logging.log4j.util.Cast;
 
 /**
  *
@@ -22,7 +26,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "cast")
-public class EntityCast implements Serializable {
+public class EntityCast implements Serializable, DTO<CastDTO> {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "character")
@@ -111,5 +115,15 @@ public class EntityCast implements Serializable {
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.Cast[ id=" + id + " ]";
     }
-    
+
+    @Override
+    public CastDTO toDTO() {
+        CastDTO dto = new CastDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setGender(this.gender);
+        dto.setCharacter(this.character);
+        return dto;
+    }
+
 }
