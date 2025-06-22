@@ -17,4 +17,8 @@ public class GeneroService extends DTOService<GeneroDTO, EntityGenre>  {
         List<EntityGenre> generos = genreRepository.findAll();
         return this.entity2DTO(generos);
     }
+
+    public List<GeneroDTO> entityGenreList2DTO (List<EntityGenre> generos){
+        return this.entity2DTO(generos);
+    }
 }

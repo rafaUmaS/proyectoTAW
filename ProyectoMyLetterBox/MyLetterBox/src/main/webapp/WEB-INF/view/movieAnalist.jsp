@@ -2,7 +2,9 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCrew" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %><%--
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -18,7 +20,7 @@
     <title>Datos pelicula</title>
 </head>
 <%
-    EntityMovie movie = (EntityMovie) request.getAttribute("movie");
+    MovieDTO movie = (MovieDTO) request.getAttribute("movie");
     List<EntityCrew> crewList = movie.getCrewList();
 %>
 <body>
@@ -26,7 +28,7 @@
 <table border="0">
     <tr>
         <td>Descripción general:</td>
-        <td><%=movie.getOverview()%></td>
+        <td><%=movie.getDescription()%></td>
     </tr>
     <tr>
         <td>Popularidad:</td>
@@ -34,7 +36,7 @@
     </tr>
     <tr>
         <td>Fecha de salida:</td>
-        <td><%=movie.getReleaseDate()%></td>
+        <td><%=movie.getDate()%></td>
     </tr>
     <tr>
         <td>Presupuesto:</td>
@@ -46,11 +48,11 @@
     </tr>
     <tr>
         <td>Duración:</td>
-        <td><%=movie.getRuntime()%> min.</td>
+        <td><%=movie.getDuration()%> min.</td>
     </tr>
     <tr>
         <td>Estado:</td>
-        <td><%=movie.getStatus()%></td>
+        <td><%=movie.getEstado()%></td>
     </tr>
     <tr>
         <td>Valoración media:</td>
@@ -58,29 +60,29 @@
     </tr>
     <tr>
         <td>Número de votos:</td>
-        <td><%=movie.getVoteCount()%></td>
+        <td><%=movie.getVoteNumber()%></td>
     </tr>
     <tr>
         <td>Idioma original:</td>
-        <td><%=movie.getOriginalLanguage()%></td>
+        <td><%=movie.getLanguage()%></td>
     </tr>
     <tr>
         <td>Título original:</td>
-        <td><%=movie.getOriginalTitle()%></td>
+        <td><%=movie.getOriginalTittle()%></td>
     </tr>
     <tr>
         <td>Géneros:</td>
         <td>
         <%
-            List<EntityGenre> generos = movie.getGenreList();
+            List<GeneroDTO> generos = movie.getGenerosDTO();
             if(generos!=null && !generos.isEmpty()){
         %>
             <table border="1">
                 <tr>
             <%
-                for (EntityGenre genero : generos){
+                for (GeneroDTO genero : generos){
             %>
-                    <td><%=genero.getName()%></td>
+                    <td><%=genero.getNombre()%></td>
             <%
                 }
             %>

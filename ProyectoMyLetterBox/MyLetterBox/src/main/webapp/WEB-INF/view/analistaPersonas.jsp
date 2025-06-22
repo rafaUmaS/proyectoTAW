@@ -1,6 +1,7 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityPersona" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.PersonaDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -18,7 +19,7 @@
     <title>All person data</title>
 </head>
 <%
-    List<EntityPersona> personas = (List<EntityPersona>) request.getAttribute("personas");
+    List<PersonaDTO> personas = (List<PersonaDTO>) request.getAttribute("personas");
     EntityUsuario user = (EntityUsuario) session.getAttribute("user");
     Integer asc = (Integer) request.getAttribute("asc");
 %>
@@ -33,14 +34,14 @@
 <table border="">
     <tr>
         <th><a href="/analist/personas/ordenar?filtro=name&asc=<%=(asc!=null? asc : 0)%>">NOMBRE</a></th>
-        <th><a href="/analist/personas/ordenar?filtro=XXXXX&asc=<%=(asc!=null? asc : 0)%>">XXXXXXX</a></th>
+        <th><a href="/analist/personas/ordenar?filtro=num_peliculas&asc=<%=(asc!=null? asc : 0)%>">NÚM. PELICULAS</a></th>
     </tr>
     <%
-        for (EntityPersona persona : personas){
+        for (PersonaDTO persona : personas){
     %>
     <tr>
         <td><a href="/analist/persona?id=<%=persona.getId()%>"><%=persona.getName()%></a></td>
-
+        <td><%=persona.getNumeroPeliculas()%></td>
     </tr>
     <%
         }

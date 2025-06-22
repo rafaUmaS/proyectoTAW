@@ -2,6 +2,8 @@ package es.uma.demospring.myletterbox.controller;
 
 
 import es.uma.demospring.myletterbox.dao.MovieRepository;
+import es.uma.demospring.myletterbox.dto.MovieDTO;
+import es.uma.demospring.myletterbox.dto.PersonaDTO;
 import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityPersona;
@@ -43,7 +45,7 @@ public class AnalistController extends BaseController{
 
     public String listarMoviesConFiltro(HttpSession session, Filtro filtro, Model model){
 
-        List<EntityMovie> movies;
+        List<MovieDTO> movies;
 
         if(filtro==null){
             filtro = new Filtro();
@@ -88,7 +90,7 @@ public class AnalistController extends BaseController{
                 asc = 0;
             }
 
-            List<EntityMovie> listaMovies = this.movieService.getMoviesOrdenadas(campo, asc == 0, nombreFiltro);
+            List<MovieDTO> listaMovies = this.movieService.getMoviesOrdenadas(campo, asc == 0, nombreFiltro);
 
 
             model.addAttribute("asc", asc);
@@ -137,7 +139,7 @@ public class AnalistController extends BaseController{
 
     public String listarPersonasConFiltro(HttpSession session, Filtro filtro, Model model){
 
-        List<EntityPersona> personas;
+        List<PersonaDTO> personas;
 
         if(filtro==null){
             filtro = new Filtro();
@@ -181,7 +183,7 @@ public class AnalistController extends BaseController{
                 asc = 0;
             }
 
-            List<EntityPersona> personas = this.personaService.getPersonasOrdenadas(campo, asc == 0, nombreFiltro);
+            List<PersonaDTO> personas = this.personaService.getPersonasOrdenadas(campo, asc == 0, nombreFiltro);
 
 
             model.addAttribute("asc", asc);

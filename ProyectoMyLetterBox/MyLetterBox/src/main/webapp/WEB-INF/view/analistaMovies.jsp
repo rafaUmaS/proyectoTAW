@@ -3,6 +3,8 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityMovie" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -19,7 +21,7 @@
     <title>All movies data</title>
 </head>
 <%
-    List<EntityMovie> listaPeliculas = (List<EntityMovie>)request.getAttribute("listaPeliculas");
+    List<MovieDTO> listaPeliculas = (List<MovieDTO>)request.getAttribute("listaPeliculas");
     EntityUsuario user = (EntityUsuario) session.getAttribute("user");
     Integer asc = (Integer) request.getAttribute("asc");
 %>
@@ -44,26 +46,26 @@ Filtrar por nombre: <form:input path="nombre"></form:input>
         <th><a href="/analist/movies/ordenar?filtro=originalLanguage&asc=<%=(asc!=null? asc : 0)%>">IDIOMA ORIGINAL</a></th>
     </tr>
     <%
-        for (EntityMovie pelicula : listaPeliculas){
+        for (MovieDTO pelicula : listaPeliculas){
     %>
     <tr>
         <td><a href="/analist/movie?id=<%=pelicula.getMovieId()%>"><%=pelicula.getName()%></a></td>
         <td>
             <%
-                for(EntityGenre genre : pelicula.getGenreList()){
+                for(GeneroDTO genre : pelicula.getGenerosDTO()){
             %>
-            - <%=genre.getName()%> -
+            - <%=genre.getNombre()%> -
             <%
                 }
             %>
         </td>
-        <td><%=pelicula.getRuntime()%></td>
+        <td><%=pelicula.getDuration()%></td>
         <td><%=pelicula.getPopularity()%></td>
         <td><%=pelicula.getVoteAverage()%></td>
-        <td><%=pelicula.getVoteCount()%></td>
+        <td><%=pelicula.getVoteNumber()%></td>
         <td><%=pelicula.getBudget()%></td>
         <td><%=pelicula.getRevenue()%></td>
-        <td><%=pelicula.getOriginalLanguage()%></td>
+        <td><%=pelicula.getLanguage()%></td>
     </tr>
     <%
         }

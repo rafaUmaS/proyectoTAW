@@ -1,5 +1,6 @@
 package es.uma.demospring.myletterbox.dto;
 
+import es.uma.demospring.myletterbox.entity.EntityGenre;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,4 +55,6 @@ public class MovieDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     private String estado;
+
+    private List<GeneroDTO> generosDTO;
 }

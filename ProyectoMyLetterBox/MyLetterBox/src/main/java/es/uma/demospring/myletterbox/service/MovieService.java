@@ -11,6 +11,7 @@ import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import es.uma.demospring.myletterbox.service.GeneroService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +25,13 @@ import java.util.Map;
 @Service
 public class MovieService extends DTOService<MovieDTO, EntityMovie> {
 
+    @Autowired private GeneroService generoService;
+
     @Autowired private MovieRepository movieRepository;
 
     @Autowired private GenreRepository genreRepository;
 
-    public List<EntityMovie> getMoviesOrdenadas(String campo, boolean ascendente, String nombre) {
+    public List<MovieDTO> getMoviesOrdenadas(String campo, boolean ascendente, String nombre) {
         Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
         List<EntityMovie> movies;
         if(nombre==null || nombre.isEmpty()){
@@ -36,14 +39,14 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         } else {
             movies = this.movieRepository.findByNameContainingIgnoreCase(nombre, sort);
         }
-        return movies;
+        return this.movieDTOList(movies);
     }
 
-    public List<EntityMovie> listarMovies() {
+    public List<MovieDTO> listarMovies() {
         return this.listarMovies(null);
     }
 
-    public List<EntityMovie> listarMovies(String nombre) {
+    public List<MovieDTO> listarMovies(String nombre) {
 
         List<EntityMovie> movies;
 
@@ -52,7 +55,36 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         } else {
             movies = this.movieRepository.buscarMoviePorFiltro(nombre);
         }
-        return movies;
+        return this.movieDTOList(movies);
+    }
+
+    public List<MovieDTO> movieDTOList(List<EntityMovie> movies) {
+        List<MovieDTO> moviesDTO = new ArrayList<>();
+
+        for (EntityMovie movie : movies){
+            MovieDTO dto = new MovieDTO();
+            dto.setMovieId(movie.getMovieId());
+            dto.setName(movie.getTitle());
+            dto.setOriginalTittle(movie.getOriginalTitle());
+            dto.setLanguage(movie.getOriginalLanguage());
+            dto.setDescription(movie.getOverview());
+            dto.setPopularity(movie.getPopularity());
+            dto.setRevenue(movie.getRevenue());
+            dto.setBudget(movie.getBudget());
+            dto.setDuration(movie.getRuntime());
+            dto.setVoteNumber(movie.getVoteCount());
+            dto.setVoteAverage(movie.getVoteAverage());
+            dto.setDate(movie.getReleaseDate());
+            dto.setEstado(movie.getStatus());
+
+            if(movie.getGenreList() != null){
+                dto.setGenerosDTO(this.generoService.entityGenreList2DTO(movie.getGenreList()));
+            }
+
+            moviesDTO.add(dto);
+
+        }
+        return moviesDTO;
     }
 
     public Map<Integer,MovieDTO> listarMoviesDTO() {
