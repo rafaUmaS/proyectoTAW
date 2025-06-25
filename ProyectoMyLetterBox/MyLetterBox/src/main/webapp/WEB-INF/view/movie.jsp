@@ -242,6 +242,13 @@
             <p><%= r.getComment() %>
             <p><%= r.getRate() %>/100</p>
             </td>
+            <% if(user.getRol().equals("administrador")){%>
+            <td><form method="post" action="/reviews/borrarA">
+                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>" />
+                <input type="hidden" name="id" value="<%=r.getId()%>">
+                <input type="submit" value="Borrar">
+            </form></td>
+            <%}%>
         </table>
         <br>
     <%

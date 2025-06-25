@@ -50,4 +50,16 @@ public class ReviewController {
         // Redirige a la misma página de película
         return "redirect:/users/movie?id=" + movieId;
     }
+    @PostMapping("/borrar")
+    public String borrarReview(HttpSession session, @RequestParam("id") int id){
+        this.reviewRepository.deleteById(id);
+        return "redirect:/users/user-reviews";
+    }
+    @PostMapping("/borrarA")
+    public String borrarReviewAdmin(HttpSession session,
+                                    @RequestParam("id") int id,
+                                    @RequestParam("movieId") Integer movieId){
+        this.reviewRepository.deleteById(id);
+        return "redirect:/users/movie?id=" + movieId;
+    }
 }

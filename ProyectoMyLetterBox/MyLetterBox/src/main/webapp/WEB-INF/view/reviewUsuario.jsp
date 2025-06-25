@@ -25,6 +25,8 @@
             <th>COMENTARIO</th>
             <th>PUNTUACIÓN</th>
             <th>FECHA DE CREACIÓN</th>
+            <th>EDITAR</th>
+            <th>BORRAR</th>
         </tr>
         <%
             for (EntityReview review : listaReviews){
@@ -36,6 +38,11 @@
             <td><%= review.getComment()%></td>
             <td><%= review.getRate()%></td>
             <td><%= review.getCreateTime()%></td>
+            <td></td>
+            <td><form method="post" action="/reviews/borrar">
+                <input type="hidden" name="id" value="<%=review.getId()%>">
+                <input type="submit" value="Borrar">
+            </form></td>
         </tr>
         <% }%>
     </table>
