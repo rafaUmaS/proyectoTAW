@@ -170,12 +170,12 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         movie.setOriginalTitle(dto.getOriginalTittle());
         movie.setOriginalLanguage(dto.getLanguage());
         movie.setOverview(dto.getDescription());
-        movie.setPopularity(dto.getPopularity());
-        movie.setRevenue(dto.getRevenue());
-        movie.setBudget(dto.getBudget());
-        movie.setRuntime(dto.getDuration());
-        movie.setVoteCount(dto.getVoteNumber());
-        movie.setVoteAverage(dto.getVoteAverage());
+        movie.setPopularity(dto.getPopularity() != null ? dto.getPopularity() : 0);
+        movie.setRevenue(dto.getRevenue() != null ? dto.getRevenue() : 0);
+        movie.setBudget(dto.getBudget() != null ? dto.getBudget() : 0);
+        movie.setRuntime(dto.getDuration() != null ? dto.getDuration() : 0);
+        movie.setVoteCount(dto.getVoteNumber() != null ? dto.getVoteNumber() : 0);
+        movie.setVoteAverage(dto.getVoteAverage() != null ? dto.getVoteAverage() : 0.0);
         movie.setReleaseDate(dto.getDate());
         movie.setStatus(dto.getEstado());
 

@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -8,6 +9,9 @@
   Date: 15/05/2025
   Time: 18:25
   To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Autor(es): Álvaro Sierra García (100%)
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -21,7 +25,7 @@
 </head>
 
 <%
-    List<EntityGenre> generos = (List<EntityGenre>) request.getAttribute("generos");
+    List<GeneroDTO> generos = (List<GeneroDTO>) request.getAttribute("generos");
     MovieDTO.Estado[] estados = (MovieDTO.Estado[]) request.getAttribute("estados");
 %>
 

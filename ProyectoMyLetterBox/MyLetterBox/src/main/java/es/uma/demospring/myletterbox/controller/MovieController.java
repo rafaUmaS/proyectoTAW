@@ -73,7 +73,7 @@ public class MovieController extends BaseController {
             model.addAttribute("generos", this.generoService.listarGeneros());
             model.addAttribute("esCrear", true);
             model.addAttribute("estados", MovieDTO.Estado.values());
-            return "editMovie";
+            return "editor/editMovie";
         }
     }
 
@@ -102,7 +102,7 @@ public class MovieController extends BaseController {
             model.addAttribute("generos", generos);
             model.addAttribute("estados", MovieDTO.Estado.values());
 
-            return "editMovie";
+            return "editor/editMovie";
         }
     }
 
@@ -120,7 +120,7 @@ public class MovieController extends BaseController {
                 model.addAttribute("esCrear", false);
                 model.addAttribute("generos", generos);
                 model.addAttribute("estados", MovieDTO.Estado.values());
-                return "editMovie";
+                return "editor/editMovie";
             }
 
             this.movieService.guardarMovie(pelicula);

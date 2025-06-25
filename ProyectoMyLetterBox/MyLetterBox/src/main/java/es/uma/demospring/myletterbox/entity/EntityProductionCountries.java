@@ -7,6 +7,9 @@ package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
+import es.uma.demospring.myletterbox.dto.CountryDTO;
+import es.uma.demospring.myletterbox.dto.DTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +23,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "production_countries")
-public class EntityProductionCountries implements Serializable {
+public class EntityProductionCountries implements Serializable, DTO<CountryDTO> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -87,5 +90,12 @@ public class EntityProductionCountries implements Serializable {
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.ProductionCountries[ iso31661=" + iso31661 + " ]";
     }
-    
+
+    @Override
+    public CountryDTO toDTO(){
+        CountryDTO countryDTO = new CountryDTO();
+        countryDTO.setIso31661(this.iso31661);
+        countryDTO.setName(this.name);
+        return countryDTO;
+    }
 }

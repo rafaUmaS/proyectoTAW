@@ -25,13 +25,15 @@
         <td><a href="/users/saved-movies">Películas guardadas</a></td>
         <td><a href="/users/recommended-movies">Películas Recomendadas</a></td>
         <td><a href="/users/user-reviews">Tus comentarios</a></td>
-        <%
-            if(user.getRol().equals("analista") || user.getRol().equals("administrador")){
-        %>
-        <td><a href="/analist/movies">Datos analista</a> </td>
-        <%
-            }
-        %>
+
+        <% if(user.getRol().equals("editor") || user.getRol().equals("administrador")){ %>
+        <td><a href="/generos/">Página Edición</a> </td>
+        <% } %>
+
+        <% if(user.getRol().equals("analista") || user.getRol().equals("administrador")){ %>
+            <td><a href="/analist/movies">Datos analista</a> </td>
+        <% } %>
+
         <td>Bienvenido, <b><%= user.getUsername()%></b>, al sistema <br/>
             sessionid: <%= session.getId() %> <br/>
             fecha de entrada al sistema: <%= new Date(session.getCreationTime()) %> <br/>

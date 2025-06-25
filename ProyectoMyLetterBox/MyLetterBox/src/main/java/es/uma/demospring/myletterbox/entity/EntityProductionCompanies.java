@@ -7,6 +7,10 @@ package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
+import es.uma.demospring.myletterbox.dto.CompanieDTO;
+import es.uma.demospring.myletterbox.dto.DTO;
+import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +26,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "production_companies")
-public class EntityProductionCompanies implements Serializable {
+public class EntityProductionCompanies implements Serializable, DTO<CompanieDTO> {
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -96,5 +100,12 @@ public class EntityProductionCompanies implements Serializable {
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.ProductionCompanies[ id=" + id + " ]";
     }
-    
+
+    @Override
+    public CompanieDTO toDTO(){
+        CompanieDTO companie = new CompanieDTO();
+        companie.setId(this.id);
+        companie.setName(this.name);
+        return companie;
+    }
 }

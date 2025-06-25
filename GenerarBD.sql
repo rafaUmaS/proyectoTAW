@@ -27,7 +27,7 @@ USE `myletterbox` ;
 DROP TABLE IF EXISTS `myletterbox`.`cast` ;
 
 CREATE TABLE IF NOT EXISTS `myletterbox`.`cast` (
-  `character` VARCHAR(45) NULL DEFAULT NULL,
+  `character_name` VARCHAR(45) NULL DEFAULT NULL,
   `gender` INT NULL DEFAULT NULL,
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL DEFAULT NULL,

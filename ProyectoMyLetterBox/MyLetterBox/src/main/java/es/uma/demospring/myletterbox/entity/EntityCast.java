@@ -18,7 +18,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import org.apache.logging.log4j.util.Cast;
 
 /**
  *
@@ -29,7 +28,7 @@ import org.apache.logging.log4j.util.Cast;
 public class EntityCast implements Serializable, DTO<CastDTO> {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "character")
+    @Column(name = "character_name")
     private String character;
     @Column(name = "gender")
     private Integer gender;

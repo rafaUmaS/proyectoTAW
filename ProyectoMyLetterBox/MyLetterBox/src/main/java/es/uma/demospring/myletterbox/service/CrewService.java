@@ -17,6 +17,11 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
 
     @Autowired protected CastService castService;
 
+    public List<CrewDTO> listarCrews(){
+        List<EntityCrew> crews = crewRepository.findAll();
+        return entityCrewList2DTO(crews);
+    }
+
     public CrewDTO getCrewById(Integer crewId){
         List<Integer> crewIdList = new ArrayList<>();
         crewIdList.add(crewId);

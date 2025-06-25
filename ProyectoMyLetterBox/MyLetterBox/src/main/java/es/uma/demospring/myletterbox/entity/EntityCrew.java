@@ -7,6 +7,9 @@ package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
+import es.uma.demospring.myletterbox.dto.CrewDTO;
+import es.uma.demospring.myletterbox.dto.DTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,7 +28,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "crew")
-public class EntityCrew implements Serializable {
+public class EntityCrew implements Serializable, DTO<CrewDTO> {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "crew_role")
@@ -114,6 +117,20 @@ public class EntityCrew implements Serializable {
     @Override
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.Crew[ id=" + id + " ]";
+    }
+
+    @Override
+    public CrewDTO toDTO(){
+        CrewDTO dto = new CrewDTO();
+        dto.setId(this.id);
+        dto.setCrewRole(this.crewRole);
+//        if (this.moviemovieid != null) {
+//            dto.setMovie(this.moviemovieid);
+//        }
+//        if (this.personaid != null) {
+//            dto.setPersona(this.personaid);
+//        }
+        return dto;
     }
     
 }

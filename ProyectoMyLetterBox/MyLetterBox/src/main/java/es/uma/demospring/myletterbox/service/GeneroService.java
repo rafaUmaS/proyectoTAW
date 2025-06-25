@@ -8,14 +8,45 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+ * Autor(es): Álvaro Sierra García (80%)
+ */
+
 @Service
-public class GeneroService extends DTOService<GeneroDTO, EntityGenre>  {
+public class GeneroService extends DTOService<GeneroDTO, EntityGenre> {
 
     @Autowired private GenreRepository genreRepository;
 
     public List<GeneroDTO> listarGeneros (){
-        List<EntityGenre> generos = genreRepository.findAll();
+        List<EntityGenre> generos = this.genreRepository.findAll();
         return this.entity2DTO(generos);
+    }
+
+    public GeneroDTO buscarGeneroById(Integer id){
+        EntityGenre genero = this.genreRepository.findById(id).orElse(null);
+        if (genero != null) {
+            return genero.toDTO();
+        } else {
+            return new GeneroDTO();
+        }
+    }
+
+    public void guardarGenero(GeneroDTO generoDTO) {
+        if(generoDTO.getId() == null){
+            EntityGenre genero = new EntityGenre();
+            genero.setName(generoDTO.getNombre());
+            this.genreRepository.save(genero);
+        } else {
+            EntityGenre genero = this.genreRepository.findById(generoDTO.getId()).orElse(null);
+            if(genero != null){
+                genero.setName(generoDTO.getNombre());
+                this.genreRepository.save(genero);
+            }
+        }
+    }
+
+    public void eliminarGeneroById(Integer id) {
+        this.genreRepository.deleteById(id);
     }
 
     public List<GeneroDTO> entityGenreList2DTO (List<EntityGenre> generos){

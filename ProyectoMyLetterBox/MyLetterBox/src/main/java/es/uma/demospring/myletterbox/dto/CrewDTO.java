@@ -8,14 +8,12 @@ import java.util.List;
 
 @Data
 public class CrewDTO {
-
     private Integer id;
-
     private String crewRole;
-
     private List<CastDTO> castList;
-
     private EntityMovie movie;
-
     private EntityPersona pERSONAid;
+
+
+
 }

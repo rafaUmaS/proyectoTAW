@@ -17,7 +17,7 @@ INSERT INTO `myletterbox`.`crew` (`PERSONA_id`, `Movie_movie_id`, `crew_role`) V
 (4, 5, 'Director'),  -- Nolan en Interstellar
 (5, 6, 'Director');  -- Matt Reeves en The Batman
 
-INSERT INTO `myletterbox`.`cast` (`character`, `gender`, `name`, `Crew_id`) VALUES
+INSERT INTO `myletterbox`.`cast` (`character_name`, `gender`, `name`, `Crew_id`) VALUES
 ('Dom Cobb', 2, 'Leonardo DiCaprio', 1),
 ('Cooper', 2, 'Matthew McConaughey', 2),
 ('Bruce Wayne', 2, 'Robert Pattinson', 3);
