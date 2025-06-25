@@ -51,7 +51,7 @@
                         <form method="get" action="/analist/persona/selectedCrew">
                             <input type="hidden" name="crewId" value="<%=crew.getId()%>">
                             <input type="hidden" name="id" value="<%=persona.getId()%>">
-                            <input type="submit" value="Ver rol/es">
+                            <input type="submit" value="Ver rol">
                         </form>
                     </td>
                 </tr>
