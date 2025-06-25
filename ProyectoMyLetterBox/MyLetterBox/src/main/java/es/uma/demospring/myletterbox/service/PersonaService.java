@@ -78,4 +78,8 @@ public class PersonaService {
         return personasDTO;
     }
 
+    public PersonaDTO getPersonaById(Integer id){
+        return this.listarPersonaDTO(this.personaRepository.findById(id).orElse(null));
+    }
+
 }

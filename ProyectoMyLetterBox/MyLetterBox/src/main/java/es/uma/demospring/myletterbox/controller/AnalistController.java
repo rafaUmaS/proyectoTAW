@@ -200,4 +200,37 @@ public class AnalistController extends BaseController{
             return "analistaPersonas";
         }
     }
+
+    @GetMapping("/persona/selectedCrew")
+    public String doPersonaSelectedCrew(HttpSession session,@ModelAttribute("id") Integer id, @ModelAttribute("crewId") Integer crewId, Model model){
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }else {
+            PersonaDTO persona = this.personaService.getPersonaById(id);
+
+            CrewDTO crewSelected =  this.crewService.getCrewById(crewId);
+            model.addAttribute("crewSelected", crewSelected);
+
+            model.addAttribute("persona", persona);
+
+
+            return "personaAnalist";
+        }
+    }
+
+    @GetMapping("/persona")
+    public String doPersona(HttpSession session,@RequestParam("id") Integer id, Model model){
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }else {
+            PersonaDTO persona = this.personaService.getPersonaById(id);
+
+            model.addAttribute("crewSelected", null);
+
+            model.addAttribute("persona", persona);
+
+
+            return "personaAnalist";
+        }
+    }
 }

@@ -17,6 +17,12 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
 
     @Autowired protected CastService castService;
 
+    public CrewDTO getCrewById(Integer crewId){
+        List<Integer> crewIdList = new ArrayList<>();
+        crewIdList.add(crewId);
+        return this.listarCrewById(crewIdList).get(0);
+    }
+
     public List<CrewDTO> listarCrewById(List<Integer> crewIdList){
         List<EntityCrew> listaCrew = this.crewRepository.findAllById(crewIdList);
 
@@ -45,6 +51,5 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
 
         return crewDTOList;
     }
-
 
 }

@@ -152,7 +152,7 @@
             %>
             <table border="1">
                 <tr>
-                    <th>ACTOR</th>
+                    <th>ACTOR/ACTRIZ</th>
                     <th>PERSONAJE</th>
                     <th>GÉNERO</th>
                 </tr>
