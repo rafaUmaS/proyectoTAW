@@ -2,6 +2,7 @@ package es.uma.demospring.myletterbox.service;
 
 import es.uma.demospring.myletterbox.dao.PersonaRepository;
 import es.uma.demospring.myletterbox.dto.PersonaDTO;
+import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityPersona;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,15 @@ public class PersonaService {
 
         for(EntityPersona persona : personas){
             PersonaDTO auxDTO = new PersonaDTO(persona.getId(), persona.getName(), (long)persona.getCrewList().size());
-            auxDTO.setCrewList(persona.getCrewList());
+
+            if(persona.getCrewList() != null){
+                List<Integer> crewIdList = new ArrayList<>();
+                for(EntityCrew crew : persona.getCrewList()){
+                    crewIdList.add(crew.getId());
+                }
+                auxDTO.setCrewList(crewIdList);
+            }
+
             personasDTO.add(auxDTO);
         }
 

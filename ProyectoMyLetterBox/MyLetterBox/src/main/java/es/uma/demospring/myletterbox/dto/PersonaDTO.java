@@ -11,7 +11,7 @@ public class PersonaDTO {
     private Integer id;
     private String name;
     private Long numeroPeliculas;
-    private List<EntityCrew> crewList;
+    private List<Integer> crewList;
 
     public PersonaDTO(Integer id, String name, Long numeroPeliculas) {
         this.id = id;

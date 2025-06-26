@@ -3,10 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCast" %>
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.CrewDTO" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.CastDTO" %><%--
+<%@ page import="es.uma.demospring.myletterbox.dto.*" %>
+<%@ page import="java.util.Map" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 04/06/2025
@@ -24,6 +22,7 @@
 <%
     MovieDTO movie = (MovieDTO) request.getAttribute("movie");
     List<CrewDTO> crewList = (List<CrewDTO>) request.getAttribute("crewList");
+    Map<Integer, PersonaDTO> personaMap = (Map<Integer, PersonaDTO>) request.getAttribute("personaMap");
 %>
 <body>
 <h1>Datos de la pelicula: <%=movie.getName()%></h1>
@@ -121,7 +120,7 @@
                     for (CrewDTO crewPersona : crewList){
                 %>
                 <tr>
-                    <td><%=crewPersona.getPERSONAid().getName()%></td>
+                    <td><%=personaMap.get(crewPersona.getPERSONAid()).getName()%></td>
                     <td><%=crewPersona.getCrewRole()%></td>
                 </tr>
                 <%

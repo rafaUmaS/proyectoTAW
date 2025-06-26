@@ -11,8 +11,8 @@ public class CrewDTO {
     private Integer id;
     private String crewRole;
     private List<CastDTO> castList;
-    private EntityMovie movie;
-    private EntityPersona pERSONAid;
+    private Integer movieId;
+    private Integer pERSONAid;
 
 
 

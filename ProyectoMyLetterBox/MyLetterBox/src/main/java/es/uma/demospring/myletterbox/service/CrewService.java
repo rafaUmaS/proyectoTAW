@@ -44,9 +44,11 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
             dto.setCrewRole(crew.getCrewRole());
             dto.setId(crew.getId());
 
-            dto.setMovie(crew.getMoviemovieid());
+            dto.setMovieId(crew.getMoviemovieid().getMovieId());
 
-            dto.setPERSONAid(crew.getPERSONAid());
+
+
+            dto.setPERSONAid(crew.getPERSONAid().getId());
 
             dto.setCastList(castService.castEntityList2DTO(crew.getCastList()));
 

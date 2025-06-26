@@ -2,7 +2,9 @@
 <%@ page import="es.uma.demospring.myletterbox.entity.EntityCrew" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.CrewDTO" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.CastDTO" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 25/06/2025
@@ -17,6 +19,8 @@
 <%
     PersonaDTO persona = (PersonaDTO) request.getAttribute("persona");
     CrewDTO crewSelected = (CrewDTO) request.getAttribute("crewSelected");
+    List<CrewDTO> crewList = (List<CrewDTO>) request.getAttribute("crewList");
+    Map<Integer, MovieDTO> movieMap = (Map<Integer, MovieDTO>) request.getAttribute("movieMap");
 %>
 <body>
 <h1>Datos de la persona: <%=persona.getName()%></h1>
@@ -43,10 +47,10 @@
                     <th>ROL/ES</th>
                 </tr>
                 <%
-                    for (EntityCrew crew : persona.getCrewList()){
+                    for (CrewDTO crew : crewList){
                 %>
                 <tr>
-                    <td><%=crew.getMoviemovieid().getName()%></td>
+                    <td><%=movieMap.get(crew.getMovieId()).getName()%></td>
                     <td>
                         <form method="get" action="/analist/persona/selectedCrew">
                             <input type="hidden" name="crewId" value="<%=crew.getId()%>">
@@ -68,7 +72,7 @@
                 %>
                 <tr>
                     <td>PELICULA SELECIONADA:</td>
-                    <td><%=crewSelected.getMovie().getName()%></td>
+                    <td><%=movieMap.get(crewSelected.getMovieId()).getName()%></td>
                 </tr>
                 <tr>
                     <td>ROL EN LA PELICULA:</td>

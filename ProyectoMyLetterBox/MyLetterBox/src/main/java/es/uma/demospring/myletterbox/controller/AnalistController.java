@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 /*
  * Autor(es): Ivan Pedraza Díez (100%)
@@ -124,8 +124,15 @@ public class AnalistController extends BaseController{
 
             List<CrewDTO> crewDTOList = this.crewService.listarCrewById(movie.getCrewList());
 
+            Map<Integer, PersonaDTO> personaDTOMap = new HashMap<>();
+
+            for(CrewDTO crewDTO : crewDTOList){
+                personaDTOMap.put(crewDTO.getPERSONAid(), this.personaService.getPersonaById(crewDTO.getPERSONAid()));;
+            }
+
             model.addAttribute("movie", movie);
             model.addAttribute("crewList", crewDTOList);
+            model.addAttribute("personaMap", personaDTOMap);
 
             return "movieAnalist";
         }
@@ -209,8 +216,18 @@ public class AnalistController extends BaseController{
             PersonaDTO persona = this.personaService.getPersonaById(id);
 
             CrewDTO crewSelected =  this.crewService.getCrewById(crewId);
-            model.addAttribute("crewSelected", crewSelected);
 
+            List<CrewDTO> crewDTOList = this.crewService.listarCrewById(persona.getCrewList());
+
+            Map<Integer, MovieDTO> movieDTOMap = new HashMap<>();
+
+            for (CrewDTO crewDTO : crewDTOList){
+                movieDTOMap.put(crewDTO.getMovieId(), this.movieService.getMovieDTOById(crewDTO.getMovieId()));
+            }
+
+            model.addAttribute("movieMap", movieDTOMap);
+            model.addAttribute("crewList", crewDTOList);
+            model.addAttribute("crewSelected", crewSelected);
             model.addAttribute("persona", persona);
 
 
@@ -225,8 +242,17 @@ public class AnalistController extends BaseController{
         }else {
             PersonaDTO persona = this.personaService.getPersonaById(id);
 
-            model.addAttribute("crewSelected", null);
+            List<CrewDTO> crewDTOList = this.crewService.listarCrewById(persona.getCrewList());
 
+            Map<Integer, MovieDTO> movieDTOMap = new HashMap<>();
+
+            for (CrewDTO crewDTO : crewDTOList){
+                movieDTOMap.put(crewDTO.getMovieId(), this.movieService.getMovieDTOById(crewDTO.getMovieId()));
+            }
+
+            model.addAttribute("movieMap", movieDTOMap);
+            model.addAttribute("crewList", crewDTOList);
+            model.addAttribute("crewSelected", null);
             model.addAttribute("persona", persona);
 
 
