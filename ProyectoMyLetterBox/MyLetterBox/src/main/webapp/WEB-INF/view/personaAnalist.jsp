@@ -135,6 +135,12 @@
                 <input type="submit" value="Volver">
             </form>
         </td>
+        <td>
+            <form method="get" action="/analist/persona">
+                <input type="hidden" name="id" value="<%=persona.getId()%>">
+                <input type="submit" value="Limpiar rol">
+            </form>
+        </td>
     </tr>
 </table>
 

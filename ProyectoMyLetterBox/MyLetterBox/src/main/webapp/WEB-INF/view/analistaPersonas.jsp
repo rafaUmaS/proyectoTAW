@@ -26,10 +26,21 @@
 <body>
 <jsp:include page="cabeceraAnalist.jsp"/>
 
-<form:form method="post" action="/analist/personas/filtrar" modelAttribute="filtro">
-  Filtrar por nombre: <form:input path="nombre"></form:input>
-  <form:button>Filtrar</form:button>
-</form:form>
+<table>
+    <tr>
+        <td>
+            <form:form method="post" action="/analist/personas/filtrar" modelAttribute="filtro">
+                Filtrar por nombre: <form:input path="nombre"></form:input>
+                <form:button>Filtrar</form:button>
+            </form:form>
+        </td>
+        <td>
+            <form method="get" action="/analist/personas">
+                <input type="submit" value="Limpiar filtro">
+            </form>
+        </td>
+    </tr>
+</table>
 
 <table border="">
     <tr>

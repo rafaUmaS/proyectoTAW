@@ -13,6 +13,7 @@ import es.uma.demospring.myletterbox.service.MovieService;
 import es.uma.demospring.myletterbox.service.PersonaService;
 import es.uma.demospring.myletterbox.ui.Filtro;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,12 @@ public class AnalistController extends BaseController{
         } else {
             return this.listarMoviesConFiltro(session, null, model);
         }
+    }
+
+    @GetMapping("/movies/limpiar-filtro")
+    public String doLimpiarFiltro(Session session, Model model){
+
+        return "redirect:/analist/movies";
     }
 
     public String listarMoviesConFiltro(HttpSession session, Filtro filtro, Model model){
