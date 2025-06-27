@@ -7,4 +7,8 @@ import lombok.Data;
 @Data
 public class Filtro {
     protected String nombre;
+    protected String columnaFiltro;
+
+    protected String idioma;
+    protected String genero;
 }

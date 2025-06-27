@@ -32,7 +32,13 @@
     <tr>
         <td>
             <form:form method="post" action="/analist/movies/filtrar" modelAttribute="filtro">
-                Filtrar por nombre: <form:input path="nombre"></form:input>
+                Filtrar por
+                <form:select path="columnaFiltro">
+                    <form:option value="NOMBRE">NOMBRE</form:option>
+                    <form:option value="GENERO">GÉNERO</form:option>
+                    <form:option value="IDIOMA">IDIOMA</form:option>
+                </form:select>:
+                <form:input path="nombre"></form:input>
                 <form:button>Filtrar</form:button>
             </form:form>
         </td>

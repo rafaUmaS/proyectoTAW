@@ -9,6 +9,7 @@ import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
+import es.uma.demospring.myletterbox.ui.Filtro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -29,37 +30,40 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
 
     @Autowired private GeneroService generoService;
 
-    @Autowired private CrewService crewService;
-
     @Autowired private MovieRepository movieRepository;
 
     @Autowired private GenreRepository genreRepository;
 
-    public List<MovieDTO> getMoviesOrdenadas(String campo, boolean ascendente, String nombre) {
-        Sort sort = Sort.by(ascendente ? Sort.Direction.ASC : Sort.Direction.DESC, campo);
-        List<EntityMovie> movies;
-        if(nombre==null || nombre.isEmpty()){
-            movies = movieRepository.findAll(sort);
-        } else {
-            movies = this.movieRepository.findByNameContainingIgnoreCase(nombre, sort);
+
+    public List<MovieDTO> filtrarYOrdenarPeliculas(Filtro filtro, String campoOrden, boolean asc) {
+
+        String nombre = null, idioma = null, genero = null;
+
+        if (filtro != null && filtro.getColumnaFiltro()!=null) {
+            switch (filtro.getColumnaFiltro()) {
+                case "NOMBRE":
+                    nombre = filtro.getNombre();
+                    break;
+                case "IDIOMA":
+                    idioma = filtro.getNombre();
+                    break;
+                case "GENERO":
+                    genero = filtro.getNombre();
+                    break;
+            }
         }
-        return this.movieDTOList(movies);
-    }
 
-    public List<MovieDTO> listarMovies() {
-        return this.listarMovies(null);
-    }
+        if (campoOrden!= null && !campoOrden.isEmpty()) {
+            Sort sort = Sort.by(asc ? Sort.Direction.ASC : Sort.Direction.DESC, campoOrden);
 
-    public List<MovieDTO> listarMovies(String nombre) {
+            List<EntityMovie> movies = movieRepository.filtrarPeliculas(nombre, idioma, genero, sort);
+            return this.movieDTOList(movies);
+        }else {
 
-        List<EntityMovie> movies;
+            List<EntityMovie> movies = movieRepository.filtrarPeliculas(nombre, idioma, genero);
 
-        if (nombre==null || nombre.isEmpty()){
-            movies = this.movieRepository.findAll();
-        } else {
-            movies = this.movieRepository.buscarMoviePorFiltro(nombre);
+            return this.movieDTOList(movies);
         }
-        return this.movieDTOList(movies);
     }
 
     public  MovieDTO movieDTOList (EntityMovie movie){

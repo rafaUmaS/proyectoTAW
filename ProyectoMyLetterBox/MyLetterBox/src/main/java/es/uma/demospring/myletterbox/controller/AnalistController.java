@@ -55,16 +55,11 @@ public class AnalistController extends BaseController{
 
     public String listarMoviesConFiltro(HttpSession session, Filtro filtro, Model model){
 
-        List<MovieDTO> movies;
+        if(filtro == null) filtro = new Filtro();
+        List<MovieDTO> movies = movieService.filtrarYOrdenarPeliculas(filtro, "", true);
 
-        if(filtro==null){
-            filtro = new Filtro();
-            movies = this.movieService.listarMovies();
-        }else {
-            movies = this.movieService.listarMovies(filtro.getNombre());
-        }
 
-        session.setAttribute("filtro", filtro);
+        session.setAttribute("filtroAplicado", filtro);
         model.addAttribute("listaPeliculas", movies);
         model.addAttribute("filtro", filtro);
         session.setAttribute("currentCampo", "");
@@ -76,7 +71,6 @@ public class AnalistController extends BaseController{
         if(!estaAutenticado(session)) {
             return "redirect:/";
         } else {
-            session.setAttribute("filtroAplicado", filtro);
             return this.listarMoviesConFiltro(session, filtro, model);
         }
     }
@@ -89,7 +83,7 @@ public class AnalistController extends BaseController{
         } else {
 
             Filtro filtroActual = (Filtro) session.getAttribute("filtroAplicado");
-            String nombreFiltro = (filtroActual!=null) ? filtroActual.getNombre() : null;
+            if (filtroActual == null) filtroActual = new Filtro();
 
 
             String campoActual = (String) session.getAttribute("currentCampo");
@@ -100,12 +94,12 @@ public class AnalistController extends BaseController{
                 asc = 0;
             }
 
-            List<MovieDTO> listaMovies = this.movieService.getMoviesOrdenadas(campo, asc == 0, nombreFiltro);
 
+            List<MovieDTO> listaMovies = movieService.filtrarYOrdenarPeliculas(filtroActual, campo, asc == 0);
 
             model.addAttribute("asc", asc);
             model.addAttribute("listaPeliculas", listaMovies);
-            model.addAttribute("filtro", filtroActual != null ? filtroActual : new Filtro());
+            model.addAttribute("filtro", filtroActual);
             session.setAttribute("currentCampo", campo);
 
             return "analistaMovies";
