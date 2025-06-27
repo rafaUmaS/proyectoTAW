@@ -7,11 +7,15 @@ import es.uma.demospring.myletterbox.entity.EntityReview;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Date;
+
+
+// Autor(es): Gregorio Merchán Merchán (100%)
 
 @Controller
 @RequestMapping("/reviews")
@@ -62,4 +66,23 @@ public class ReviewController {
         this.reviewRepository.deleteById(id);
         return "redirect:/users/movie?id=" + movieId;
     }
+    @PostMapping("/editar")
+    public  String editarReview(@RequestParam("id") Integer id, HttpSession session, Model model){
+        EntityReview review = this.reviewRepository.findById(id).orElse(null);
+        model.addAttribute("review", review);
+        return "editReview";
+    }
+    @PostMapping("/guardar")
+    public String guardarReview(@RequestParam("id") Integer id,
+                                @RequestParam("comentario") String comentario,
+                                @RequestParam("puntuacion") Double puntuacion,
+                                HttpSession session, Model model){
+        EntityReview review = this.reviewRepository.findById(id).orElse(null);
+        review.setComment(comentario);
+        review.setRate(puntuacion);
+        review.setCreateTime(new Date());
+        this.reviewRepository.save(review);
+        return "redirect:/users/user-reviews";
+    }
+
 }

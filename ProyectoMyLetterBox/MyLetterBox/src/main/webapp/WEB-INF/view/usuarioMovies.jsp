@@ -50,6 +50,7 @@
             %>
         </tr>
         <% for (EntityUsuarioSaveMovie savedMovie : savedMovies){
+            if(savedMovie.getName().equals("Favorite Movie")){
         %>
         <tr>
             <td>
@@ -81,7 +82,7 @@
                 }
             %>
         </tr>
-        <%}%>
+        <%}}%>
     </table>
 </body>
 </html>
