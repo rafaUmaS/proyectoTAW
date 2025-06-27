@@ -1,7 +1,9 @@
 package es.uma.demospring.myletterbox.controller;
 
 import es.uma.demospring.myletterbox.dao.UsuarioRepository;
+import es.uma.demospring.myletterbox.dto.UsuarioDTO;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
+import es.uma.demospring.myletterbox.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +20,9 @@ import java.util.List;
 public class AdminController extends BaseController{
 
     @Autowired
+    protected UsuarioService usuarioService;
+    @Autowired
     protected UsuarioRepository usuarioRepository;
-
 
 
     @GetMapping("/createUser")
@@ -58,7 +61,7 @@ public class AdminController extends BaseController{
             if (!usuario.getRol().equals("administrador")) {
                 return "redirect:/movies/";
             }
-            List<EntityUsuario> usuarios = usuarioRepository.findAll();
+            List<UsuarioDTO> usuarios = usuarioService.getListaUsuarios();
             model.addAttribute("usuarios", usuarios);
             return "admin";
         }

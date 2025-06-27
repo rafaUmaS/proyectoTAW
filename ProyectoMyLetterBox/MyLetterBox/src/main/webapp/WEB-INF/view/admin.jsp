@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="javax.swing.text.html.parser.Entity" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %><%--
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.UsuarioDTO" %><%--
   Created by IntelliJ IDEA.
   User: Ivan Pedraza
   Date: 07/04/2025
@@ -16,7 +17,7 @@
     <title>ListarUsuarios</title>
 </head>
 <%
-    List<EntityUsuario> usuarios = (List<EntityUsuario>)request.getAttribute("usuarios");
+    List<UsuarioDTO> usuarios = (List<UsuarioDTO>)request.getAttribute("usuarios");
 %>
 <body>
 <table border="">
@@ -38,7 +39,7 @@
     </thead>
     <tbody>
         <%
-            for (EntityUsuario usuario: usuarios) {
+            for (UsuarioDTO usuario: usuarios) {
         %>
         <tr>
             <td><%= usuario.getUserId() %></td>
