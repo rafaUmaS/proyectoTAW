@@ -9,7 +9,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%--
-  Autor(es):
+  Autor(es): Rafael Sáez Arana, Iván Pedraza
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>

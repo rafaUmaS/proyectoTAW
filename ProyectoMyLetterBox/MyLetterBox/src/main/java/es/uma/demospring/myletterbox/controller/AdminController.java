@@ -10,10 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Autor(es):
+ * Autor(es): Rafael Sáez Arana
  */
 
 @Controller
@@ -21,12 +22,9 @@ public class AdminController extends BaseController{
 
     @Autowired
     protected UsuarioService usuarioService;
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
-
 
     @GetMapping("/createUser")
-    public String doCreateUser(HttpSession session){
+    public String doCreateUser(HttpSession session, Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else{
@@ -34,11 +32,18 @@ public class AdminController extends BaseController{
             if(!usuarioActual.getRol().equals("administrador")) {
                 return "redirect:/movies";
             }
+
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+            List<String> roles = UsuarioService.getRolesUsuario();
+
+            model.addAttribute("usuario", usuarioDTO);
+            model.addAttribute("roles", roles);
+
             return "createUser";
         }
     }
     @PostMapping("/users/")
-    public String doCreateUsuario(HttpSession session, @ModelAttribute EntityUsuario usuarioToCreate){
+    public String doCreateUsuario(HttpSession session, @ModelAttribute UsuarioDTO usuarioToCreate){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else{
@@ -48,7 +53,7 @@ public class AdminController extends BaseController{
             }
         }
 
-        usuarioRepository.save(usuarioToCreate);
+        usuarioService.create(usuarioToCreate);
         return "redirect:/admin";
     }
     @GetMapping("/admin")
@@ -76,15 +81,14 @@ public class AdminController extends BaseController{
             if(!usuarioActual.getRol().equals("administrador")) {
                 return "redirect:/movies/";
             }
-            EntityUsuario  usuario = usuarioRepository.findById(id).orElse(null);
-            usuarioRepository.delete(usuario);
+            usuarioService.delete(id);
             return "redirect:/admin";
         }
     }
 
 
     @PostMapping("/users/edit")
-    public String doEditUsuario(HttpSession session, @ModelAttribute EntityUsuario usuario){
+    public String doEditUsuario(HttpSession session, @ModelAttribute UsuarioDTO usuario){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else{
@@ -92,7 +96,7 @@ public class AdminController extends BaseController{
             if(!usuarioActual.getRol().equals("administrador")) {
                 return "redirect:/movies/";
             }
-            usuarioRepository.save(usuario);
+            usuarioService.update(usuario);
             return "redirect:/admin";
         }
     }
@@ -105,10 +109,16 @@ public class AdminController extends BaseController{
             if(!usuarioActual.getRol().equals("administrador")) {
                 return "redirect:/movies";
             }
-            EntityUsuario usuario = (EntityUsuario)usuarioRepository.findById(id).orElse(null);
+
+            UsuarioDTO usuario = usuarioService.getUsuarioById(id);
+            List<String> roles = UsuarioService.getRolesUsuario();
+
             model.addAttribute("usuario", usuario);
+            model.addAttribute("roles", roles);
             return "editUsuario";
         }
+
+
 
 
     }

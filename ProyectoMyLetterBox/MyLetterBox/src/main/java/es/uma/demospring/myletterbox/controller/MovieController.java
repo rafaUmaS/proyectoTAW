@@ -6,14 +6,9 @@ import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
 import es.uma.demospring.myletterbox.dao.ReviewRepository;
 import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
-import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
-import es.uma.demospring.myletterbox.entity.EntityUsuario;
-import es.uma.demospring.myletterbox.entity.EntityReview;
-import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
 import es.uma.demospring.myletterbox.service.GeneroService;
 import es.uma.demospring.myletterbox.service.MovieService;
-import es.uma.demospring.myletterbox.ui.Movie;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Autor(es): Álvaro Sierra García (80%)
+ * Autor(es): Álvaro Sierra García (80%), Rafael Sáez Arana, Gregorio Merchán Merchán
  */
 
 @Controller
@@ -41,13 +35,7 @@ public class MovieController extends BaseController {
     protected MovieRepository movieRepository;
 
     @Autowired
-    protected GenreRepository genreRepository;
-
-    @Autowired
     private UsuarioSaveMovieRepository usuarioSaveMovieRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @GetMapping("/")
     public String doListarMovies(HttpSession session, Model model){

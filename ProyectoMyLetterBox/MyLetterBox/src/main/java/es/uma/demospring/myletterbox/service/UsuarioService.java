@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+ * Autor(es): Rafael Sáez Arana
+ */
 @Service
 public class UsuarioService {
     @Autowired
@@ -19,17 +21,61 @@ public class UsuarioService {
         List<UsuarioDTO> listaUsuarioDTO = new ArrayList<>();
 
         for ( EntityUsuario entityUsuario : listaUsuarios ){
-            UsuarioDTO usuarioDTO = new UsuarioDTO();
-
-            usuarioDTO.setUserId(entityUsuario.getUserId());
-            usuarioDTO.setEmail(entityUsuario.getEmail());
-            usuarioDTO.setRol(entityUsuario.getRol());
-            usuarioDTO.setPassword(entityUsuario.getPassword());
-            usuarioDTO.setUsername(entityUsuario.getUsername());
-
+            UsuarioDTO usuarioDTO = toDTO(entityUsuario);
             listaUsuarioDTO.add(usuarioDTO);
         }
 
         return listaUsuarioDTO;
+    }
+
+    public UsuarioDTO getUsuarioById(int id){
+        EntityUsuario usuario = usuarioRepository.findById(id).orElse(null);
+        UsuarioDTO usuarioDTO = toDTO(usuario);
+        return usuarioDTO;
+    }
+
+    public void update(UsuarioDTO usuarioDTO){
+        EntityUsuario usuario = usuarioRepository.findById(usuarioDTO.getUserId()).orElse(null);
+
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setRol(usuarioDTO.getRol());
+        usuario.setPassword(usuarioDTO.getPassword());
+        usuario.setUsername(usuarioDTO.getUsername());
+
+        usuarioRepository.save(usuario);
+    }
+
+    public void create(UsuarioDTO usuarioDTO){
+        EntityUsuario usuario = new EntityUsuario();
+
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setRol(usuarioDTO.getRol());
+        usuario.setPassword(usuarioDTO.getPassword());
+        usuario.setUsername(usuarioDTO.getUsername());
+
+        usuarioRepository.save(usuario);
+    }
+
+    public void delete(int id){
+        EntityUsuario usuario = usuarioRepository.findById(id).orElse(null);
+        usuarioRepository.delete(usuario);
+    }
+    private static UsuarioDTO toDTO(EntityUsuario entityUsuario){
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setUserId(entityUsuario.getUserId());
+        usuarioDTO.setEmail(entityUsuario.getEmail());
+        usuarioDTO.setRol(entityUsuario.getRol());
+        usuarioDTO.setPassword(entityUsuario.getPassword());
+        usuarioDTO.setUsername(entityUsuario.getUsername());
+        return usuarioDTO;
+    }
+    public static List<String> getRolesUsuario(){
+        List<String> roles = new ArrayList<>();
+        roles.add("administrador");
+        roles.add("usuario");
+        roles.add("recomendador");
+        roles.add("analista");
+        roles.add("editor");
+        return roles;
     }
 }

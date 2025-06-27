@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: rafas
@@ -14,27 +15,14 @@
     <title>Title</title>
 </head>
 <body>
-  <form method="post" action="/users/">
-
-    <label for="username">Nombre de usuario:</label>
-    <input id="username" type="text"  name="username">
-    <br>
-    <label for="email">Email:</label>
-    <input id="email" type="email"  name="email">
-    <br>
-    <label for="password">Contraseña:</label>
-    <input id="password" type="password"  name="password">
-    <br>
-    <label for="role">Rol:</label>
-    <select id="role" name="rol">
-        <option value="administrador">Administrador</option>
-        <option value="editor">Editor</option>
-        <option value="recomendador">Recomendador</option>
-        <option value="usuario">Usuario</option>
-        <option value="analista">Analista</option>
-    </select>
-     <br>
-    <input type="submit" value="Crear">
-  </form>
+<h1>Crea un nuevo usuario</h1>
+<form:form method="post" action="/users/" modelAttribute="usuario">
+    <form:hidden path="userId" />
+    Nombre de usuario: <form:input path="username" /><br/><br/>
+    Email: <form:input path="email" /><br/><br/>
+    Contraseña: <form:input path="password" /><br/><br/>
+    Rol: <form:select items="${roles}" path="rol"></form:select><br/><br/>
+    <form:button>Crear</form:button>
+</form:form>
 </body>
 </html>
