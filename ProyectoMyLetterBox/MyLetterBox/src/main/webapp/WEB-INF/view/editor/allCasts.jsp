@@ -14,76 +14,107 @@
     <%
         List<CastDTO> casts = (List<CastDTO>) request.getAttribute("casts");
         List<CrewDTO> crews = (List<CrewDTO>) request.getAttribute("crews");
-        CastDTO cast = (CastDTO) request.getAttribute("cast");
+        CastDTO castEditar = (CastDTO) request.getAttribute("castEditar");
     %>
 <body>
     <jsp:include page="../cabecera.jsp"/>
     <jsp:include page="cabeceraEditor.jsp"/>
+
     <h2>Listado de Cast</h2>
+    <a href="/casts/nuevo">Añadir nuevo cast</a>
+
     <table border="1">
         <tr>
-            <th>Nombre</th>
-            <th>Género</th>
-            <th>Personaje</th>
-            <th>Acciones</th>
-        </tr>
-        <% for (CastDTO c : casts) { %>
-        <tr>
-            <td><%= c.getName() %></td>
-            <td>
-                <%
-                    Integer g = c.getGender();
-                    String genero;
-                    if (g == 1) {
-                        genero = "Male";
-                    } else if (g == 2) {
-                        genero = "Female";
-                    } else {
-                        genero = "Undefined";
-                    }
-                %>
-                <%= genero %>
-            </td>
-            <td><%= c.getCharacterName() %></td>
-            <td>
-                <a href="/casts/editar?id=<%= c.getId() %>">Editar</a>
-            </td>
-        </tr>
+        <td>
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Género</th>
+                    <th>Personaje</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <% for (CastDTO c : casts) { %>
+                <tr>
+                    <td><%= c.getId() %></td>
+                    <td><%= c.getName() %></td>
+                    <td>
+                        <%
+                            String genero;
+                            Integer g = (c.getGender() == null) ? 0 : c.getGender();
+                            if (g == 1) {
+                                genero = "Male";
+                            } else if (g == 2) {
+                                genero = "Female";
+                            } else {
+                                genero = "Undefined";
+                            }
+                        %>
+                        <%= genero %>
+                    </td>
+                    <td><%= c.getCharacter() != null ? c.getCharacter() : "" %></td>
+                    <td>
+                        <a href="/casts/editar?id=<%= c.getId() %>">Editar</a>
+                    </td>
+                    <td>
+                        <a href="/casts/eliminar?id=<%= c.getId() %>"
+                           onclick="return confirm('¿Seguro que quieres eliminarlo?');">Eliminar</a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+        </td>
+        <% if (castEditar != null) { %>
+        <td>
+            <form method="post" action="/casts/guardar">
+                <% if (castEditar.getId() != null) { %>
+                <input type="hidden" name="id" value="<%= castEditar.getId() %>" />
+                <% } %>
+            <table>
+                <tr>
+                    <td colspan="2"><h3><%= castEditar.getId() != null ? "Editar Cast" : "Nuevo Cast" %></h3></td>
+                </tr>
+                <tr>
+                    <td>Nombre:</td>
+                    <td><input type="text" name="name" value="<%= castEditar.getName() != null ? castEditar.getName() : "" %>" /><br/></td>
+                </tr>
+                <tr>
+                    <td>Género:</td>
+                    <td>
+                        <input type="radio" name="gender" value="1"
+                                <%=castEditar.getGender() != null && castEditar.getGender() == 1 ? "checked" : ""%>/> Male
+                        <input type="radio" name="gender" value="2"
+                                <%=castEditar.getGender() != null && castEditar.getGender() == 2 ? "checked" : ""%>/>Female
+                        <input type="radio" name="gender" value="2"
+                                <%=castEditar.getGender() != null && castEditar.getGender() == 0 ? "checked" : ""%>/>Undefined
+                    </td>
+                </tr>
+                <tr>
+                    <td>Personaje: </td>
+                    <td><input type="text" name="character" value="<%= castEditar.getCharacter() != null ? castEditar.getCharacter() : "" %>"/></td>
+                </tr>
+                <tr>
+                    <td>Crew:</td>
+                    <td>
+                        <select name="crew">
+                            <% for (CrewDTO crew: crews) { %>
+                            <option value="<%=crew.getId()%>"
+                                    <%= (castEditar.getCrew() != null && castEditar.getCrew() == crew.getId()) ? "selected" : "" %>>
+                                <%=crew.getCrewRole()%>
+                            </option>
+                            <% } %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Guardar"/></td>
+                </tr>
+            </table>
+            </form>
+        </td>
         <% } %>
+        </tr>
     </table>
-
-    <br/>
-    <a href="/casts/nuevo">Añadir nuevo</a>
-
-    <% if (cast != null) { %>
-    <h3><%= cast.getId() != null ? "Editar Cast" : "Nuevo Cast" %></h3>
-    <form method="post" action="/casts/guardar">
-        <% if (cast.getId() != null) { %>
-        <input type="hidden" name="id" value="<%= cast.getId() %>" />
-        <% } %>
-
-        Nombre: <input type="text" name="name" value="<%= cast.getName() != null ? cast.getName() : "" %>" /><br/>
-
-        Género:
-        <input type="radio" name="gender" value="1"
-            <%=cast.getGender() != null && cast.getGender() == 1 ? "checked" : ""%>/> Male
-        <input type="radio" name="gender" value="2"
-            <%=cast.getGender() != null && cast.getGender() == 2 ? "checked" : ""%>/>Female
-        <input type="radio" name="gender" value="2"
-            <%=cast.getGender() != null && cast.getGender() == 0 ? "checked" : ""%>/>Undefined
-        <br/>
-        Personaje: <input type="text" name="characterName" value="<%= cast.getCharacterName() != null ? cast.getCharacterName() : "" %>" /><br/>
-        <input type="submit" value="Guardar" />
-        <br/>
-        <select name="crew">
-            <% for (CrewDTO crew: crews) { %>
-            <option value="<%=crew.getId()%>"
-                    <%= (cast.getCrew() != null && cast.getCrew() == crew.getId()) ? "selected" : "" %>>
-                <%=crew.getPERSONAid().getName()%>
-            </option>
-            <% } %>
-        </select>
-    </form>
-    <% } %>
 </body>
 </html>

@@ -6,6 +6,7 @@
 package es.uma.demospring.myletterbox.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.uma.demospring.myletterbox.dto.CrewDTO;
@@ -124,12 +125,15 @@ public class EntityCrew implements Serializable, DTO<CrewDTO> {
         CrewDTO dto = new CrewDTO();
         dto.setId(this.id);
         dto.setCrewRole(this.crewRole);
-//        if (this.moviemovieid != null) {
-//            dto.setMovie(this.moviemovieid);
-//        }
-//        if (this.personaid != null) {
-//            dto.setPersona(this.personaid);
-//        }
+        dto.setMovieId(this.moviemovieid.getMovieId());
+        dto.setPERSONAid(this.pERSONAid.getId());
+        dto.setNombrePersona(this.getPERSONAid().getName());
+        List<Integer> castIds = new ArrayList<>();
+        for(EntityCast cast : castList){
+            castIds.add(cast.getId());
+        }
+        dto.setCastIds(castIds);
+
         return dto;
     }
     

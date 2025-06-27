@@ -8,6 +8,9 @@ package es.uma.demospring.myletterbox.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import es.uma.demospring.myletterbox.dto.DTO;
+import es.uma.demospring.myletterbox.dto.MovieDTO;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,7 +32,7 @@ import jakarta.persistence.TemporalType;
  */
 @Entity
 @Table(name = "movie")
-public class EntityMovie implements Serializable {
+public class EntityMovie implements Serializable, DTO<MovieDTO> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -308,5 +311,58 @@ public class EntityMovie implements Serializable {
     public String toString() {
         return "es.uma.demospring.myletterbox.entity.Movie[ movieId=" + movieId + " ]";
     }
-    
+
+    @Override
+    public MovieDTO toDTO(){
+        MovieDTO dto = new MovieDTO();
+
+        dto.setMovieId(this.getMovieId());
+        dto.setName(this.getName());
+        dto.setOriginalTittle(this.getOriginalTitle());
+        dto.setLanguage(this.getOriginalLanguage());
+        dto.setDescription(this.getOverview());
+        dto.setPopularity(this.getPopularity());
+        dto.setRevenue(this.getRevenue());
+        dto.setBudget(this.getBudget());
+        dto.setDuration(this.getRuntime());
+        dto.setVoteNumber(this.getVoteCount());
+        dto.setVoteAverage(this.getVoteAverage());
+        dto.setDate(this.getReleaseDate());
+
+        try {
+            dto.setEstado(this.getStatus() != null ? this.getStatus() : null);
+        } catch (IllegalArgumentException e) {
+            dto.setEstado(null);
+        }
+
+        if (this.getGenreList() != null) {
+            List<Integer> generoIds = this.getGenreList().stream()
+                    .map(EntityGenre::getId)
+                    .toList();
+            dto.setGeneros(generoIds);
+        }
+
+        if (this.getCrewList() != null) {
+            List<Integer> crewIds = this.getCrewList().stream()
+                    .map(EntityCrew::getId)
+                    .toList();
+            dto.setCrewList(crewIds);
+        }
+
+        if (this.getProductionCompaniesList() != null) {
+            List<Integer> companiesIds = this.getProductionCompaniesList().stream()
+                    .map(EntityProductionCompanies::getId)
+                    .toList();
+            dto.setEmpresas(companiesIds);
+        }
+
+        if (this.getProductionCountriesList() != null) {
+            List<String> countriesIds = this.getProductionCountriesList().stream()
+                    .map(EntityProductionCountries::getIso31661)
+                    .toList();
+            dto.setPaises(countriesIds);
+        }
+
+        return dto;
+    }
 }

@@ -122,6 +122,7 @@ public class EntityCast implements Serializable, DTO<CastDTO> {
         dto.setName(this.name);
         dto.setGender(this.gender);
         dto.setCharacter(this.character);
+        dto.setCrew(this.crewid.getId());
         return dto;
     }
 

@@ -1,14 +1,10 @@
 package es.uma.demospring.myletterbox.service;
 
-import es.uma.demospring.myletterbox.dao.GenreRepository;
-import es.uma.demospring.myletterbox.dao.MovieRepository;
-import es.uma.demospring.myletterbox.dao.UsuarioRepository;
+import es.uma.demospring.myletterbox.dao.*;
+import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO;
-import es.uma.demospring.myletterbox.entity.EntityCrew;
-import es.uma.demospring.myletterbox.entity.EntityGenre;
-import es.uma.demospring.myletterbox.entity.EntityMovie;
-import es.uma.demospring.myletterbox.entity.EntityUsuarioSaveMovie;
+import es.uma.demospring.myletterbox.entity.*;
 import es.uma.demospring.myletterbox.ui.Filtro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -20,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.System.out;
 
 /*
 * Autor(es): Ivan Pedraza Díez (100%)
@@ -34,6 +32,16 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
 
     @Autowired private GenreRepository genreRepository;
 
+    @Autowired private CompanieRepository companieRepository;
+
+    @Autowired private CountryRepository countryRepository;
+
+    @Autowired private CrewRepository crewRepository;
+
+    public List<MovieDTO> listarMovies(){
+        List<EntityMovie> movies = movieRepository.findAll();
+        return this.entity2DTO(movies);
+    }
 
     public List<MovieDTO> filtrarYOrdenarPeliculas(Filtro filtro, String campoOrden, boolean asc) {
 
@@ -149,11 +157,32 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
             dto.setVoteAverage(movie.getVoteAverage());
             dto.setDate(movie.getReleaseDate());
             dto.setEstado(movie.getStatus());
-            dto.setGeneros(new ArrayList<>());
 
+            dto.setGeneros(new ArrayList<>());
             if(movie.getGenreList() != null){
                 for(EntityGenre g : movie.getGenreList()){
                     dto.getGeneros().add(g.getId());
+                }
+            }
+
+            dto.setCrewList(new ArrayList<>());
+            if (movie.getCrewList() != null) {
+                for (EntityCrew c : movie.getCrewList()) {
+                    dto.getCrewList().add(c.getId());
+                }
+            }
+
+            dto.setEmpresas(new ArrayList<>());
+            if (movie.getProductionCompaniesList() != null) {
+                for (EntityProductionCompanies pc : movie.getProductionCompaniesList()) {
+                    dto.getEmpresas().add(pc.getId());
+                }
+            }
+
+            dto.setPaises(new ArrayList<>());
+            if (movie.getProductionCountriesList() != null) {
+                for (EntityProductionCountries country : movie.getProductionCountriesList()) {
+                    dto.getPaises().add(country.getIso31661());
                 }
             }
 
@@ -166,7 +195,10 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         if(dto.getMovieId() == null){
             movie = new EntityMovie();
         } else {
-            movie = movieRepository.findById(dto.getMovieId()).orElse(new EntityMovie());
+            movie = movieRepository.findById(dto.getMovieId()).orElse(null);
+            if(movie == null){
+                return;
+            }
         }
 
         movie.setName(dto.getName());
@@ -184,9 +216,32 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
         movie.setStatus(dto.getEstado());
 
         if (dto.getGeneros() != null) {
-            List<EntityGenre> generos = genreRepository.findAllById(dto.getGeneros());
+            List<EntityGenre> generos = this.genreRepository.findAllById(dto.getGeneros());
             movie.setGenreList(generos);
         }
+
+        if (dto.getCrewList() != null) {
+            List<EntityCrew> crews = this.crewRepository.findAllById(dto.getCrewList());
+            movie.setCrewList(crews);
+        }
+
+        if (dto.getEmpresas() != null) {
+            List<EntityProductionCompanies> companies = this.companieRepository.findAllById(dto.getEmpresas());
+            movie.setProductionCompaniesList(companies);
+        }
+
+        if (dto.getPaises() != null) {
+            List<EntityProductionCountries> countries = this.countryRepository.findAllById(dto.getPaises());
+            movie.setProductionCountriesList(countries);
+        }
+
+//        out.println(dto.getCrewList());
+//        out.println(dto.getEmpresas());
+//        out.println(dto.getPaises());
+
+        out.println(movie.getCrewList());
+        out.println(movie.getProductionCompaniesList());
+        out.println(movie.getProductionCountriesList());
 
         movieRepository.save(movie);
     }

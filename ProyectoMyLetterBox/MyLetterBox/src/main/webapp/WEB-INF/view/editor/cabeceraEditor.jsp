@@ -5,12 +5,11 @@
 <html>
 <table width="100%" border="1">
     <tr>
-        <td>Editar</td>
         <td><a href="/generos/">Géneros</a></td>
-        <td><a href="/casts/">Cast</a></td>
-        <td><a href="/crew/">Crew</a></td>
-        <td><a href="/companies/">Companies</a></td>
-        <td><a href="/countries/">Countries</a></td>
+        <td><a href="/casts/">Casts</a></td>
+        <td><a href="/crews/">Crews</a></td>
+        <td><a href="/companies/">Empresas</a></td>
+        <td><a href="/countries/">Paises</a></td>
         <td><a href="/movies/">Volver</a></td>
     </tr>
 </table>

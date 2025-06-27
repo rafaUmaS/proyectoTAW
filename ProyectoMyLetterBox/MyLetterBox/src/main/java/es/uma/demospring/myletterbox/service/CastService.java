@@ -17,9 +17,9 @@ import java.util.List;
 @Service
 public class CastService extends DTOService<CastDTO, EntityCast> {
 
-    @Autowired protected CastRepository castRepository;
+    @Autowired private CastRepository castRepository;
 
-    @Autowired protected CrewRepository crewRepository;
+    @Autowired private CrewRepository crewRepository;
 
     public List<CastDTO> listarCasts() {
         List<EntityCast> casts = this.castRepository.findAll();
