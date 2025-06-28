@@ -3,6 +3,7 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dto.CastDTO;
 import es.uma.demospring.myletterbox.service.CastService;
 import es.uma.demospring.myletterbox.service.CrewService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,42 +17,62 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/casts")
 public class CastController extends BaseController{
 
-    @Autowired private CastService castService;
+    @Autowired protected CastService castService;
 
-    @Autowired private CrewService crewService;
+    @Autowired protected CrewService crewService;
 
     @GetMapping("/")
-    public String listarCasts(Model model) {
+    public String listarCasts(Model model, HttpSession session) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }
+
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
         return "editor/allCasts";
     }
 
     @GetMapping("/nuevo")
-    public String mostrarFormularioCrear(Model model) {
+    public String crearCast(Model model, HttpSession session) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }
+
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
-        model.addAttribute("cast", new CastDTO());
+        model.addAttribute("castEditar", new CastDTO());
         return "editor/allCasts";
     }
 
     @GetMapping("/editar")
-    public String mostrarFormularioEditar(@RequestParam("id") Integer id, Model model) {
+    public String editarCast(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }
+
         CastDTO cast = castService.buscarCastById(id);
-        model.addAttribute("cast", cast);
+        model.addAttribute("castEditar", cast);
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
         return "editor/allCasts";
     }
 
     @PostMapping("/guardar")
-    public String guardarCast(@ModelAttribute CastDTO cast) {
+    public String guardarCast(@ModelAttribute("castEditar") CastDTO cast, HttpSession session) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }
+
         castService.guardarCast(cast);
         return "redirect:/casts/";
     }
 
     @GetMapping("/eliminar")
-    public String eliminarCast(@RequestParam("id") Integer id) {
+    public String eliminarCast(@RequestParam(value = "id", defaultValue = "-1") Integer id, HttpSession session) {
+        if(!estaAutenticado(session)) {
+            return "redirect:/";
+        }
+
         this.castService.eliminarCastById(id);
         return "redirect:/casts/";
     }

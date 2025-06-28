@@ -1,14 +1,13 @@
 package es.uma.demospring.myletterbox.controller;
 
-import es.uma.demospring.myletterbox.dao.GenreRepository;
+
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
-import es.uma.demospring.myletterbox.dao.ReviewRepository;
+
 import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
-import es.uma.demospring.myletterbox.service.GeneroService;
-import es.uma.demospring.myletterbox.service.MovieService;
+import es.uma.demospring.myletterbox.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +30,15 @@ public class MovieController extends BaseController {
 
     @Autowired protected GeneroService generoService;
 
-    @Autowired
-    protected MovieRepository movieRepository;
+    @Autowired protected MovieRepository movieRepository;
 
-    @Autowired
-    private UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+    @Autowired private UsuarioSaveMovieRepository usuarioSaveMovieRepository;
+
+    @Autowired private CompaniesService companiesService;
+
+    @Autowired private CountriesService countriesService;
+
+    @Autowired private CrewService crewService;
 
     @GetMapping("/")
     public String doListarMovies(HttpSession session, Model model){
@@ -59,6 +62,9 @@ public class MovieController extends BaseController {
         } else {
             model.addAttribute("pelicula", new MovieDTO());
             model.addAttribute("generos", this.generoService.listarGeneros());
+            model.addAttribute("crews", this.crewService.listarCrews());
+            model.addAttribute("empresas", this.companiesService.listarCompanies());
+            model.addAttribute("paises", this.countriesService.listarCountries());
             model.addAttribute("esCrear", true);
             model.addAttribute("estados", MovieDTO.Estado.values());
             return "editor/editMovie";
@@ -66,7 +72,7 @@ public class MovieController extends BaseController {
     }
 
     @PostMapping("/borrar")
-    public String borrarMovie(HttpSession session, @RequestParam("id") int id){
+    public String borrarMovie(@RequestParam(value = "id", defaultValue = "-1") Integer id, HttpSession session){
         if(!estaAutenticado(session)){
             return "redirect:/";
         } else {
@@ -76,18 +82,18 @@ public class MovieController extends BaseController {
     }
 
     @GetMapping("/editar")
-    public String doEditar(@RequestParam("id") Integer id,
+    public String doEditar(@RequestParam(value = "id", defaultValue = "-1") Integer id,
                            HttpSession session,
                            Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         } else {
-            MovieDTO movie = this.movieService.getMovieDTOById(id);
-            List<GeneroDTO> generos = this.generoService.listarGeneros();
-
-            model.addAttribute("pelicula", movie);
+            model.addAttribute("pelicula", this.movieService.getMovieDTOById(id));
             model.addAttribute("esCrear", false);
-            model.addAttribute("generos", generos);
+            model.addAttribute("generos", this.generoService.listarGeneros());
+            model.addAttribute("crews", this.crewService.listarCrews());
+            model.addAttribute("empresas", this.companiesService.listarCompanies());
+            model.addAttribute("paises", this.countriesService.listarCountries());
             model.addAttribute("estados", MovieDTO.Estado.values());
 
             return "editor/editMovie";
@@ -103,10 +109,12 @@ public class MovieController extends BaseController {
             return "redirect:/";
         } else {
             if (result.hasErrors()) {
-                List<GeneroDTO> generos = this.generoService.listarGeneros();
                 model.addAttribute("pelicula", pelicula);
                 model.addAttribute("esCrear", false);
-                model.addAttribute("generos", generos);
+                model.addAttribute("generos", this.generoService.listarGeneros());
+                model.addAttribute("crews", this.crewService.listarCrews());
+                model.addAttribute("empresas", this.companiesService.listarCompanies());
+                model.addAttribute("paises", this.countriesService.listarCountries());
                 model.addAttribute("estados", MovieDTO.Estado.values());
                 return "editor/editMovie";
             }

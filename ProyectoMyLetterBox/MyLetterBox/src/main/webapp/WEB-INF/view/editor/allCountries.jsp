@@ -2,13 +2,6 @@
 <%@ page import="es.uma.demospring.myletterbox.dto.CountryDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 15/05/2025
-  Time: 18:25
-  To change this template use File | Settings | File Templates.
---%>
-<%--
   Autor(es): Álvaro Sierra García (100%)
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -24,14 +17,14 @@
 <jsp:include page="../cabecera.jsp"/>
 <jsp:include page="cabeceraEditor.jsp"/>
 <h2>Países productores:</h2>
-<a href="/countries/nuevo">Crear nuevo Pais</a>
+<a href="/countries/nuevo">Añadir nuevo pais</a>
 <table border="1">
     <tr>
         <td>
             <table border="1">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Nombre</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -40,11 +33,11 @@
                     <td><%=country.getIso31661()%></td>
                     <td><%=country.getName()%></td>
                     <td>
-                        <a href="/countries/editar?id=<%=country.getIso31661()%>">Edit</a>
+                        <a href="/countries/editar?id=<%=country.getIso31661()%>">Editar</a>
                     </td>
                     <td>
                         <a href="/countries/eliminar?id=<%=country.getIso31661()%>"
-                           onclick="return confirm('¿Seguro que quieres eliminarlo?');">Delete</a>
+                           onclick="return confirm('¿Seguro que quieres eliminarlo?');">Eliminar</a>
                     </td>
                 </tr>
                 <% } %>

@@ -38,7 +38,10 @@
             <td><%= review.getComment()%></td>
             <td><%= review.getRate()%></td>
             <td><%= review.getCreateTime()%></td>
-            <td></td>
+            <td><form method="post" action="/reviews/editar">
+                <input type="hidden" name="id" value="<%=review.getId()%>">
+                <input type="submit" value="Editar">
+            </form></td>
             <td><form method="post" action="/reviews/borrar">
                 <input type="hidden" name="id" value="<%=review.getId()%>">
                 <input type="submit" value="Borrar">

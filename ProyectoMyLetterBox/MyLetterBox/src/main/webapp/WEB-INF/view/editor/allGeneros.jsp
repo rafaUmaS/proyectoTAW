@@ -16,7 +16,7 @@
     <jsp:include page="../cabecera.jsp"/>
     <jsp:include page="cabeceraEditor.jsp"/>
     <h2>Géneros</h2>
-    <a href="/generos/nuevo">Crear Nuevo Género</a>
+    <a href="/generos/nuevo">Añadir nuevo genero</a>
     <table border="1">
         <tr>
             <td>

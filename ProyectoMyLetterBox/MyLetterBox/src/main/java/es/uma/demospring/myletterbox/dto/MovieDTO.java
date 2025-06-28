@@ -51,6 +51,9 @@ public class MovieDTO {
     @NotEmpty(message = "Selecciona al menos un género")
     private List<Integer> generos;
 
+    private List<Integer> empresas;
+    private List<String> paises;
+
     @NotNull(message = "Selecciona una fecha válida")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;

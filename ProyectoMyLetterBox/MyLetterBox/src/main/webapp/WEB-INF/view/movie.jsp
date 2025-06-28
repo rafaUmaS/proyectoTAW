@@ -7,7 +7,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--
-  Autor(es): Gregorio Merchán Merchán (75%), Adrián Huete Peña (25%)
+  Autor(es): Gregorio Merchán Merchán (85%), Adrián Huete Peña (15%)
 --%>
 <html>
 <head>
@@ -46,7 +46,11 @@
 <table border="" >
     <tr>
         <td>
-            <button onclick="darMeGusta()">Me gusta</button>
+            <form action="/movies/like" method="post">
+                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+                <input type="submit" value="Me gusta">
+            </form>
         </td>
         <td>
             <button onclick="crearReview()">Review</button>
@@ -69,7 +73,6 @@
         <input type="text" id="comment" name="comment" required>
         <p>Dale una puntuación (0-100)</p>
         <input type="text" id="rate" name="rate" required>
-        <!-- <input type="range" id="rate" name="rate" min="0" max="100"> -->
         <br> <br>
          <button type="submit">Enviar</button>
      </form>
@@ -85,17 +88,6 @@
          }
      }
  </script>
-
-<form id="darMeGusta" action="/movies/like" method="post" style="display: none;">
-    <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
-    <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-</form>
-
-<script>
-    function darMeGusta(){
-        document.getElementById("darMeGusta").submit();
-    }
-</script>
 
 
 <% String error = request.getParameter("error"); %>
@@ -116,7 +108,6 @@
 <div id="recommenderPanel" style="display:none; margin-top:10px;">
 
     <br>
-    <!-- Formulario para crear nueva lista y añadir -->
     <form method="post" action="/users/recomendar" style="margin-bottom: 10px;">
         <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>" />
         <input type="text" name="nombreListaBase" id="nuevaListaNombre" placeholder="Nombre de la nueva lista" />
@@ -153,7 +144,6 @@
 
  <br><br>
 
- <!-- Botones de navegación -->
 <table border="">
     <tr>
         <td>
@@ -171,8 +161,6 @@
 
     </tr>
 </table>
-
-<!-- Secciones -->
 
 <div id="crew" style="display:none;">
     <p><%
@@ -264,7 +252,6 @@
 </div>
 
 
-<!-- Script para mostrar/ocultar secciones -->
 <script>
     function Tabla(tabId) {
         var tabs = ['cast', 'crew', 'details', 'reviews'];

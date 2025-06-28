@@ -1,15 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.uma.demospring.myletterbox.entity.EntityGenre" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
-<%@ page import="es.uma.demospring.myletterbox.dto.GeneroDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 15/05/2025
-  Time: 18:25
-  To change this template use File | Settings | File Templates.
---%>
 <%--
   Autor(es): Álvaro Sierra García (100%)
 --%>
@@ -26,6 +17,9 @@
 
 <%
     List<GeneroDTO> generos = (List<GeneroDTO>) request.getAttribute("generos");
+    List<CrewDTO> crews = (List<CrewDTO>) request.getAttribute("crews");
+    List<CompanieDTO> empresas = (List<CompanieDTO>) request.getAttribute("empresas");
+    List<CountryDTO> paises = (List<CountryDTO>) request.getAttribute("paises");
     MovieDTO.Estado[] estados = (MovieDTO.Estado[]) request.getAttribute("estados");
 %>
 
@@ -121,14 +115,47 @@
             <tr>
                 <td>Estado:</td>
                 <td>
-                    <form:radiobuttons path="estado" items="${estados}" delimiter="</br>" />
+                    <form:radiobuttons path="estado"
+                                       items="${estados}"
+                                       delimiter="</br>"/>
                 </td>
             </tr>
             <tr>
-                <td><form:button>Guardar</form:button></td>
+                <td>Crews:</td>
                 <td>
+                    <form:checkboxes path="crewList"
+                                     items="${crews}"
+                                     itemLabel="nombrePersona"
+                                     itemValue="id"
+                                     delimiter="<br/>"/>
 
+                    <form:errors path="crewList" cssStyle="color: red"/>
                 </td>
+            </tr>
+            <tr>
+                <td>Empresas productoras:</td>
+                <td>
+                    <form:checkboxes path="empresas"
+                                     items="${empresas}"
+                                     itemLabel="name"
+                                     itemValue="id"
+                                     delimiter="<br/>"/>
+                    <form:errors path="empresas" cssStyle="color: red"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Paises de producción:</td>
+                <td>
+                    <form:checkboxes path="paises"
+                                     items="${paises}"
+                                     itemLabel="name"
+                                     itemValue="iso31661"
+                                     delimiter="<br/>"/>
+                    <form:errors path="paises" cssStyle="color: red"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><form:button>Guardar</form:button></td>
             </tr>
         </table>
     </form:form>

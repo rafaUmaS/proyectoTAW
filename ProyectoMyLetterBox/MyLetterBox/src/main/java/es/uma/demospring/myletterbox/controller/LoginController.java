@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 /*
- * Autor(es): Ivan Pedraza Díez (100%)
+ * Autor(es): Ivan Pedraza Díez (90%), Álvaro Sierra García (10%)
  */
 
 @Controller
@@ -30,13 +30,10 @@ public class LoginController {
 
     @PostMapping("/autentica")
     public String doAutentica(@ModelAttribute() Usuario usuario, Model model, HttpSession session){
-
         EntityUsuario user = this.usuarioRepository.autenticaUsuario(usuario.getUsername(),
                                                                         usuario.getPassword());
-        // normal user: gregorio password: prueba
-        // editor user: alvaro password: prueba
-
         if(user==null){
+            model.addAttribute("error", "Credenciales Incorrectas");
             return "login";
         }else {
             session.setAttribute("user", user);

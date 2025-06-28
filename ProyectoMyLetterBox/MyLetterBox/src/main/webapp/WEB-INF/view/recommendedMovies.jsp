@@ -9,6 +9,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.entity.EntityUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,6 +24,7 @@
 <%
     Map<String, List<UsuarioSaveMovieDTO>> groupedByList = (Map<String, List<UsuarioSaveMovieDTO>>) request.getAttribute("groupedByList");
     Map<Integer,MovieDTO> movies = (Map<Integer,MovieDTO>) request.getAttribute("movies");
+    EntityUsuario user = (EntityUsuario)session.getAttribute("user");
     for (String listName : groupedByList.keySet()) {
         List<UsuarioSaveMovieDTO> moviesInList = groupedByList.get(listName);
 %>
@@ -39,11 +41,12 @@
 
                     <h4><%= movie.getName() %></h4>
                     <p>⭐ <%= movie.getVoteAverage() %></p>
+                    <%if(user.getRol().equals("editor") || user.getRol().equals("administrador")){%>
                     <form method="post" action="/users/remove-recommendation">
                         <input type="hidden" name="saveMovieId" value="<%= saveMovie.getId() %>" />
                         <input type="submit" value="Eliminar" onclick="return confirm('¿Eliminar esta película de la lista?');" />
                     </form>
-
+                    <%}%>
                 </td>
                 <% } %>
             </tr>

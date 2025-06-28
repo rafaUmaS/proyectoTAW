@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /*
- * Autor(es): Ivan Pedraza Díez (20%), Gregorio Merchán Merchán(20%), Adrián Huete Peña(60%)
+ * Autor(es): Ivan Pedraza Díez (20%), Gregorio Merchán Merchán(30%), Adrián Huete Peña(50%)
  */
 
 @Controller
@@ -65,15 +65,12 @@ public class UserController extends BaseController {
         }else {
             EntityMovie movie =  this.movieRepository.findById(id).orElse(null);
             model.addAttribute("movie", movie);
-
-            // Añadimos listas únicas con nombre que contiene " Recomendado"
             List<String> listasRecomendadas = new ArrayList<>(this.userMovieService.obtenerPeliculasRecomendadas().keySet());
             model.addAttribute("listasRecomendadas", listasRecomendadas);
             return "movie";
         }
     }
 
-    // Mostrar películas recomendadas (listar las listas de recomendaciones)
     @GetMapping("/recommended-movies")
     public String doListarPeliculasRecomendadas(HttpSession session, Model model) {
         if (!estaAutenticado(session)) {
@@ -87,7 +84,7 @@ public class UserController extends BaseController {
         model.addAttribute("movies", movies);
         return "recommendedMovies";
     }
-    // Recomendar una película y asignarla a una lista
+
     @PostMapping("/recomendar")
     public String doRecomendarPelicula(HttpSession session,
                                        @RequestParam("movieId") Integer movieId,
