@@ -5,9 +5,11 @@ import es.uma.demospring.myletterbox.dto.UsuarioDTO;
 import es.uma.demospring.myletterbox.entity.EntityUsuario;
 import es.uma.demospring.myletterbox.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,12 +40,15 @@ public class AdminController extends BaseController{
 
             model.addAttribute("usuario", usuarioDTO);
             model.addAttribute("roles", roles);
-
-            return "createUser";
+            model.addAttribute("esCrear", true);
+            return "editUsuario";
         }
     }
     @PostMapping("/users/")
-    public String doCreateUsuario(HttpSession session, @ModelAttribute UsuarioDTO usuarioToCreate){
+    public String doCreateUsuario(@Valid @ModelAttribute("usuario") UsuarioDTO usuario,
+                                  BindingResult result,
+                                  HttpSession session,
+                                  Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else{
@@ -51,9 +56,16 @@ public class AdminController extends BaseController{
             if(!currentUsuario.getRol().equals("administrador")) {
                 return "redirect:/movies/";
             }
+            if(result.hasErrors()){
+                List<String> roles = UsuarioService.getRolesUsuario();
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("roles", roles);
+                model.addAttribute("esCrear", true);
+                return "editUsuario";
+            }
         }
 
-        usuarioService.create(usuarioToCreate);
+        usuarioService.create(usuario);
         return "redirect:/admin";
     }
     @GetMapping("/admin")
@@ -88,13 +100,23 @@ public class AdminController extends BaseController{
 
 
     @PostMapping("/users/edit")
-    public String doEditUsuario(HttpSession session, @ModelAttribute UsuarioDTO usuario){
+    public String doEditUsuario(@Valid @ModelAttribute("usuario") UsuarioDTO usuario,
+                                BindingResult result,
+                                HttpSession session,
+                                Model model){
         if(!estaAutenticado(session)){
             return "redirect:/";
         }else{
             EntityUsuario usuarioActual = (EntityUsuario)session.getAttribute("user");
             if(!usuarioActual.getRol().equals("administrador")) {
                 return "redirect:/movies/";
+            }
+            if(result.hasErrors()){
+                List<String> roles = UsuarioService.getRolesUsuario();
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("roles", roles);
+                model.addAttribute("esCrear", false);
+                return "editUsuario";
             }
             usuarioService.update(usuario);
             return "redirect:/admin";
@@ -115,11 +137,10 @@ public class AdminController extends BaseController{
 
             model.addAttribute("usuario", usuario);
             model.addAttribute("roles", roles);
+            model.addAttribute("esCrear", false);
+
             return "editUsuario";
         }
-
-
-
 
     }
 }
