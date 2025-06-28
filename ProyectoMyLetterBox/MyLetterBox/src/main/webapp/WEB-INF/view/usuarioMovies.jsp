@@ -39,7 +39,7 @@
             <th>
                 POPULARIDAD
             </th>
-            
+
         </tr>
         <% for (EntityUsuarioSaveMovie savedMovie : savedMovies){
             if(savedMovie.getName().equals("Favorite Movie")){

@@ -4,6 +4,10 @@
 
 <html>
 
+<%--
+  Autor(es): Gregorio Merchán Merchán (100%)
+--%>
+
 <head>
     <title>Editar Review</title>
 </head>

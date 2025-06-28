@@ -51,7 +51,6 @@ public class ReviewController {
             reviewRepository.save(review);
         }
 
-        // Redirige a la misma página de película
         return "redirect:/users/movie?id=" + movieId;
     }
     @PostMapping("/borrar")

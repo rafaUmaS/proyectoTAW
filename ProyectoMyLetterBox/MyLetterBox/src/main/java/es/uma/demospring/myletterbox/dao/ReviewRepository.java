@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 
+// Autor(es): Gregorio Merchán Merchán (100%)
 
 public interface ReviewRepository extends JpaRepository<EntityReview, Integer> {
 
