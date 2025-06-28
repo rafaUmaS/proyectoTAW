@@ -39,15 +39,7 @@
             <th>
                 POPULARIDAD
             </th>
-            <%
-                if(user.getRol().equals("editor") || user.getRol().equals("administrador")){
-            %>
-                <th>
-                    EDITAR
-                </th>
-            <%
-                }
-            %>
+            
         </tr>
         <% for (EntityUsuarioSaveMovie savedMovie : savedMovies){
             if(savedMovie.getName().equals("Favorite Movie")){
@@ -71,16 +63,7 @@
             <td>
                 <%=savedMovie.getMovieMovieId().getPopularity()%>
             </td>
-            <%
-                if (user.getRol().equals("editor") || user.getRol().equals("administrador")){
-            %>
-                <form method="post" action="">
-                    <input type="hidden" value="<%=savedMovie.getMovieMovieId().getMovieId()%>">
-                    <input type="submit" value="Editar"/>
-                </form>
-            <%
-                }
-            %>
+
         </tr>
         <%}}%>
     </table>

@@ -46,7 +46,11 @@
 <table border="" >
     <tr>
         <td>
-            <button onclick="darMeGusta()">Me gusta</button>
+            <form action="/movies/like" method="post">
+                <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
+                <input type="submit" value="Me gusta">
+            </form>
         </td>
         <td>
             <button onclick="crearReview()">Review</button>
@@ -85,17 +89,6 @@
          }
      }
  </script>
-
-<form id="darMeGusta" action="/movies/like" method="post" style="display: none;">
-    <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
-    <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-</form>
-
-<script>
-    function darMeGusta(){
-        document.getElementById("darMeGusta").submit();
-    }
-</script>
 
 
 <% String error = request.getParameter("error"); %>
