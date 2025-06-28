@@ -41,6 +41,7 @@ public class AdminController extends BaseController{
             model.addAttribute("usuario", usuarioDTO);
             model.addAttribute("roles", roles);
             model.addAttribute("esCrear", true);
+            model.addAttribute("exist", false);
             return "editUsuario";
         }
     }
@@ -61,11 +62,21 @@ public class AdminController extends BaseController{
                 model.addAttribute("usuario", usuario);
                 model.addAttribute("roles", roles);
                 model.addAttribute("esCrear", true);
+                model.addAttribute("exist", false);
                 return "editUsuario";
             }
         }
 
-        usuarioService.create(usuario);
+        boolean exist = usuarioService.create(usuario);
+
+        if(exist){
+            List<String> roles = UsuarioService.getRolesUsuario();
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("roles", roles);
+            model.addAttribute("esCrear", true);
+            model.addAttribute("exist", true);
+            return "editUsuario";
+        }
         return "redirect:/admin";
     }
     @GetMapping("/admin")
@@ -116,6 +127,7 @@ public class AdminController extends BaseController{
                 model.addAttribute("usuario", usuario);
                 model.addAttribute("roles", roles);
                 model.addAttribute("esCrear", false);
+                model.addAttribute("exist", false);
                 return "editUsuario";
             }
             usuarioService.update(usuario);
@@ -138,6 +150,7 @@ public class AdminController extends BaseController{
             model.addAttribute("usuario", usuario);
             model.addAttribute("roles", roles);
             model.addAttribute("esCrear", false);
+            model.addAttribute("exist", false);
 
             return "editUsuario";
         }

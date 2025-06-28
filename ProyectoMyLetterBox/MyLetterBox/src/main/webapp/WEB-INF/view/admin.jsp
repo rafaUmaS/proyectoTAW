@@ -18,6 +18,7 @@
 </head>
 <%
     List<UsuarioDTO> usuarios = (List<UsuarioDTO>)request.getAttribute("usuarios");
+    EntityUsuario usuarioLogueado = (EntityUsuario) session.getAttribute("user");
 %>
 <body>
 <table border="">
@@ -42,6 +43,7 @@
             for (UsuarioDTO usuario: usuarios) {
         %>
         <tr>
+            <%if(usuario.getUserId() != usuarioLogueado.getUserId()){%>
             <td><%= usuario.getUserId() %></td>
             <td><%= usuario.getEmail() %></td>
             <td><%= usuario.getRol() %></td>
@@ -49,6 +51,7 @@
             <td><%= usuario.getUsername() %></td>
             <td><a href="/users/edit?id=<%=usuario.getUserId()%>">editar</a></td>
             <td><a href="/users/delete?id=<%=usuario.getUserId()%>">eliminar</a></td>
+            <%}%>
         </tr>
         <%
             }
