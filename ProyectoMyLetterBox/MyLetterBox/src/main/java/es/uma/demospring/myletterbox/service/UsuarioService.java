@@ -45,7 +45,13 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    public void create(UsuarioDTO usuarioDTO){
+    public boolean create(UsuarioDTO usuarioDTO){
+        boolean exist = false;
+
+        if(usuarioRepository.existUsuario(usuarioDTO.getUsername()) != null){
+            return true;
+        }
+
         EntityUsuario usuario = new EntityUsuario();
 
         usuario.setEmail(usuarioDTO.getEmail());
@@ -54,6 +60,7 @@ public class UsuarioService {
         usuario.setUsername(usuarioDTO.getUsername());
 
         usuarioRepository.save(usuario);
+        return exist;
     }
 
     public void delete(int id){

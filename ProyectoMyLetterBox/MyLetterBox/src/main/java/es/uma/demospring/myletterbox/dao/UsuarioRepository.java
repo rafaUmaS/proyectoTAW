@@ -13,4 +13,8 @@ public interface UsuarioRepository extends JpaRepository<EntityUsuario, Integer>
 
     @Query("select u from EntityUsuario u where u.username=:usuario and u.password=:password")
     public EntityUsuario autenticaUsuario(@Param("usuario") String usuario, @Param("password") String password);
+
+    @Query("select u from EntityUsuario u where u.username=:usuario")
+    public EntityUsuario existUsuario(@Param("usuario") String usuario);
+
 }
