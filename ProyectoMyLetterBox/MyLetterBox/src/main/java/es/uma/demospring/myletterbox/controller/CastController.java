@@ -3,6 +3,7 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dto.CastDTO;
 import es.uma.demospring.myletterbox.service.CastService;
 import es.uma.demospring.myletterbox.service.CrewService;
+import es.uma.demospring.myletterbox.service.MovieService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class CastController extends BaseController{
 
     @Autowired protected CrewService crewService;
 
+    @Autowired protected MovieService movieService;
+
     @GetMapping("/")
     public String listarCasts(Model model, HttpSession session) {
         if(!estaAutenticado(session)) {
@@ -29,6 +32,7 @@ public class CastController extends BaseController{
 
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
+        model.addAttribute("movies", movieService.listarMovies());
         return "editor/allCasts";
     }
 
@@ -40,6 +44,7 @@ public class CastController extends BaseController{
 
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
+        model.addAttribute("movies", movieService.listarMovies());
         model.addAttribute("castEditar", new CastDTO());
         return "editor/allCasts";
     }
@@ -54,6 +59,7 @@ public class CastController extends BaseController{
         model.addAttribute("castEditar", cast);
         model.addAttribute("casts", castService.listarCasts());
         model.addAttribute("crews", crewService.listarCrews());
+        model.addAttribute("movies", movieService.listarMovies());
         return "editor/allCasts";
     }
 

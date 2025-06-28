@@ -35,8 +35,8 @@
                     <th>ID</th>
                     <th>Persona</th>
                     <th>Película</th>
-                    <th>Rol</th>
-                    <th>Casts</th>
+                    <th>Trabajo</th>
+                    <th>Personajes</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -114,17 +114,6 @@
                     <tr>
                         <td>Rol: </td>
                         <td><form:input path="crewRole"/></td>
-                    </tr>
-                    <tr>
-                        <td>Cast:</td>
-                        <td>
-                            <form:select multiple="true"
-                                         path="castIds"
-                                         items="${casts}"
-                                         itemValue="id"
-                                         itemLabel="character"
-                                         size="10"/>
-                        </td>
                     </tr>
                     <tr>
                         <td colspan="2"><form:button>Guardar</form:button></td>

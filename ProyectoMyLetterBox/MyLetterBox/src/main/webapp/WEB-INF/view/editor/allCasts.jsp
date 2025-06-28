@@ -1,6 +1,7 @@
 <%@ page import="es.uma.demospring.myletterbox.dto.CastDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.uma.demospring.myletterbox.dto.CrewDTO" %>
+<%@ page import="es.uma.demospring.myletterbox.dto.MovieDTO" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Autor(es): Álvaro Sierra García (100%)
@@ -14,6 +15,7 @@
     <%
         List<CastDTO> casts = (List<CastDTO>) request.getAttribute("casts");
         List<CrewDTO> crews = (List<CrewDTO>) request.getAttribute("crews");
+        List<MovieDTO> movies = (List<MovieDTO>) request.getAttribute("movies");
         CastDTO castEditar = (CastDTO) request.getAttribute("castEditar");
     %>
 <body>
@@ -86,7 +88,7 @@
                                 <%=castEditar.getGender() != null && castEditar.getGender() == 1 ? "checked" : ""%>/> Male
                         <input type="radio" name="gender" value="2"
                                 <%=castEditar.getGender() != null && castEditar.getGender() == 2 ? "checked" : ""%>/>Female
-                        <input type="radio" name="gender" value="2"
+                        <input type="radio" name="gender" value="0"
                                 <%=castEditar.getGender() != null && castEditar.getGender() == 0 ? "checked" : ""%>/>Undefined
                     </td>
                 </tr>
@@ -98,10 +100,16 @@
                     <td>Crew:</td>
                     <td>
                         <select name="crew">
-                            <% for (CrewDTO crew: crews) { %>
+                            <% for (CrewDTO crew: crews) {
+                                String peli = "";
+                                for (MovieDTO m : movies)
+                                if(crew.getMovieId() == m.getMovieId()){
+                                    peli = m.getName();
+                                }
+                            %>
                             <option value="<%=crew.getId()%>"
                                     <%= (castEditar.getCrew() != null && castEditar.getCrew() == crew.getId()) ? "selected" : "" %>>
-                                <%=crew.getCrewRole()%>
+                                <%=crew.getNombrePersona() + " - " + crew.getCrewRole() + " - " + peli%>
                             </option>
                             <% } %>
                         </select>

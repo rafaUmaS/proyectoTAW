@@ -121,18 +121,6 @@
                 </td>
             </tr>
             <tr>
-                <td>Crews:</td>
-                <td>
-                    <form:checkboxes path="crewList"
-                                     items="${crews}"
-                                     itemLabel="nombrePersona"
-                                     itemValue="id"
-                                     delimiter="<br/>"/>
-
-                    <form:errors path="crewList" cssStyle="color: red"/>
-                </td>
-            </tr>
-            <tr>
                 <td>Empresas productoras:</td>
                 <td>
                     <form:checkboxes path="empresas"

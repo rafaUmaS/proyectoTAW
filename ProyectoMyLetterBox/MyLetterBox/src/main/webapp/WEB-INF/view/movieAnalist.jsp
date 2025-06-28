@@ -165,7 +165,7 @@
                 <tr>
                     <td><%=castCharacter.getName()%></td>
                     <td><%=castCharacter.getCharacter()%></td>
-                    <td><%=(castCharacter.getGender() == 2? "Male" : "Female")%></td>
+                    <td><%=(castCharacter.getGender() == null)? "Undefined" : (castCharacter.getGender() == 2? "Male" : "Female")%></td>
                 </tr>
                 <%
                                 }

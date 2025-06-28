@@ -1,26 +1,19 @@
 package es.uma.demospring.myletterbox.service;
 
 import es.uma.demospring.myletterbox.dao.*;
-import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
-import es.uma.demospring.myletterbox.dto.UsuarioSaveMovieDTO;
 import es.uma.demospring.myletterbox.entity.*;
 import es.uma.demospring.myletterbox.ui.Filtro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import es.uma.demospring.myletterbox.service.GeneroService;
-
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.System.out;
-
 /*
-* Autor(es): Ivan Pedraza Díez (100%)
+* Autor(es): Ivan Pedraza Díez (70%), Álvaro Sierra García (20%), Adrián Huete Peña (10%)
 */
 
 @Service
@@ -35,8 +28,6 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
     @Autowired private CompanieRepository companieRepository;
 
     @Autowired private CountryRepository countryRepository;
-
-    @Autowired private CrewRepository crewRepository;
 
     public List<MovieDTO> listarMovies(){
         List<EntityMovie> movies = movieRepository.findAll();
@@ -220,11 +211,6 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
             movie.setGenreList(generos);
         }
 
-        if (dto.getCrewList() != null) {
-            List<EntityCrew> crews = this.crewRepository.findAllById(dto.getCrewList());
-            movie.setCrewList(crews);
-        }
-
         if (dto.getEmpresas() != null) {
             List<EntityProductionCompanies> companies = this.companieRepository.findAllById(dto.getEmpresas());
             movie.setProductionCompaniesList(companies);
@@ -234,14 +220,6 @@ public class MovieService extends DTOService<MovieDTO, EntityMovie> {
             List<EntityProductionCountries> countries = this.countryRepository.findAllById(dto.getPaises());
             movie.setProductionCountriesList(countries);
         }
-
-//        out.println(dto.getCrewList());
-//        out.println(dto.getEmpresas());
-//        out.println(dto.getPaises());
-
-        out.println(movie.getCrewList());
-        out.println(movie.getProductionCompaniesList());
-        out.println(movie.getProductionCountriesList());
 
         movieRepository.save(movie);
     }
