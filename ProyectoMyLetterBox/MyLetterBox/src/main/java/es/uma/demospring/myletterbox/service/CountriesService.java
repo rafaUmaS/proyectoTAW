@@ -2,6 +2,7 @@ package es.uma.demospring.myletterbox.service;
 
 import es.uma.demospring.myletterbox.dao.CountryRepository;
 import es.uma.demospring.myletterbox.dto.CountryDTO;
+import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityProductionCountries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,16 @@ public class CountriesService extends DTOService<CountryDTO, EntityProductionCou
     }
 
     public void eliminarCountryById(String id) {
+        EntityProductionCountries country = this.countryRepository.findById(id).orElse(null);
+
+        List<EntityMovie> movies = country.getMovieList();
+        if(country!=null && !movies.isEmpty()) {
+            for (EntityMovie movie : movies) {
+                List<EntityProductionCountries> countryDel = movie.getProductionCountriesList();
+                countryDel.remove(country);
+                movie.setProductionCountriesList(countryDel);
+            }
+        }
         this.countryRepository.deleteById(id);
     }
 

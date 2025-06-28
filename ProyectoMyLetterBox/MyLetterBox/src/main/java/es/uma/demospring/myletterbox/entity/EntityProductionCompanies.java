@@ -11,14 +11,7 @@ import java.util.List;
 import es.uma.demospring.myletterbox.dto.CompanieDTO;
 import es.uma.demospring.myletterbox.dto.DTO;
 import es.uma.demospring.myletterbox.dto.GeneroDTO;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  *

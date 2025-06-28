@@ -24,7 +24,7 @@ public class MovieDTO {
 
     private String originalTittle;
 
-    @Pattern(regexp = "^$|^[a-zA-Z]{2,}$", message = "El idioma debe contener solo letras (ej: 'es', 'en')")
+    @Pattern(regexp = "^$|^[a-zA-Z]{2}$", message = "El idioma debe contener solo letras (ej: 'es', 'en')")
     private String language;
 
     private String description;

@@ -10,12 +10,7 @@ import java.util.List;
 
 import es.uma.demospring.myletterbox.dto.CountryDTO;
 import es.uma.demospring.myletterbox.dto.DTO;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  *

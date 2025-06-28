@@ -3,6 +3,8 @@ package es.uma.demospring.myletterbox.service;
 import es.uma.demospring.myletterbox.dao.GenreRepository;
 import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
+import es.uma.demospring.myletterbox.entity.EntityMovie;
+import es.uma.demospring.myletterbox.entity.EntityProductionCountries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,16 @@ public class GeneroService extends DTOService<GeneroDTO, EntityGenre> {
     }
 
     public void eliminarGeneroById(Integer id) {
+        EntityGenre genero = this.genreRepository.findById(id).orElse(null);
+
+        List<EntityMovie> movies = genero.getMovieList();
+        if(genero!=null && !movies.isEmpty()) {
+            for (EntityMovie movie : movies) {
+                List<EntityGenre> generoDel = movie.getGenreList();
+                generoDel.remove(genero);
+                movie.setGenreList(generoDel);
+            }
+        }
         this.genreRepository.deleteById(id);
     }
 

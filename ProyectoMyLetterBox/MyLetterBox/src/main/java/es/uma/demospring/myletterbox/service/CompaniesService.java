@@ -2,7 +2,9 @@ package es.uma.demospring.myletterbox.service;
 
 import es.uma.demospring.myletterbox.dao.CompanieRepository;
 import es.uma.demospring.myletterbox.dto.CompanieDTO;
+import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityProductionCompanies;
+import es.uma.demospring.myletterbox.entity.EntityProductionCountries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,17 @@ public class CompaniesService extends DTOService<CompanieDTO, EntityProductionCo
     }
 
     public void eliminarCompanieById(Integer id) {
+        EntityProductionCompanies company = this.companieRepository.findById(id).orElse(null);
+
+        List<EntityMovie> movies = company.getMovieList();
+        if(company!=null && !movies.isEmpty()) {
+            for (EntityMovie movie : movies) {
+                List<EntityProductionCompanies> companyDel = movie.getProductionCompaniesList();
+                companyDel.remove(company);
+                movie.setProductionCompaniesList(companyDel);
+            }
+        }
+
         this.companieRepository.deleteById(id);
     }
 }
