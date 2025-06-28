@@ -4,7 +4,6 @@ package es.uma.demospring.myletterbox.controller;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.UsuarioSaveMovieRepository;
 
-import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.dto.MovieDTO;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.service.*;

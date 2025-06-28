@@ -4,7 +4,6 @@ import es.uma.demospring.myletterbox.dao.GenreRepository;
 import es.uma.demospring.myletterbox.dto.GeneroDTO;
 import es.uma.demospring.myletterbox.entity.EntityGenre;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
-import es.uma.demospring.myletterbox.entity.EntityProductionCountries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

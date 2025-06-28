@@ -4,17 +4,18 @@ import es.uma.demospring.myletterbox.dao.CastRepository;
 import es.uma.demospring.myletterbox.dao.CrewRepository;
 import es.uma.demospring.myletterbox.dao.MovieRepository;
 import es.uma.demospring.myletterbox.dao.PersonaRepository;
-import es.uma.demospring.myletterbox.dto.CastDTO;
 import es.uma.demospring.myletterbox.dto.CrewDTO;
-import es.uma.demospring.myletterbox.entity.EntityCast;
 import es.uma.demospring.myletterbox.entity.EntityCrew;
 import es.uma.demospring.myletterbox.entity.EntityMovie;
 import es.uma.demospring.myletterbox.entity.EntityPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+ * Autor(es): Álvaro Sierra García (60%)
+ */
 
 @Service
 public class CrewService extends DTOService<CrewDTO, EntityCrew>{
@@ -26,8 +27,6 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
     @Autowired private PersonaRepository personaRepository;
 
     @Autowired private MovieRepository movieRepository;
-
-    @Autowired private CastRepository castRepository;
 
     public List<CrewDTO> listarCrews(){
         List<EntityCrew> crews = crewRepository.findAll();
@@ -63,28 +62,7 @@ public class CrewService extends DTOService<CrewDTO, EntityCrew>{
             crew.setMoviemovieid(m);
         }
 
-        crew = this.crewRepository.save(crew);
-
-        List<EntityCast> actualesCasts = this.castRepository.findByCrewid(crew);
-        List<Integer> castIdsSeleccionados = crewDTO.getCastIds() != null ? crewDTO.getCastIds() : new ArrayList<>();
-        List<EntityCast> castsSeleccionados = this.castRepository.findAllById(castIdsSeleccionados);
-
-        for (EntityCast castActual : actualesCasts) {
-            if (!castIdsSeleccionados.contains(castActual.getId())) {
-                castActual.setCrewid(null);
-                this.castRepository.save(castActual);
-            }
-        }
-
-        for (EntityCast castSel : castsSeleccionados) {
-            if (!crew.equals(castSel.getCrewid())) {
-                castSel.setCrewid(crew);
-                this.castRepository.save(castSel);
-            }
-        }
-
-        crew.setCastList(castsSeleccionados);
-        this.crewRepository.save(crew);
+          this.crewRepository.save(crew);
     }
 
     public void eliminarCrewById(Integer id) {
