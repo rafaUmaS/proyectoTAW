@@ -78,7 +78,7 @@
         <p>Escribe tu review</p>
         <input type="text" id="comment" name="comment" required>
         <p>Dale una puntuación (0-100)</p>
-        <input type="text" id="rate" name="rate" required>
+        <input type="number" id="rate" name="rate" min="0" max="100" required>
         <br> <br>
          <button type="submit">Enviar</button>
      </form>

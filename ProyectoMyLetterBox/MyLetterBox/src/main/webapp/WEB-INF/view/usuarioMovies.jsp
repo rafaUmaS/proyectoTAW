@@ -10,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%--
-  Autor(es): Iván Pedraza Díez (100%)
+  Autor(es): Iván Pedraza Díez (90%), Gregorio Merchán Merchán (10%)
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -49,7 +49,7 @@
         %>
         <tr>
             <td>
-                <%=savedMovie.getMovieMovieId().getName()%>
+                <a href="/users/movie?id=<%=savedMovie.getMovieMovieId().getMovieId()%>"><%=savedMovie.getMovieMovieId().getName()%></a>
             </td>
             <td>
                 <%

@@ -24,7 +24,7 @@
         <input type="hidden" name="id" value="<%=review.getId()%>">
         Comentario: <input type="text" name="comentario" value="<%=review.getComment()%>">
         <br><br>
-        Puntuación: <input type="text" name="puntuacion" value="<%=review.getRate()%>">
+        Puntuación: <input type="number" name="puntuacion" min="0" max="100" value="<%=review.getRate()%>">
         <br><br>
         <input type="submit" value="Guardar">
     </form>
