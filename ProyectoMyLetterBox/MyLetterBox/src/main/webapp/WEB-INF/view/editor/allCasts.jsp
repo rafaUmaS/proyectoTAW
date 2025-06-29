@@ -45,9 +45,9 @@
                         <%
                             String genero;
                             Integer g = (c.getGender() == null) ? 0 : c.getGender();
-                            if (g == 1) {
+                            if (g == 2) {
                                 genero = "Male";
-                            } else if (g == 2) {
+                            } else if (g == 1) {
                                 genero = "Female";
                             } else {
                                 genero = "Undefined";
@@ -84,10 +84,10 @@
                 <tr>
                     <td>Género:</td>
                     <td>
-                        <input type="radio" name="gender" value="1"
-                                <%=castEditar.getGender() != null && castEditar.getGender() == 1 ? "checked" : ""%>/> Male
                         <input type="radio" name="gender" value="2"
-                                <%=castEditar.getGender() != null && castEditar.getGender() == 2 ? "checked" : ""%>/>Female
+                                <%=castEditar.getGender() != null && castEditar.getGender() == 2 ? "checked" : ""%>/> Male
+                        <input type="radio" name="gender" value="1"
+                                <%=castEditar.getGender() != null && castEditar.getGender() == 1 ? "checked" : ""%>/>Female
                         <input type="radio" name="gender" value="0"
                                 <%=castEditar.getGender() != null && castEditar.getGender() == 0 ? "checked" : ""%>/>Undefined
                     </td>
