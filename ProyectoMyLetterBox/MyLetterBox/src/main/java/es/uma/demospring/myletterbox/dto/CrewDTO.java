@@ -5,6 +5,10 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 @Data
 public class CrewDTO {
     private Integer id;

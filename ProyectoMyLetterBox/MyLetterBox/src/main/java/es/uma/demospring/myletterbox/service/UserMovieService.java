@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+ * Autor(es): Adrián Huete Peña (100%)
+ */
+
 @Service
 public class UserMovieService extends DTOService<UsuarioSaveMovieDTO,EntityUsuarioSaveMovie> {
     @Autowired

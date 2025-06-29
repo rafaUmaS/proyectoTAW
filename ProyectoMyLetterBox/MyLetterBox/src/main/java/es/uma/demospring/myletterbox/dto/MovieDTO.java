@@ -8,6 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 import java.util.List;
 
+/*
+ * Autor(es): Alvaro (90%), Ivan Pedraza Díez (10%)
+ */
 
 @Data
 public class MovieDTO {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /*
- * Autor(es): Álvaro Sierra García (80%)
+ * Autor(es): Álvaro Sierra García (80%), Iván Pedraza Díez (20%)
  */
 
 @Service

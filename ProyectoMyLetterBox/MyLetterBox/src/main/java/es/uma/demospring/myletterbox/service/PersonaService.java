@@ -13,6 +13,10 @@ import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 @Service
 public class PersonaService {
 

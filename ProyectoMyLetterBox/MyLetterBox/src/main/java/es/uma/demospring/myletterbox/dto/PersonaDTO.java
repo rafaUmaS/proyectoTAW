@@ -6,6 +6,10 @@ import lombok.Data;
 
 import java.util.List;
 
+/*
+ * Autor(es): Ivan Pedraza Díez (100%)
+ */
+
 @Data
 public class PersonaDTO {
     private Integer id;

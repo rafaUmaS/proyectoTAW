@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 /*
- * Autor(es): Rafael Sáez Arana
+ * Autor(es): Rafael Sáez Arana (100%)
  */
 @Service
 public class UsuarioService {
