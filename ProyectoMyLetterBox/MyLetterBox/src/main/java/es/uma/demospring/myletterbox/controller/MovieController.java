@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /*
- * Autor(es): Álvaro Sierra García (80%), Rafael Sáez Arana, Gregorio Merchán Merchán
+ * Autor(es): Álvaro Sierra García (70%), Rafael Sáez Arana (10%), Gregorio Merchán Merchán (20%)
  */
 
 @Controller
@@ -126,9 +126,13 @@ public class MovieController extends BaseController {
     @PostMapping("/like")
     public String doLikeMovie(@RequestParam("movieId") Integer movieId, @RequestParam("userId") Integer userId) {
         usuarioSaveMovieRepository.insertRelation(movieId, userId, "Favorite Movie");
-        return "redirect:/movies/";
+        return "redirect:/users/movie?id=" + movieId;
     }
-
+    @PostMapping("/dislike")
+    public String doNotLikeMovie(@RequestParam("id") Integer id) {
+        usuarioSaveMovieRepository.deleteById(id);
+        return "redirect:/users/saved-movies";
+    }
 
 
 }

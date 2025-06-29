@@ -39,6 +39,9 @@
             <th>
                 POPULARIDAD
             </th>
+            <th>
+                QUITAR
+            </th>
 
         </tr>
         <% for (EntityUsuarioSaveMovie savedMovie : savedMovies){
@@ -63,7 +66,12 @@
             <td>
                 <%=savedMovie.getMovieMovieId().getPopularity()%>
             </td>
-
+            <td>
+                <form method="post" action="/movies/dislike">
+                    <input type="hidden" name="id" value="<%=savedMovie.getId()%>">
+                    <input type="submit" value="Quitar">
+                </form>
+            </td>
         </tr>
         <%}}%>
     </table>

@@ -20,7 +20,6 @@
 <%
     EntityMovie movie = (EntityMovie) request.getAttribute("movie");
     EntityUsuario user = (EntityUsuario)session.getAttribute("user");
-
 %>
 
 <h1><%= movie.getName() %></h1>
@@ -46,10 +45,17 @@
 <table border="" >
     <tr>
         <td>
+            <%
+            List<EntityUsuarioSaveMovie> listaLike = movie.getUsuarioSaveMovieList();
+                boolean existe =false;
+            for(EntityUsuarioSaveMovie like : listaLike){
+            if(like.getUsuarioUserId().getUserId().equals(user.getUserId()) && like.getMovieMovieId().getMovieId().equals(movie.getMovieId()) && like.getName().equals("Favorite Movie")){
+                existe = true;
+            }}%>
             <form action="/movies/like" method="post">
                 <input type="hidden" name="movieId" value="<%= movie.getMovieId() %>"/>
                 <input type="hidden" name="userId" value="<%= user.getUserId() %>"/>
-                <input type="submit" value="Me gusta">
+                <input type="submit" value="Me gusta" <%= existe?"disabled":""%>/>
             </form>
         </td>
         <td>

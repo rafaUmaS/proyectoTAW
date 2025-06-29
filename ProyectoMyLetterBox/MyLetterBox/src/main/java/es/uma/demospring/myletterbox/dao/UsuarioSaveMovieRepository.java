@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /*
- * Autor(es): Ivan Pedraza Díez (15%), Adrián Huete Peña(85%)
+ * Autor(es): Ivan Pedraza Díez (15%), Adrián Huete Peña(70%), Gregorio Merchán Merchán(15%)
  */
 
 public interface UsuarioSaveMovieRepository extends JpaRepository<EntityUsuarioSaveMovie, Integer> {
