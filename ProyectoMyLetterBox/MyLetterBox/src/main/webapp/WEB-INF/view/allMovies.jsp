@@ -9,7 +9,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%--
-  Autor(es): Iván Pedraza Díez (80%), resto (20%)
+  Autor(es): Iván Pedraza Díez (80%), resto de integrantes (20%)
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>

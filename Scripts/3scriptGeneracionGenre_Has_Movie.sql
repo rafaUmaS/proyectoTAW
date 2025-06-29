@@ -3,6 +3,8 @@ ALTER TABLE `myletterbox`.`genre_has_movie`
 CONVERT TO CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
+-- Es posible que los ids no coincidan, en ese caso modifica los ids para que concuerden con los de tu base de datos
+
 INSERT INTO `myletterbox`.`genre_has_movie` (`Genre_id`, `Movie_id`) VALUES
 (22, 4), -- Ciencia Ficción
 (20, 4), -- Aventura

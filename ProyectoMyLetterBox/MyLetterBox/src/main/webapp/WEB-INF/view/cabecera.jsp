@@ -21,7 +21,6 @@
 <table width="100%">
     <tr>
         <td><a href="/movies/">Películas</a></td>
-        <td><a href="">Géneros</a></td>
         <td><a href="/users/saved-movies">Películas guardadas</a></td>
         <td><a href="/users/recommended-movies">Películas Recomendadas</a></td>
         <td><a href="/users/user-reviews">Tus comentarios</a></td>

@@ -5,6 +5,8 @@ INSERT INTO `myletterbox`.`persona` (`name`) VALUES
 ('Christopher Nolan'),         -- director de Inception e Interstellar
 ('Matt Reeves');               -- director de The Batman
 
+-- Es posible que los ids no coincidan, en ese caso modifica los ids para que concuerden con los de tu base de datos
+
 -- Actores
 INSERT INTO `myletterbox`.`crew` (`PERSONA_id`, `Movie_movie_id`, `crew_role`) VALUES
 (1, 4, 'Actor'),   -- DiCaprio en Inception
